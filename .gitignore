@@ -342,4 +342,6 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 
+# Adicionados pelos Dev's
 global.json
+conexao.udl
