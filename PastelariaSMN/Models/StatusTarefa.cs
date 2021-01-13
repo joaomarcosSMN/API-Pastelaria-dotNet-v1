@@ -2,7 +2,7 @@ namespace PastelariaSMN.Models
 {
     public class StatusTarefa
     {
-        public int StatusTarefaId { get; set; }
+        public int IdStatusTarefa { get; set; }
         public string Status { get; set; }
     }
 }
