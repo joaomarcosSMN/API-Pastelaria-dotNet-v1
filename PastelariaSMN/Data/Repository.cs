@@ -8,6 +8,31 @@ namespace PastelariaSMN.Data
 {
     public class Repository : IRepository
     {
+        public void AlterarStatusDaTarefa(int idTarefa, int novoStatus)
+        {
+        throw new NotImplementedException();
+        }
+
+        public void AtivarUsuario(int idUsuario)
+        {
+        throw new NotImplementedException();
+        }
+
+        public void AtualizarUsuario(int idUsuario, string nome, string sobrenome, string senha)
+        {
+        throw new NotImplementedException();
+        }
+
+        public void CancelarTarefa(int idTarefa)
+        {
+        throw new NotImplementedException();
+        }
+
+        public void ConcluirTarefa(int idTarefa)
+        {
+        throw new NotImplementedException();
+        }
+
         // public List<Comentario> ConsultarComentario(int TarefaId)
         public Comentario[] ConsultarComentarios(int idTarefa)
         {
@@ -43,36 +68,106 @@ namespace PastelariaSMN.Data
             }
         }
 
-    public int CriarTarefa(string descricao, 
-                            DateTime dataLimite,
-                            int idGestor,
-                            int idSubordinado,
-                            int idStatusTarefa)
-    {
-        using (SqlConnection sqlConn = new SqlConnection(@"Server=DESKTOP-DU3ENNC\SQLEXPRESS;Database=PastelariaSMN;User Id=joaozinho;Password=belo1111;"))
+        public Comentario[] ConsultarComentarioTarefa(int idTarefa)
         {
-            using (SqlCommand sqlCmd = new SqlCommand("[dbo].[SP_CriarTarefa]", sqlConn))
+        throw new NotImplementedException();
+        }
+
+        public Tarefa[] ConsultarTarefasGestor(int idGestor)
+        {
+        throw new NotImplementedException();
+        }
+
+        public Tarefa[] ConsultarTarefasGestorStatus(int idGestor, int idStatusTarefa)
+        {
+        throw new NotImplementedException();
+        }
+
+        public Tarefa[] ConsultarTarefasStatusUsuario(int idUsuario, int idStatusTarefa)
+        {
+        throw new NotImplementedException();
+        }
+
+        public Tarefa[] ConsultarTarefasUsuario(int idUsuario)
+        {
+        throw new NotImplementedException();
+        }
+
+        public Tarefa[] ConsultarTodasTarefasGestor(int idGestor)
+        {
+        throw new NotImplementedException();
+        }
+
+        public int ConsultarTotalTarefasGestor(int idGestor)
+        {
+        throw new NotImplementedException();
+        }
+
+        public Usuario[] ConsultarUsuario(int idUsuario)
+        {
+        throw new NotImplementedException();
+        }
+
+        public Usuario[] ConsultarUsuariosDoGestor(int idGestor)
+        {
+        throw new NotImplementedException();
+        }
+
+        public int ContarTarefasPorSubordinado(int idSubordinado)
+        {
+        throw new NotImplementedException();
+        }
+
+        public void CriarComentario(string comentario, int idTarefa)
+        {
+        throw new NotImplementedException();
+        }
+
+        public int CriarTarefa(string descricao, 
+                                DateTime dataLimite,
+                                int idGestor,
+                                int idSubordinado,
+                                int idStatusTarefa)
+        {
+            using (SqlConnection sqlConn = new SqlConnection(@"Server=DESKTOP-DU3ENNC\SQLEXPRESS;Database=PastelariaSMN;User Id=joaozinho;Password=belo1111;"))
             {
-                sqlCmd.CommandType = CommandType.StoredProcedure;
-                sqlCmd.Parameters.AddWithValue("@Descricao", descricao);
-                sqlCmd.Parameters.AddWithValue("@DataLimite", dataLimite);
-                sqlCmd.Parameters.AddWithValue("@IdGestor", idGestor);
-                sqlCmd.Parameters.AddWithValue("@IdSubordinado", idSubordinado);
-                sqlCmd.Parameters.AddWithValue("@IdStatusTarefa", idStatusTarefa);
+                using (SqlCommand sqlCmd = new SqlCommand("[dbo].[SP_CriarTarefa]", sqlConn))
+                {
+                    sqlCmd.CommandType = CommandType.StoredProcedure;
+                    sqlCmd.Parameters.AddWithValue("@Descricao", descricao);
+                    sqlCmd.Parameters.AddWithValue("@DataLimite", dataLimite);
+                    sqlCmd.Parameters.AddWithValue("@IdGestor", idGestor);
+                    sqlCmd.Parameters.AddWithValue("@IdSubordinado", idSubordinado);
+                    sqlCmd.Parameters.AddWithValue("@IdStatusTarefa", idStatusTarefa);
 
-                sqlConn.Open();
-                // Tarefa novaTarefa = null; 
+                    sqlConn.Open();
+                    // Tarefa novaTarefa = null; 
 
-                return sqlCmd.ExecuteNonQuery();
+                    return sqlCmd.ExecuteNonQuery();
+                }
+
             }
 
         }
 
-    }
+        public void CriarUsuario(string nome, string sobrenome, DateTime dataNascimento, string senha, bool eGestor, bool estaAtivo, int idGestor)
+        {
+        throw new NotImplementedException();
+        }
 
-    // Comentario[] IRepository.ConsultarComentario(int TarefaId)
-    // {
-    //   throw new System.NotImplementedException();
-    // }
+        public void DesativarUsuario(int idUsuario)
+        {
+        throw new NotImplementedException();
+        }
+
+        public void EditarDataLimite(int idTarefa, DateTime novaDataLimite)
+        {
+        throw new NotImplementedException();
+        }
+
+        public Usuario VericarLogin(string email)
+        {
+        throw new NotImplementedException();
+        }
   }
 }
