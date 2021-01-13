@@ -11,7 +11,7 @@ namespace PastelariaSMN.Models
         public string Senha { get; set; }
         public bool EstaAtivo { get; set; } = true;
         public bool EGestor { get; set; }
-        public int IdGestor { get; set; }
+        public int? IdGestor { get; set; }
         public Usuario Gestor { get; set; }
     }
 }
