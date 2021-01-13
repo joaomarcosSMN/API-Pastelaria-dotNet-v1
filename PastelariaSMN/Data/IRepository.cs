@@ -15,7 +15,7 @@ namespace PastelariaSMN.Data
                         int idSubordinado,
                         int idStatusTarefa);
         void EditarDataLimite(int idTarefa, DateTime novaDataLimite);
-        void DesativarUsuario(int idUsuario);
+        int DesativarUsuario(int idUsuario);
         void CriarUsuario(string nome, string sobrenome, DateTime dataNascimento, string senha, bool eGestor, bool estaAtivo, int idGestor);
         void CriarComentario(string comentario, int idTarefa);
         int ContarTarefasPorSubordinado(int idSubordinado);
@@ -30,8 +30,11 @@ namespace PastelariaSMN.Data
         Comentario[] ConsultarComentarioTarefa(int idTarefa);
         void ConcluirTarefa(int idTarefa);
         void CancelarTarefa(int idTarefa);
-        void AtualizarUsuario(int idUsuario, string nome, string sobrenome, string senha);
-        void AtivarUsuario(int idUsuario);
+        // PROC 013
+        int AtualizarUsuario(int idUsuario, string nome, string sobrenome, string senha);
+        //PROC 021
+        int AtivarUsuario(int idUsuario);
+        int AtivarDesativarUsuario(int idUsuario);
         void AlterarStatusDaTarefa(int idTarefa, int novoStatus);
         Tarefa[] ConsultarTodasTarefasGestor(int idGestor);
     }

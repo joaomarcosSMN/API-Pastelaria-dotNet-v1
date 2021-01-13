@@ -13,14 +13,57 @@ namespace PastelariaSMN.Data
         throw new NotImplementedException();
         }
 
-        public void AtivarUsuario(int idUsuario)
+        public int AtivarUsuario(int idUsuario)
         {
-        throw new NotImplementedException();
+            using (SqlConnection sqlConn = new SqlConnection(@"Server=DESKTOP-DU3ENNC\SQLEXPRESS;Database=PastelariaSMN;User Id=joaozinho;Password=belo1111;"))
+            {
+                using (SqlCommand sqlCmd = new SqlCommand("[dbo].[SP_AtivarUsuario]", sqlConn))
+                {
+                    sqlCmd.CommandType = CommandType.StoredProcedure;
+                    sqlCmd.Parameters.AddWithValue("@IdUsuario ", idUsuario);
+
+                    sqlConn.Open();
+                    // Tarefa novaTarefa = null; 
+
+                    return sqlCmd.ExecuteNonQuery();
+                }
+            }
+        }
+        public int AtivarDesativarUsuario(int idUsuario)
+        {
+            using (SqlConnection sqlConn = new SqlConnection(@"Server=DESKTOP-DU3ENNC\SQLEXPRESS;Database=PastelariaSMN;User Id=joaozinho;Password=belo1111;"))
+            {
+                using (SqlCommand sqlCmd = new SqlCommand("[dbo].[SP_AtivarDesativarUsuario]", sqlConn))
+                {
+                    sqlCmd.CommandType = CommandType.StoredProcedure;
+                    sqlCmd.Parameters.AddWithValue("@IdUsuario ", idUsuario);
+
+                    sqlConn.Open();
+                    // Tarefa novaTarefa = null; 
+
+                    return sqlCmd.ExecuteNonQuery();
+                }
+            }
         }
 
-        public void AtualizarUsuario(int idUsuario, string nome, string sobrenome, string senha)
+        public int AtualizarUsuario(int idUsuario, string nome, string sobrenome, string senha)
         {
-        throw new NotImplementedException();
+            using (SqlConnection sqlConn = new SqlConnection(@"Server=DESKTOP-DU3ENNC\SQLEXPRESS;Database=PastelariaSMN;User Id=joaozinho;Password=belo1111;"))
+            {
+                using (SqlCommand sqlCmd = new SqlCommand("[dbo].[SP_AtualizarUsuario]", sqlConn))
+                {
+                    sqlCmd.CommandType = CommandType.StoredProcedure;
+                    sqlCmd.Parameters.AddWithValue("@IdUsuario", idUsuario);
+                    sqlCmd.Parameters.AddWithValue("@Nome", nome);
+                    sqlCmd.Parameters.AddWithValue("@Sobrenome", sobrenome);
+                    sqlCmd.Parameters.AddWithValue("@Senha", senha);
+
+                    sqlConn.Open();
+                    // Tarefa novaTarefa = null; 
+
+                    return sqlCmd.ExecuteNonQuery();
+                }
+            }
         }
 
         public void CancelarTarefa(int idTarefa)
@@ -155,10 +198,22 @@ namespace PastelariaSMN.Data
         throw new NotImplementedException();
         }
 
-        public void DesativarUsuario(int idUsuario)
+        public int DesativarUsuario(int idUsuario)
         {
-        throw new NotImplementedException();
-        }
+            using (SqlConnection sqlConn = new SqlConnection(@"Server=DESKTOP-DU3ENNC\SQLEXPRESS;Database=PastelariaSMN;User Id=joaozinho;Password=belo1111;"))
+            {
+                using (SqlCommand sqlCmd = new SqlCommand("[dbo].[SP_DesativarUsuario]", sqlConn))
+                {
+                    sqlCmd.CommandType = CommandType.StoredProcedure;
+                    sqlCmd.Parameters.AddWithValue("@IdUsuario ", idUsuario);
+
+                    sqlConn.Open();
+                    // Tarefa novaTarefa = null; 
+
+                    return sqlCmd.ExecuteNonQuery();
+                }
+            }
+        }   
 
         public void EditarDataLimite(int idTarefa, DateTime novaDataLimite)
         {
