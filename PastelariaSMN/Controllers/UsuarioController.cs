@@ -14,20 +14,6 @@ namespace PastelariaSMN.Controllers
             _repo = repo;
         }
 
-        [HttpPatch("{idUsuario}/desativar")]
-        public IActionResult UpdateDesativarUsuario(int idUsuario)
-        {
-            var result = _repo.DesativarUsuario(idUsuario);
-            return Ok(result);
-        }
-
-        [HttpPatch("{idUsuario}/ativar")]
-        public IActionResult UpdateAtivarUsuario(int idUsuario)
-        {
-            var result = _repo.AtivarUsuario(idUsuario);
-            return Ok(result);
-        }
-
         [HttpPatch("{idUsuario}/status")]
         public IActionResult UpdateAtivarDesativarUsuario(int idUsuario)
         {
@@ -75,5 +61,18 @@ namespace PastelariaSMN.Controllers
         }
 
 
+        // [HttpPatch("{idUsuario}/desativar")]
+        // public IActionResult UpdateDesativarUsuario(int idUsuario)
+        // {
+        //     var result = _repo.DesativarUsuario(idUsuario);
+        //     return Ok(result);
+        // }
+
+        // [HttpPatch("{idUsuario}/ativar")]
+        // public IActionResult UpdateAtivarUsuario(int idUsuario)
+        // {
+        //     var result = _repo.AtivarUsuario(idUsuario);
+        //     return Ok(result);
+        // }
     }
 }

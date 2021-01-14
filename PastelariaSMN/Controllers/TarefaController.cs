@@ -20,7 +20,7 @@ namespace PastelariaSMN.Controllers
         [HttpGet("tarefa/{IdTarefa}/comentarios")]
         public IActionResult GetComentarioByIdTarefa(int idTarefa)
         {
-            var result = _repo.ConsultarComentarios(idTarefa);
+            var result = _repo.ConsultarComentarioTarefa(idTarefa);
             return Ok(result);
         }
 
@@ -64,7 +64,7 @@ namespace PastelariaSMN.Controllers
         }
 
         [HttpGet("usuario/{idSubordinado}/tarefa/quantidade")]
-        public IActionResult GetQuantidadeTarefasFromSubordinado(int idSubordinado)
+        public IActionResult ContarTarefasPorSubordinado(int idSubordinado)
         {
             var result = _repo.ContarTarefasPorSubordinado(idSubordinado);
             return Ok(result);
@@ -79,7 +79,7 @@ namespace PastelariaSMN.Controllers
         }
 
         [HttpGet("usuario/gestor/{idGestor}/tarefa/total")]
-        public IActionResult GetQuantidadeTarefasFromGestor(int idGestor)
+        public IActionResult ConsultarTotalTarefasGestor(int idGestor)
         {
             var result = _repo.ConsultarTotalTarefasGestor(idGestor);
             return Ok(result);
@@ -99,6 +99,26 @@ namespace PastelariaSMN.Controllers
             return Ok(result);
         }
 
+        [HttpGet("usuario/gestor/{idGestor}/tarefa/pendentes")]
+        public IActionResult ConsultarTarefasGestor(int idGestor)
+        {
+            var result = _repo.ConsultarTarefasGestor(idGestor);
+            return Ok(result);
+        }
+
+        [HttpGet("usuario/{idSubordinado}/tarefa/todas")]
+        public IActionResult ConsultarTarefasUsuario(int idSubordinado)
+        {
+            var result = _repo.ConsultarTarefasUsuario(idSubordinado);
+            return Ok(result);
+        }
+
+        [HttpGet("usuario/{idSubordinado}/tarefa/status/{idStatusTarefa}")]
+        public IActionResult ConsultarTarefasStatusUsuario(int idSubordinado, int idStatusTarefa)
+        {
+            var result = _repo.ConsultarTarefasStatusUsuario(idSubordinado, idStatusTarefa);
+            return Ok(result);
+        }
 
         // post - usuario/0/tarefa
         // get - usuario/0/tarefa/pendentes
