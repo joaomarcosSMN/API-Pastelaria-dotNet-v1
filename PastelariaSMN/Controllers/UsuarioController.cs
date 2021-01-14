@@ -28,7 +28,7 @@ namespace PastelariaSMN.Controllers
             return Ok(result);
         }
 
-        [HttpPatch("{idUsuario}/alterarstatus")]
+        [HttpPatch("{idUsuario}/status")]
         public IActionResult UpdateAtivarDesativarUsuario(int idUsuario)
         {
             var result = _repo.AtivarDesativarUsuario(idUsuario);
@@ -45,5 +45,35 @@ namespace PastelariaSMN.Controllers
             var result = _repo.AtualizarUsuario(idUsuario, nome, sobrenome, senha);
             return Ok(result);
         }
+        
+        [HttpPost("criar")]
+        public IActionResult PostUsuario(Usuario novoUsuario)
+        {
+  
+            var result = _repo.CriarUsuario(novoUsuario.Nome, 
+                                            novoUsuario.Sobrenome,
+                                            novoUsuario.DataNascimento, 
+                                            novoUsuario.Senha,
+                                            novoUsuario.EGestor,
+                                            novoUsuario.EstaAtivo,
+                                            novoUsuario.IdGestor);
+            return Ok(result);
+        }
+
+        [HttpGet("{idGestor}/subordinados")]
+        public IActionResult GetSubordinadosByGestor(int idGestor)
+        {
+            var result = _repo.ConsultarUsuariosDoGestor(idGestor);
+            return Ok(result);
+        }
+
+        [HttpGet("{idUsuario}")]
+        public IActionResult GetUsuarioById(int idUsuario)
+        {
+            var result = _repo.ConsultarUsuario(idUsuario);
+            return Ok(result);
+        }
+
+
     }
 }
