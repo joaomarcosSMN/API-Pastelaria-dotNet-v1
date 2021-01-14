@@ -8,9 +8,21 @@ namespace PastelariaSMN.Data
 {
     public class Repository : IRepository
     {
-        public void AlterarStatusDaTarefa(int idTarefa, int novoStatus)
+        public int AlterarStatusDaTarefa(int idTarefa, int novoStatus)
         {
-        throw new NotImplementedException();
+            using (SqlConnection sqlConn = new SqlConnection(@"Server=DESKTOP-DU3ENNC\SQLEXPRESS;Database=PastelariaSMN;User Id=joaozinho;Password=belo1111;"))
+            {
+                using (SqlCommand sqlCmd = new SqlCommand("[dbo].[SP_AlterarStatusDaTarefa]", sqlConn))
+                {
+                    sqlCmd.CommandType = CommandType.StoredProcedure;
+                    sqlCmd.Parameters.AddWithValue("@IdTarefa ", idTarefa);
+                    sqlCmd.Parameters.AddWithValue("@NovoStatus ", novoStatus);
+
+                    sqlConn.Open();
+
+                    return sqlCmd.ExecuteNonQuery();
+                }
+            }
         }
 
         public int AtivarUsuario(int idUsuario)
@@ -66,14 +78,34 @@ namespace PastelariaSMN.Data
             }
         }
 
-        public void CancelarTarefa(int idTarefa)
+        public int CancelarTarefa(int idTarefa)
         {
-        throw new NotImplementedException();
+            using (SqlConnection sqlConn = new SqlConnection(@"Server=DESKTOP-DU3ENNC\SQLEXPRESS;Database=PastelariaSMN;User Id=joaozinho;Password=belo1111;"))
+            {
+                using (SqlCommand sqlCmd = new SqlCommand("[dbo].[SP_CancelarTarefa]", sqlConn))
+                {
+                    sqlCmd.CommandType = CommandType.StoredProcedure;
+                    sqlCmd.Parameters.AddWithValue("@IdTarefa", idTarefa);
+                    sqlConn.Open();
+
+                    return sqlCmd.ExecuteNonQuery();
+                }
+            }
         }
 
-        public void ConcluirTarefa(int idTarefa)
+        public int ConcluirTarefa(int idTarefa)
         {
-        throw new NotImplementedException();
+            using (SqlConnection sqlConn = new SqlConnection(@"Server=DESKTOP-DU3ENNC\SQLEXPRESS;Database=PastelariaSMN;User Id=joaozinho;Password=belo1111;"))
+            {
+                using (SqlCommand sqlCmd = new SqlCommand("[dbo].[SP_ConcluirTarefa]", sqlConn))
+                {
+                    sqlCmd.CommandType = CommandType.StoredProcedure;
+                    sqlCmd.Parameters.AddWithValue("@IdTarefa", idTarefa);
+                    sqlConn.Open();
+
+                    return sqlCmd.ExecuteNonQuery();
+                }
+            }
         }
 
         // public List<Comentario> ConsultarComentario(int TarefaId)
@@ -123,7 +155,43 @@ namespace PastelariaSMN.Data
 
         public Tarefa[] ConsultarTarefasGestorStatus(int idGestor, int idStatusTarefa)
         {
-        throw new NotImplementedException();
+            using (SqlConnection sqlConn = new SqlConnection(@"Server=DESKTOP-DU3ENNC\SQLEXPRESS;Database=PastelariaSMN;User Id=joaozinho;Password=belo1111;"))
+            {
+                using (SqlCommand sqlCmd = new SqlCommand("[dbo].[SP_ConsultarTarefasGestorStatus]", sqlConn))
+                {
+                    sqlCmd.CommandType = CommandType.StoredProcedure;
+                    sqlCmd.Parameters.AddWithValue("@IdGestor", idGestor);
+                    sqlCmd.Parameters.AddWithValue("@IdStatusTarefa", idStatusTarefa);
+                    
+                    sqlConn.Open();
+                    var reader = sqlCmd.ExecuteReader();  // sqlCmd.ExecuteNonQuery()
+                    
+                    List<Tarefa> resultado = new List<Tarefa>();
+                    Tarefa tarefa = null;
+
+                    while(reader.Read())
+                    {
+                        tarefa = new Tarefa();
+                        tarefa.IdTarefa = int.Parse(reader["IdTarefa"].ToString());
+                        tarefa.Descricao = reader["Descricao"].ToString();
+                        tarefa.DataCadastro = DateTime.Parse(reader["DataCadastro"].ToString());
+                        tarefa.DataLimite = DateTime.Parse(reader["DataLimite"].ToString());
+                        if(reader["DataConclusao"].ToString() == "") {
+                            tarefa.DataConclusao = null;
+                        } else {
+                            tarefa.DataConclusao = DateTime.Parse(reader["DataConclusao"].ToString());
+                        }
+                        if(reader["DataCancelada"].ToString() == "") {
+                            tarefa.DataCancelada = null;
+                        } else {
+                            tarefa.DataCancelada = DateTime.Parse(reader["DataCancelada"].ToString());
+                        }
+                        resultado.Add(tarefa);
+                    }
+                    // sqlConn.Close();
+                    return resultado.ToArray();
+                }
+            }
         }
 
         public Tarefa[] ConsultarTarefasStatusUsuario(int idUsuario, int idStatusTarefa)
@@ -138,32 +206,161 @@ namespace PastelariaSMN.Data
 
         public Tarefa[] ConsultarTodasTarefasGestor(int idGestor)
         {
-        throw new NotImplementedException();
+            using (SqlConnection sqlConn = new SqlConnection(@"Server=DESKTOP-DU3ENNC\SQLEXPRESS;Database=PastelariaSMN;User Id=joaozinho;Password=belo1111;"))
+            {
+                using (SqlCommand sqlCmd = new SqlCommand("[dbo].[SP_ConsultarTodasTarefasGestor]", sqlConn))
+                {
+                    sqlCmd.CommandType = CommandType.StoredProcedure;
+                    sqlCmd.Parameters.AddWithValue("@IdGestor", idGestor);
+
+                    sqlConn.Open();
+                    var reader = sqlCmd.ExecuteReader();
+
+                    List<Tarefa> resultado = new List<Tarefa>();
+                    Tarefa tarefa = null;
+
+                    while(reader.Read())
+                    {
+                        tarefa = new Tarefa();
+                        tarefa.IdTarefa = int.Parse(reader["IdTarefa"].ToString());
+                        tarefa.Descricao = reader["Descricao"].ToString();
+                        tarefa.DataCadastro = DateTime.Parse(reader["DataCadastro"].ToString());
+                        tarefa.DataLimite = DateTime.Parse(reader["DataLimite"].ToString());
+                        if(reader["DataConclusao"].ToString() == "") {
+                            tarefa.DataConclusao = null;
+                        } else {
+                            tarefa.DataConclusao = DateTime.Parse(reader["DataConclusao"].ToString());
+                        }
+                        if(reader["DataCancelada"].ToString() == "") {
+                            tarefa.DataCancelada = null;
+                        } else {
+                            tarefa.DataCancelada = DateTime.Parse(reader["DataCancelada"].ToString());
+                        }
+                        resultado.Add(tarefa);
+                    }
+
+                    return resultado.ToArray();
+                }
+            }
         }
 
         public int ConsultarTotalTarefasGestor(int idGestor)
         {
-        throw new NotImplementedException();
+            using (SqlConnection sqlConn = new SqlConnection(@"Server=DESKTOP-DU3ENNC\SQLEXPRESS;Database=PastelariaSMN;User Id=joaozinho;Password=belo1111;"))
+            {
+                using (SqlCommand sqlCmd = new SqlCommand("[dbo].[SP_ConsultarTotalTarefasGestor]", sqlConn))
+                {
+                    sqlCmd.CommandType = CommandType.StoredProcedure;
+                    sqlCmd.Parameters.AddWithValue("@IdGestor", idGestor);
+
+                    sqlConn.Open();
+                    var reader = sqlCmd.ExecuteReader();
+                    reader.Read();
+                    var total = int.Parse(reader["Total"].ToString());
+
+                    return total;
+                }
+            }
         }
 
-        public Usuario[] ConsultarUsuario(int idUsuario)
+        public Usuario ConsultarUsuario(int idUsuario)
         {
-        throw new NotImplementedException();
+            using (SqlConnection sqlConn = new SqlConnection(@"Server=DESKTOP-DU3ENNC\SQLEXPRESS;Database=PastelariaSMN;User Id=joaozinho;Password=belo1111;"))
+            {
+                using (SqlCommand sqlCmd = new SqlCommand("[dbo].[SP_ConsultarUsuario]", sqlConn))
+                {
+                    sqlCmd.CommandType = CommandType.StoredProcedure;
+                    sqlCmd.Parameters.AddWithValue("@IdUsuario", idUsuario);
+
+                    sqlConn.Open();
+                    var reader = sqlCmd.ExecuteReader();
+
+                    Usuario usuario = null;
+                    reader.Read();
+                    
+                    usuario = new Usuario();
+                    usuario.IdUsuario = int.Parse(reader["IdUsuario"].ToString());
+                    usuario.Nome = reader["Nome"].ToString();
+                    usuario.Sobrenome = reader["Sobrenome"].ToString();
+                    usuario.DataNascimento = DateTime.Parse(reader["DataNascimento"].ToString());
+                    usuario.EGestor = bool.Parse(reader["EGestor"].ToString());
+                    usuario.EstaAtivo = bool.Parse(reader["EstaAtivo"].ToString());
+                    // usuario.IdGestor = (reader["IdGestor"].ToString() == "") ? null : int.Parse(reader["IdGestor"].ToString());
+                    if( reader["IdGestor"].ToString() == "" ) {
+                        usuario.IdGestor = null;
+                    } else {
+                        usuario.IdGestor = int.Parse(reader["IdGestor"].ToString());
+                    }
+                    
+                    return usuario;
+                }
+            }
         }
 
         public Usuario[] ConsultarUsuariosDoGestor(int idGestor)
         {
-        throw new NotImplementedException();
+            using (SqlConnection sqlConn = new SqlConnection(@"Server=DESKTOP-DU3ENNC\SQLEXPRESS;Database=PastelariaSMN;User Id=joaozinho;Password=belo1111;"))
+            {
+                using (SqlCommand sqlCmd = new SqlCommand("[dbo].[SP_ConsultarUsuariosDoGestor]", sqlConn))
+                {
+                    sqlCmd.CommandType = CommandType.StoredProcedure;
+                    sqlCmd.Parameters.AddWithValue("@IdGestor", idGestor);
+
+                    sqlConn.Open();
+                    var reader = sqlCmd.ExecuteReader();
+
+                    List<Usuario> resultado = new List<Usuario>();
+                    Usuario subordinado = null;
+
+                    while(reader.Read())
+                    {
+                        subordinado = new Usuario();
+                        subordinado.IdUsuario = int.Parse(reader["IdUsuario"].ToString());
+                        subordinado.Nome = reader["Nome"].ToString();
+                        subordinado.Sobrenome = reader["Sobrenome"].ToString();
+                        subordinado.EstaAtivo = bool.Parse(reader["EstaAtivo"].ToString());
+                        resultado.Add(subordinado);
+                    }
+
+                    return resultado.ToArray();
+                }
+            }
         }
 
         public int ContarTarefasPorSubordinado(int idSubordinado)
         {
-        throw new NotImplementedException();
+            using (SqlConnection sqlConn = new SqlConnection(@"Server=DESKTOP-DU3ENNC\SQLEXPRESS;Database=PastelariaSMN;User Id=joaozinho;Password=belo1111;"))
+            {
+                using (SqlCommand sqlCmd = new SqlCommand("[dbo].[SP_ContarTarefasPorSubordinado]", sqlConn))
+                {
+                    sqlCmd.CommandType = CommandType.StoredProcedure;
+                    sqlCmd.Parameters.AddWithValue("@IdSubordinado", idSubordinado);
+
+                    sqlConn.Open();
+                    var reader = sqlCmd.ExecuteReader();
+                    reader.Read();
+                    var total = int.Parse(reader["Total"].ToString());
+
+                    return total;
+                }
+            }
         }
 
-        public void CriarComentario(string comentario, int idTarefa)
+        public int CriarComentario(string comentario, int idTarefa)
         {
-        throw new NotImplementedException();
+            using (SqlConnection sqlConn = new SqlConnection(@"Server=DESKTOP-DU3ENNC\SQLEXPRESS;Database=PastelariaSMN;User Id=joaozinho;Password=belo1111;"))
+            {
+                using (SqlCommand sqlCmd = new SqlCommand("[dbo].[SP_CriarComentario]", sqlConn))
+                {
+                    sqlCmd.CommandType = CommandType.StoredProcedure;
+                    sqlCmd.Parameters.AddWithValue("@Comentario", comentario);
+                    sqlCmd.Parameters.AddWithValue("@IdTarefa", idTarefa);
+
+                    sqlConn.Open();
+
+                    return sqlCmd.ExecuteNonQuery();
+                }
+            }
         }
 
         public int CriarTarefa(string descricao, 
@@ -184,7 +381,6 @@ namespace PastelariaSMN.Data
                     sqlCmd.Parameters.AddWithValue("@IdStatusTarefa", idStatusTarefa);
 
                     sqlConn.Open();
-                    // Tarefa novaTarefa = null; 
 
                     return sqlCmd.ExecuteNonQuery();
                 }
@@ -192,10 +388,38 @@ namespace PastelariaSMN.Data
             }
 
         }
-
-        public void CriarUsuario(string nome, string sobrenome, DateTime dataNascimento, string senha, bool eGestor, bool estaAtivo, int idGestor)
+        // quando IdGestor estava int?, erro => não é possivel converter int? para int
+        public int CriarUsuario(string nome, string sobrenome, DateTime dataNascimento, string senha, bool eGestor, bool estaAtivo, int? idGestor = null)
         {
-        throw new NotImplementedException();
+            using (SqlConnection sqlConn = new SqlConnection(@"Server=DESKTOP-DU3ENNC\SQLEXPRESS;Database=PastelariaSMN;User Id=joaozinho;Password=belo1111;"))
+            {
+                using (SqlCommand sqlCmd = new SqlCommand("[dbo].[SP_CriarUsuario]", sqlConn))
+                {
+                    sqlCmd.CommandType = CommandType.StoredProcedure;
+                    sqlCmd.Parameters.AddWithValue("@Nome", nome);
+                    sqlCmd.Parameters.AddWithValue("@Sobrenome", sobrenome);
+                    sqlCmd.Parameters.AddWithValue("@DataNascimento", dataNascimento);
+                    sqlCmd.Parameters.AddWithValue("@Senha", senha);
+                    if(eGestor) {
+                        sqlCmd.Parameters.AddWithValue("@EGestor", 1);
+                    } else {
+                        sqlCmd.Parameters.AddWithValue("@EGestor", 0);
+                    }
+                    if(estaAtivo) {
+                        sqlCmd.Parameters.AddWithValue("@EstaAtivo", 1);
+                    } else {
+                        sqlCmd.Parameters.AddWithValue("@EstaAtivo", 0);
+                    }
+                    if(idGestor > 0) {
+                        sqlCmd.Parameters.AddWithValue("@IdGestor", idGestor);
+                    }
+
+                    sqlConn.Open();
+
+                    return sqlCmd.ExecuteNonQuery();
+                }
+
+            }
         }
 
         public int DesativarUsuario(int idUsuario)
@@ -208,16 +432,27 @@ namespace PastelariaSMN.Data
                     sqlCmd.Parameters.AddWithValue("@IdUsuario ", idUsuario);
 
                     sqlConn.Open();
-                    // Tarefa novaTarefa = null; 
 
                     return sqlCmd.ExecuteNonQuery();
                 }
             }
         }   
 
-        public void EditarDataLimite(int idTarefa, DateTime novaDataLimite)
+        public int EditarDataLimite(int idTarefa, DateTime novaDataLimite)
         {
-        throw new NotImplementedException();
+            using (SqlConnection sqlConn = new SqlConnection(@"Server=DESKTOP-DU3ENNC\SQLEXPRESS;Database=PastelariaSMN;User Id=joaozinho;Password=belo1111;"))
+            {
+                using (SqlCommand sqlCmd = new SqlCommand("[dbo].[SP_EditarDataLimite]", sqlConn))
+                {
+                    sqlCmd.CommandType = CommandType.StoredProcedure;
+                    sqlCmd.Parameters.AddWithValue("@IdTarefa", idTarefa);
+                    sqlCmd.Parameters.AddWithValue("@DataLimite", novaDataLimite);
+
+                    sqlConn.Open();
+
+                    return sqlCmd.ExecuteNonQuery();
+                }
+            }
         }
 
         public Usuario VericarLogin(string email)
