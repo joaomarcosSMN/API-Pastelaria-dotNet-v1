@@ -40,5 +40,27 @@ namespace PastelariaSMN.Controllers
             return Ok(result);
         }
 
+        [HttpPut("att/{idTarefa}")]
+        public IActionResult AtualizarStatusTarefa(int idTarefa, int novoStatus)
+        {
+            var result = _repo.AlterarStatusDaTarefa(idTarefa, novoStatus);
+            return Ok(result);
+        }
+
+        [HttpPatch("{idTarefa/concluir}")]
+        public IActionResult ConcluirTarefa(int idTarefa)
+        {
+            var result = _repo.ConcluirTarefa(idTarefa);
+            return Ok(result);
+            
+        }
+
+        [HttpPatch("{idTarefa/cancelar}")]
+        public IActionResult CancelarTarefa(int idTarefa)
+        {
+            var result = _repo.CancelarTarefa(idTarefa);
+            return Ok(result);
+            
+        }
     }
 }

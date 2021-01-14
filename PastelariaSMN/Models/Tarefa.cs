@@ -9,7 +9,7 @@ namespace PastelariaSMN.Models
         public DateTime DataLimite { get; set; }
         public DateTime DataCadastro { get; set; } = DateTime.Now;
         public DateTime? DataConclusao { get; set; } = null;
-        public bool EstaCancelada { get; set; } = false;
+        public DateTime? DataCancelada { get; set; } = null;
         public int IdGestor { get; set; }
         public Usuario Gestor { get; set; }
         public int IdSubordinado{ get; set; }

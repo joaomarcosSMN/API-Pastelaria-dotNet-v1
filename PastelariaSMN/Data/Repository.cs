@@ -8,9 +8,21 @@ namespace PastelariaSMN.Data
 {
     public class Repository : IRepository
     {
-        public void AlterarStatusDaTarefa(int idTarefa, int novoStatus)
+        public int AlterarStatusDaTarefa(int idTarefa, int novoStatus)
         {
-        throw new NotImplementedException();
+            using (SqlConnection sqlConn = new SqlConnection(@"Server=DESKTOP-DU3ENNC\SQLEXPRESS;Database=PastelariaSMN;User Id=joaozinho;Password=belo1111;"))
+            {
+                using (SqlCommand sqlCmd = new SqlCommand("[dbo].[SP_AlterarStatusDaTarefa]", sqlConn))
+                {
+                    sqlCmd.CommandType = CommandType.StoredProcedure;
+                    sqlCmd.Parameters.AddWithValue("@IdTarefa ", idTarefa);
+                    sqlCmd.Parameters.AddWithValue("@NovoStatus ", novoStatus);
+
+                    sqlConn.Open();
+
+                    return sqlCmd.ExecuteNonQuery();
+                }
+            }
         }
 
         public int AtivarUsuario(int idUsuario)
@@ -66,14 +78,34 @@ namespace PastelariaSMN.Data
             }
         }
 
-        public void CancelarTarefa(int idTarefa)
+        public int CancelarTarefa(int idTarefa)
         {
-        throw new NotImplementedException();
+            using (SqlConnection sqlConn = new SqlConnection(@"Server=DESKTOP-DU3ENNC\SQLEXPRESS;Database=PastelariaSMN;User Id=joaozinho;Password=belo1111;"))
+            {
+                using (SqlCommand sqlCmd = new SqlCommand("[dbo].[SP_CancelarTarefa]", sqlConn))
+                {
+                    sqlCmd.CommandType = CommandType.StoredProcedure;
+                    sqlCmd.Parameters.AddWithValue("@IdTarefa", idTarefa);
+                    sqlConn.Open();
+
+                    return sqlCmd.ExecuteNonQuery();
+                }
+            }
         }
 
-        public void ConcluirTarefa(int idTarefa)
+        public int ConcluirTarefa(int idTarefa)
         {
-        throw new NotImplementedException();
+            using (SqlConnection sqlConn = new SqlConnection(@"Server=DESKTOP-DU3ENNC\SQLEXPRESS;Database=PastelariaSMN;User Id=joaozinho;Password=belo1111;"))
+            {
+                using (SqlCommand sqlCmd = new SqlCommand("[dbo].[SP_ConcluirTarefa]", sqlConn))
+                {
+                    sqlCmd.CommandType = CommandType.StoredProcedure;
+                    sqlCmd.Parameters.AddWithValue("@IdTarefa", idTarefa);
+                    sqlConn.Open();
+
+                    return sqlCmd.ExecuteNonQuery();
+                }
+            }
         }
 
         // public List<Comentario> ConsultarComentario(int TarefaId)
@@ -111,11 +143,6 @@ namespace PastelariaSMN.Data
             }
         }
 
-        public Comentario[] ConsultarComentarioTarefa(int idTarefa)
-        {
-        throw new NotImplementedException();
-        }
-
         public Tarefa[] ConsultarTarefasGestor(int idGestor)
         {
         throw new NotImplementedException();
@@ -123,7 +150,44 @@ namespace PastelariaSMN.Data
 
         public Tarefa[] ConsultarTarefasGestorStatus(int idGestor, int idStatusTarefa)
         {
-        throw new NotImplementedException();
+            using (SqlConnection sqlConn = new SqlConnection(@"Server=DESKTOP-DU3ENNC\SQLEXPRESS;Database=PastelariaSMN;User Id=joaozinho;Password=belo1111;"))
+            {
+                using (SqlCommand sqlCmd = new SqlCommand("[dbo].[SP_ConsultarTarefasGestorStatus]", sqlConn))
+                {
+                    sqlCmd.CommandType = CommandType.StoredProcedure;
+                    sqlCmd.Parameters.AddWithValue("@IdGestor ", idGestor);
+                    sqlCmd.Parameters.AddWithValue("@IdStatusTarefa ", idStatusTarefa);
+                    
+                    sqlConn.Open();
+                    var reader = sqlCmd.ExecuteReader();  // sqlCmd.ExecuteNonQuery()
+                    
+                    List<Tarefa> resultado = new List<Tarefa>();
+                    Tarefa tarefa = null;
+                    // var result = new List<Comentario>();
+
+                    while(reader.Read())
+                    {
+                        tarefa = new Tarefa();
+                        tarefa.IdTarefa = int.Parse(reader["IdTarefa"].ToString());
+                        tarefa.Descricao = reader["Descricao"].ToString();
+                        tarefa.DataCadastro = DateTime.Parse(reader["DataCadastro"].ToString());
+                        tarefa.DataLimite = DateTime.Parse(reader["DataLimite"].ToString());
+                        if(reader["DataConclusao"].ToString() == "") {
+                            tarefa.DataConclusao = null;
+                        } else {
+                            tarefa.DataConclusao = DateTime.Parse(reader["DataConclusao"].ToString());
+                        }
+                        if(reader["DataCancelada"].ToString() == "") {
+                            tarefa.DataCancelada = null;
+                        } else {
+                            tarefa.DataCancelada = DateTime.Parse(reader["DataCancelada"].ToString());
+                        }
+                        resultado.Add(tarefa);
+                    }
+                    sqlConn.Close();
+                    return resultado.ToArray();
+                }
+            }
         }
 
         public Tarefa[] ConsultarTarefasStatusUsuario(int idUsuario, int idStatusTarefa)
@@ -166,11 +230,7 @@ namespace PastelariaSMN.Data
         throw new NotImplementedException();
         }
 
-        public int CriarTarefa(string descricao, 
-                                DateTime dataLimite,
-                                int idGestor,
-                                int idSubordinado,
-                                int idStatusTarefa)
+        public int CriarTarefa(string descricao, DateTime dataLimite, int idGestor, int idSubordinado, int idStatusTarefa)
         {
             using (SqlConnection sqlConn = new SqlConnection(@"Server=DESKTOP-DU3ENNC\SQLEXPRESS;Database=PastelariaSMN;User Id=joaozinho;Password=belo1111;"))
             {

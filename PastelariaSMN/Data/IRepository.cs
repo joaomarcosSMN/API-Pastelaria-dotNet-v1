@@ -28,14 +28,14 @@ namespace PastelariaSMN.Data
         Tarefa[] ConsultarTarefasGestorStatus(int idGestor, int idStatusTarefa);
         Tarefa[] ConsultarTarefasGestor(int idGestor);
         Comentario[] ConsultarComentarioTarefa(int idTarefa);
-        void ConcluirTarefa(int idTarefa);
-        void CancelarTarefa(int idTarefa);
+        int ConcluirTarefa(int idTarefa);
+        int CancelarTarefa(int idTarefa);
         // PROC 013
         int AtualizarUsuario(int idUsuario, string nome, string sobrenome, string senha);
         //PROC 021
         int AtivarUsuario(int idUsuario);
         int AtivarDesativarUsuario(int idUsuario);
-        void AlterarStatusDaTarefa(int idTarefa, int novoStatus);
+        int AlterarStatusDaTarefa(int idTarefa, int novoStatus);
         Tarefa[] ConsultarTodasTarefasGestor(int idGestor);
     }
 }
