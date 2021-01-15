@@ -27,7 +27,9 @@ namespace PastelariaSMN
         {
             services.AddControllers();
 
-            services.AddScoped<IRepository, Repository>();
+            // services.AddScoped<IRepository, Repository>();
+            services.AddScoped<ITarefaRepository, TarefaRepository>();
+            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
