@@ -9,8 +9,8 @@ namespace PastelariaSMN.Controllers
     [Route("api/[controller]")]
     public class UsuarioController : ControllerBase
     {
-        public readonly IRepository _repo;
-        public UsuarioController(IRepository repo) 
+        public readonly IUsuarioRepository _repo;
+        public UsuarioController(IUsuarioRepository repo) 
         { 
             _repo = repo;
         }
@@ -31,7 +31,21 @@ namespace PastelariaSMN.Controllers
                                                 novoUsuario.Senha);
             return Ok(result);
         }
-        
+
+        [HttpGet("{idUsuario}")]
+        public IActionResult ConsultarUsuario(int idUsuario)
+        {
+            var result = _repo.ConsultarUsuario(idUsuario);
+            return Ok(result);
+        }
+
+        [HttpGet("{idGestor}/subordinados")]
+        public IActionResult ConsultarUsuariosDoGestor(int idGestor)
+        {
+            var result = _repo.ConsultarUsuariosDoGestor(idGestor);
+            return Ok(result);
+        }
+                
         [HttpPost("criar")]
         public IActionResult CriarUsuario(Usuario novoUsuario)
         {
@@ -43,20 +57,6 @@ namespace PastelariaSMN.Controllers
                                             novoUsuario.EGestor,
                                             novoUsuario.EstaAtivo,
                                             novoUsuario.IdGestor);
-            return Ok(result);
-        }
-
-        [HttpGet("{idGestor}/subordinados")]
-        public IActionResult ConsultarUsuariosDoGestor(int idGestor)
-        {
-            var result = _repo.ConsultarUsuariosDoGestor(idGestor);
-            return Ok(result);
-        }
-
-        [HttpGet("{idUsuario}")]
-        public IActionResult ConsultarUsuario(int idUsuario)
-        {
-            var result = _repo.ConsultarUsuario(idUsuario);
             return Ok(result);
         }
 

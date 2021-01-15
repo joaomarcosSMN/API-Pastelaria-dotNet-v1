@@ -10,10 +10,24 @@ namespace PastelariaSMN.Controllers
     [Route("api")]
     public class TarefaController : ControllerBase
     {
-        public readonly IRepository _repo;
-        public TarefaController(IRepository repo) 
+        public readonly ITarefaRepository _repo;
+        public TarefaController(ITarefaRepository repo) 
         {
             _repo = repo;
+        }
+        
+        [HttpPatch("tarefa/{idTarefa}/status")]
+        public IActionResult AlterarStatusDaTarefa(int idTarefa, Tarefa tarefaEditada)
+        {
+            var result = _repo.AlterarStatusDaTarefa(idTarefa, tarefaEditada.IdStatusTarefa);
+            return Ok(result);
+        }
+        
+        [HttpPatch("tarefa/{idTarefa}/cancelar")]
+        public IActionResult CancelarTarefa(int idTarefa)
+        {
+            var result = _repo.CancelarTarefa(idTarefa);
+            return Ok(result);
         }
 
         [HttpGet("tarefa/{IdTarefa}/comentarios")]
@@ -42,12 +56,6 @@ namespace PastelariaSMN.Controllers
             return Ok(result);
         }
 
-        [HttpPatch("tarefa/{idTarefa}/status")]
-        public IActionResult AlterarStatusDaTarefa(int idTarefa, Tarefa tarefaEditada)
-        {
-            var result = _repo.AlterarStatusDaTarefa(idTarefa, tarefaEditada.IdStatusTarefa);
-            return Ok(result);
-        }
 
         [HttpPatch("tarefa/{idTarefa}/concluir")]
         public IActionResult ConcluirTarefa(int idTarefa)
@@ -63,13 +71,6 @@ namespace PastelariaSMN.Controllers
             return Ok(result);
         }
 
-        [HttpPatch("tarefa/{idTarefa}/cancelar")]
-        public IActionResult CancelarTarefa(int idTarefa)
-        {
-            var result = _repo.CancelarTarefa(idTarefa);
-            return Ok(result);
-            
-        }
 
         [HttpGet("usuario/gestor/{idGestor}/tarefa/total")]
         public IActionResult ConsultarTotalTarefasGestor(int idGestor)
