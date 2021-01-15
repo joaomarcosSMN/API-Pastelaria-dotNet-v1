@@ -551,6 +551,8 @@ namespace PastelariaSMN.Data
                     var emailDb = reader["EnderecoEmail"].ToString();
                     var senhaDb = reader["Senha"].ToString();
 
+                    sqlConn.Open();
+
                     if( email != emailDb || senha != senhaDb ) {
                         return false;
                     } else {
