@@ -15,7 +15,7 @@ namespace PastelariaSMN.Data
         Usuario[] ConsultarUsuariosDoGestor(int idGestor);
         Usuario ConsultarUsuario(int idUsuario);
         int ConsultarTotalTarefasGestor(int idGestor);
-        Usuario VericarLogin(string email);
+        bool VerificarLogin(string email, string senha);
         Tarefa[] ConsultarTarefasUsuario(int idUsuario);
         Tarefa[] ConsultarTarefasStatusUsuario(int idUsuario, int idStatusTarefa);
         Tarefa[] ConsultarTarefasGestorStatus(int idGestor, int idStatusTarefa);

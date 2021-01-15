@@ -535,42 +535,63 @@ namespace PastelariaSMN.Data
             }
         }
   
-        public Usuario VericarLogin(string email)
+        public bool VerificarLogin(string email, string senha)
         {
-        throw new NotImplementedException();
+             using (SqlConnection sqlConn = new SqlConnection(@"Server=DESKTOP-DU3ENNC\SQLEXPRESS;Database=PastelariaSMN;User Id=joaozinho;Password=belo1111;"))
+            {
+                using (SqlCommand sqlCmd = new SqlCommand("[dbo].[SP_VerificarLogin]", sqlConn))
+                {
+                    sqlCmd.CommandType = CommandType.StoredProcedure;
+                    sqlCmd.Parameters.AddWithValue("@Email", email);
+
+                    sqlConn.Open();
+
+                    var reader = sqlCmd.ExecuteReader();
+                    reader.Read();
+                    var emailDb = reader["EnderecoEmail"].ToString();
+                    var senhaDb = reader["Senha"].ToString();
+
+                    if( email != emailDb || senha != senhaDb ) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+            }
         }
 
-        // public int DesativarUsuario(int idUsuario)
-        // {
-        //     using (SqlConnection sqlConn = new SqlConnection(@"Server=DESKTOP-DU3ENNC\SQLEXPRESS;Database=PastelariaSMN;User Id=joaozinho;Password=belo1111;"))
-        //     {
-        //         using (SqlCommand sqlCmd = new SqlCommand("[dbo].[SP_DesativarUsuario]", sqlConn))
-        //         {
-        //             sqlCmd.CommandType = CommandType.StoredProcedure;
-        //             sqlCmd.Parameters.AddWithValue("@IdUsuario ", idUsuario);
 
-        //             sqlConn.Open();
+    // public int DesativarUsuario(int idUsuario)
+    // {
+    //     using (SqlConnection sqlConn = new SqlConnection(@"Server=DESKTOP-DU3ENNC\SQLEXPRESS;Database=PastelariaSMN;User Id=joaozinho;Password=belo1111;"))
+    //     {
+    //         using (SqlCommand sqlCmd = new SqlCommand("[dbo].[SP_DesativarUsuario]", sqlConn))
+    //         {
+    //             sqlCmd.CommandType = CommandType.StoredProcedure;
+    //             sqlCmd.Parameters.AddWithValue("@IdUsuario ", idUsuario);
 
-        //             return sqlCmd.ExecuteNonQuery();
-        //         }
-        //     }
-        // } 
+    //             sqlConn.Open();
 
-        // public int AtivarUsuario(int idUsuario)
-        // {
-        //     using (SqlConnection sqlConn = new SqlConnection(@"Server=DESKTOP-DU3ENNC\SQLEXPRESS;Database=PastelariaSMN;User Id=joaozinho;Password=belo1111;"))
-        //     {
-        //         using (SqlCommand sqlCmd = new SqlCommand("[dbo].[SP_AtivarUsuario]", sqlConn))
-        //         {
-        //             sqlCmd.CommandType = CommandType.StoredProcedure;
-        //             sqlCmd.Parameters.AddWithValue("@IdUsuario ", idUsuario);
+    //             return sqlCmd.ExecuteNonQuery();
+    //         }
+    //     }
+    // } 
 
-        //             sqlConn.Open();
-        //             // Tarefa novaTarefa = null; 
+    // public int AtivarUsuario(int idUsuario)
+    // {
+    //     using (SqlConnection sqlConn = new SqlConnection(@"Server=DESKTOP-DU3ENNC\SQLEXPRESS;Database=PastelariaSMN;User Id=joaozinho;Password=belo1111;"))
+    //     {
+    //         using (SqlCommand sqlCmd = new SqlCommand("[dbo].[SP_AtivarUsuario]", sqlConn))
+    //         {
+    //             sqlCmd.CommandType = CommandType.StoredProcedure;
+    //             sqlCmd.Parameters.AddWithValue("@IdUsuario ", idUsuario);
 
-        //             return sqlCmd.ExecuteNonQuery();
-        //         }
-        //     }
-        // }
+    //             sqlConn.Open();
+    //             // Tarefa novaTarefa = null; 
+
+    //             return sqlCmd.ExecuteNonQuery();
+    //         }
+    //     }
+    // }
   }
 }

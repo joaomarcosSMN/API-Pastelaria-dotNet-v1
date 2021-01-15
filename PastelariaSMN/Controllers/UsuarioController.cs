@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using PastelariaSMN.Data;
+using PastelariaSMN.DTOs;
 using PastelariaSMN.Models;
 
 namespace PastelariaSMN.Controllers
@@ -15,25 +16,24 @@ namespace PastelariaSMN.Controllers
         }
 
         [HttpPatch("{idUsuario}/status")]
-        public IActionResult UpdateAtivarDesativarUsuario(int idUsuario)
+        public IActionResult AtivarDesativarUsuario(int idUsuario)
         {
             var result = _repo.AtivarDesativarUsuario(idUsuario);
             return Ok(result);
         }
 
         [HttpPatch("{idUsuario}/atualizar")]
-        public IActionResult UpdateUsuario(int idUsuario, Usuario novoUsuario)
+        public IActionResult AtualizarUsuario(int idUsuario, Usuario novoUsuario)
         {
-            var nome = novoUsuario.Nome;
-            var sobrenome = novoUsuario.Sobrenome;
-            var senha = novoUsuario.Senha;
-
-            var result = _repo.AtualizarUsuario(idUsuario, nome, sobrenome, senha);
+            var result = _repo.AtualizarUsuario(idUsuario, 
+                                                novoUsuario.Nome, 
+                                                novoUsuario.Sobrenome, 
+                                                novoUsuario.Senha);
             return Ok(result);
         }
         
         [HttpPost("criar")]
-        public IActionResult PostUsuario(Usuario novoUsuario)
+        public IActionResult CriarUsuario(Usuario novoUsuario)
         {
   
             var result = _repo.CriarUsuario(novoUsuario.Nome, 
@@ -47,16 +47,23 @@ namespace PastelariaSMN.Controllers
         }
 
         [HttpGet("{idGestor}/subordinados")]
-        public IActionResult GetSubordinadosByGestor(int idGestor)
+        public IActionResult ConsultarUsuariosDoGestor(int idGestor)
         {
             var result = _repo.ConsultarUsuariosDoGestor(idGestor);
             return Ok(result);
         }
 
         [HttpGet("{idUsuario}")]
-        public IActionResult GetUsuarioById(int idUsuario)
+        public IActionResult ConsultarUsuario(int idUsuario)
         {
             var result = _repo.ConsultarUsuario(idUsuario);
+            return Ok(result);
+        }
+
+        [HttpPost("login")]
+        public  IActionResult VerificarLogin(LoginDTO login)
+        {
+            var result = _repo.VerificarLogin(login.Email, login.Senha);
             return Ok(result);
         }
 
