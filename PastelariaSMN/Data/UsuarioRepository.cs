@@ -87,10 +87,12 @@ namespace PastelariaSMN.Data
     {
         SetProcedure(Procedures.SP_CriarUsuario);
 
+        string hash = GerarHashMd5(senha);
+
         AddParameter("Nome", nome);
         AddParameter("Sobrenome", sobrenome);
         AddParameter("DataNascimento", dataNascimento);
-        AddParameter("Senha", senha);
+        AddParameter("Senha", hash);
         AddParameter("EGestor", eGestor ? 1 : 0);
         AddParameter("EstaAtivo", estaAtivo ? 1 : 0);
         AddParameter("IdGestor", idGestor > 0 ? idGestor : null);
@@ -103,11 +105,13 @@ namespace PastelariaSMN.Data
     */
     public bool VerificarLogin(string email, string senha)
     {
+        string hash = GerarHashMd5(senha);
+
         SetProcedure(Procedures.SP_VerificarLogin);
 
         AddParameter("Email", email);
 
-        return CheckLogin(email, senha);
+        return CheckLogin(email, hash);
     }
   }
 }

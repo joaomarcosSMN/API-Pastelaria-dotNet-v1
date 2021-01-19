@@ -8,7 +8,7 @@ AS
 	Documentação
 	Módulo............: Tarefa
 	Objetivo..........: Consulta as tarefas de um usuário específico, que possuem um status específico
-	EX................: EXEC [dbo].[SP_ConsultarTarefasStatusUsuario] 1, 1
+	EX................: EXEC [dbo].[SP_ConsultarTarefasStatusUsuario] 2, 4
 	*/
 	BEGIN
 		SELECT IdTarefa, Descricao, DataCadastro, DataLimite, DataConclusao, DataCancelada, IdGestor, IdSubordinado, IdStatusTarefa  

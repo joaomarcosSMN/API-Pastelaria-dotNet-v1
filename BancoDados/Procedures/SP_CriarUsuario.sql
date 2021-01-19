@@ -8,13 +8,15 @@ CREATE PROCEDURE [dbo].[SP_CriarUsuario]
 	@Senha VARCHAR(50),
 	@EGestor BIT,
 	@EstaAtivo BIT,
-	@IdGestor SMALLINT = NULL
+	@IdGestor SMALLINT = NULL,
+
+	@Email VARCHAR(254)
 AS
 	/* 
 	Documentação
 	Módulo............: Usuario
 	Objetivo..........: Criar um usuario
-	EX................: EXEC [dbo].[SP_CriarUsuario] 'Joao', 'Silva', '10/10/1995', '7015c24fe4751a169a54d2f64d12b77f', 0, 1, 1
+	EX................: EXEC [dbo].[SP_CriarUsuario] 'Onersio', 'Silva', '10/10/1995', '7015c24fe4751a169a54d2f64d12b77f', 0, 1, 1, 'onersiosilva@gmail.com'
 	*/
 	BEGIN
 		INSERT INTO [dbo].[Usuario]
@@ -33,5 +35,10 @@ AS
 			 @EGestor, 
 			 @EstaAtivo, 
 			 @IdGestor)
-			RETURN SCOPE_IDENTITY()
+
+			 INSERT INTO Email
+			(EnderecoEmail, IdUsuario)
+				VALUES
+			(@Email, SCOPE_IDENTITY())
+			
 	END
