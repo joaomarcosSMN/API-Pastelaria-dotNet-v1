@@ -10,7 +10,19 @@ CREATE PROCEDURE [dbo].[SP_CriarUsuario]
 	@EstaAtivo BIT,
 	@IdGestor SMALLINT = NULL,
 
-	@Email VARCHAR(254)
+	@Email VARCHAR(254),
+
+	@DDD TINYINT,
+	@Telefone INT,
+	@IdTipoTelefone TINYINT,
+	
+	@Rua VARCHAR(70),
+	@Bairro VARCHAR(60),
+	@Numero VARCHAR(10),
+	@Complemento VARCHAR(50),
+	@CEP VARCHAR(8),
+	@Cidade VARCHAR(32),
+	@UF VARCHAR(2)
 AS
 	/* 
 	Documentação
@@ -19,6 +31,9 @@ AS
 	EX................: EXEC [dbo].[SP_CriarUsuario] 'Onersio', 'Silva', '10/10/1995', '7015c24fe4751a169a54d2f64d12b77f', 0, 1, 1, 'onersiosilva@gmail.com'
 	*/
 	BEGIN
+
+		DECLARE @idUsuario SMALLINT
+
 		INSERT INTO [dbo].[Usuario]
 			(Nome, 
 			 Sobrenome, 
@@ -36,9 +51,21 @@ AS
 			 @EstaAtivo, 
 			 @IdGestor)
 
-			 INSERT INTO Email
+		SET @idUsuario = SCOPE_IDENTITY()
+
+		INSERT INTO Email
 			(EnderecoEmail, IdUsuario)
-				VALUES
-			(@Email, SCOPE_IDENTITY())
+		VALUES
+			(@Email, @idUsuario)
+
+		INSERT INTO Telefone
+			(Numero, DDD, IdTipoTelefone, IdUsuario)
+		VALUES
+			(@Telefone, @DDD, @IdTipoTelefone, @idUsuario)
+
+		INSERT INTO Endereco
+			(Rua, Bairro, Numero, Complemento, CEP, Cidade, UF, IdUsuario)
+		VALUES
+			(@Rua, @Bairro, @Numero, @Complemento, @CEP, @Cidade, @UF, @idUsuario)
 			
 	END

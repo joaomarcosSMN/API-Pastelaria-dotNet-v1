@@ -83,7 +83,10 @@ namespace PastelariaSMN.Data
         return resultado.ToArray();
     }
 
-    public int CriarUsuario(string nome, string sobrenome, DateTime dataNascimento, string senha, bool eGestor, bool estaAtivo, int? idGestor)
+    public int CriarUsuario(string nome, string sobrenome, DateTime dataNascimento, string senha, bool eGestor, bool estaAtivo, int? idGestor,
+                            string email,
+                            int DDD, int telefone, int idTipoTelefone,
+                            string rua, string bairro, string numero, string complemento, string CEP, string cidade, string UF)
     {
         SetProcedure(Procedures.SP_CriarUsuario);
 
@@ -96,6 +99,21 @@ namespace PastelariaSMN.Data
         AddParameter("EGestor", eGestor ? 1 : 0);
         AddParameter("EstaAtivo", estaAtivo ? 1 : 0);
         AddParameter("IdGestor", idGestor > 0 ? idGestor : null);
+
+        AddParameter("Email", email);
+
+        AddParameter("DDD", DDD);
+        AddParameter("Telefone", telefone);
+        AddParameter("IdTipoTelefone", idTipoTelefone);
+
+        AddParameter("Rua", rua);
+        AddParameter("Bairro", bairro);
+        AddParameter("Numero", numero);
+        AddParameter("Complemento", complemento);
+        AddParameter("CEP", CEP);
+        AddParameter("Cidade", cidade);
+        AddParameter("UF", UF);
+
 
         return ExecuteNonQuery();
     }

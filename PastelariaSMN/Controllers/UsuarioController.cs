@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Mvc;
 using PastelariaSMN.Data;
 using PastelariaSMN.DTOs;
@@ -47,16 +48,30 @@ namespace PastelariaSMN.Controllers
         }
                 
         [HttpPost("criar")]
-        public IActionResult CriarUsuario(Usuario novoUsuario)
+        public IActionResult CriarUsuario(NovoUsuarioDTO novoUsuario)
         {
-  
             var result = _repo.CriarUsuario(novoUsuario.Nome, 
                                             novoUsuario.Sobrenome,
                                             novoUsuario.DataNascimento, 
                                             novoUsuario.Senha,
                                             novoUsuario.EGestor,
                                             novoUsuario.EstaAtivo,
-                                            novoUsuario.IdGestor);
+                                            novoUsuario.IdGestor,
+                                            
+                                            novoUsuario.EnderecoEmail,
+                                            
+                                            novoUsuario.DDD,
+                                            novoUsuario.NumeroTelefone,
+                                            novoUsuario.IdTipo,
+                                            
+                                            novoUsuario.Rua,
+                                            novoUsuario.Bairro,
+                                            novoUsuario.NumeroEnderco,
+                                            novoUsuario.Complemento,
+                                            novoUsuario.CEP,
+                                            novoUsuario.Cidade,
+                                            novoUsuario.UF);
+                                            
             return Ok(result);
         }
 
