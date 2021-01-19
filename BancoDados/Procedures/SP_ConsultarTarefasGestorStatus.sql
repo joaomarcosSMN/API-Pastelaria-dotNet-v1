@@ -10,10 +10,10 @@ AS
 	Documentação
 	Módulo............: Tarefa
 	Objetivo..........: Consultar tarefas de acordo com IdStatusTarefa e IdGestor
-	EX................: EXEC [dbo].[SP_ConsultarTarefasGestorStatus] 1, 3
+	EX................: EXEC [dbo].[SP_ConsultarTarefasGestorStatus] 1, 1
 	*/
 	BEGIN
-		SELECT IdTarefa, Descricao, DataCadastro, DataLimite, DataConclusao, DataCancelada
+		SELECT IdTarefa, Descricao, DataCadastro, DataLimite, IdGestor, IdSubordinado, IdStatusTarefa, DataConclusao, DataCancelada
 			FROM [dbo].[Tarefa] 
 			WHERE IdGestor = @IdGestor AND IdStatusTarefa = @IdStatusTarefa
 

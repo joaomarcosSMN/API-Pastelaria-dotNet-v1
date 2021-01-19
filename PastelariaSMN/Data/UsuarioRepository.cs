@@ -61,8 +61,6 @@ namespace PastelariaSMN.Data
         return usuario;
     }
 
-
-
     public Usuario[] ConsultarUsuariosDoGestor(int idGestor)
     {
         SetProcedure(Procedures.SP_ConsultarUsuariosDoGestor);
