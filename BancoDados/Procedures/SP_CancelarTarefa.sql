@@ -6,14 +6,15 @@ CREATE PROCEDURE [dbo].[SP_CancelarTarefa]
 
 AS
 	/* 
-	Documentaï¿½ï¿½o
-	Mï¿½dulo............: Tarefa
+	Documentação
+	Módulo............: Tarefa
 	Objetivo..........: Cancelar a tarefa
 	EX................: EXEC [dbo].[SP_CancelarTarefa] 1
 	*/
 	BEGIN
 		UPDATE Tarefa 
-			SET DataCancelada = GETDATE(), IdStatusTarefa = 5
+			SET DataCancelada = GETDATE(),
+				IdStatusTarefa = 5
 			WHERE IdTarefa = @IdTarefa
 
 	END

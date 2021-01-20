@@ -9,7 +9,7 @@ AS
 	Documentação
 	Módulo............: Tarefas
 	Objetivo..........: Contar Tarefas Por Subordinado
-	EX................: EXEC [dbo].[SP_ContarTarefasPorSubordinado] 1
+	EX................: EXEC [dbo].[SP_ContarTarefasPorSubordinado] 2
 	*/
 	BEGIN
 		SELECT COUNT(IdTarefa) AS Total 

@@ -9,7 +9,7 @@ AS
 	Documentação
 	Módulo............: Tarefa
 	Objetivo..........: Consulta as tarefas de um usuário específico
-	EX................: EXEC [dbo].[SP_ConsultarTarefasUsuario] 2
+	EX................: EXEC [dbo].[SP_ConsultarTarefasUsuario] 1
 	*/
 	BEGIN
 		SELECT IdTarefa, Descricao, DataCadastro, DataLimite, DataConclusao, DataCancelada, IdGestor, IdSubordinado, IdStatusTarefa  

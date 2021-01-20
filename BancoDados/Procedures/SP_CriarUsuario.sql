@@ -28,7 +28,7 @@ AS
 	Documentação
 	Módulo............: Usuario
 	Objetivo..........: Criar um usuario
-	EX................: EXEC [dbo].[SP_CriarUsuario] 'Onersio', 'Silva', '10/10/1995', '7015c24fe4751a169a54d2f64d12b77f', 0, 1, 1, 'onersiosilva@gmail.com'
+	EX................: EXEC [dbo].[SP_CriarUsuario] 'Ianko', 'Cavalcanti', '11/11/1995', '7015c24fe4751a169a54d2f64d12b77f', 0, 1, 1, 'joaomarcoslucenaf@gmail.com', 83, 999887766, 2, 'Av. Ruy Carneiro', 'Tambau', '500', 'Bloco B', '58000500', 'Joao Pessoa', 'PB' 
 	*/
 	BEGIN
 
@@ -55,17 +55,17 @@ AS
 
 		INSERT INTO Email
 			(EnderecoEmail, IdUsuario)
-		VALUES
-			(@Email, @idUsuario)
+			VALUES
+				(@Email, @idUsuario)
 
 		INSERT INTO Telefone
 			(Numero, DDD, IdTipoTelefone, IdUsuario)
-		VALUES
-			(@Telefone, @DDD, @IdTipoTelefone, @idUsuario)
+			VALUES
+				(@Telefone, @DDD, @IdTipoTelefone, @idUsuario)
 
 		INSERT INTO Endereco
 			(Rua, Bairro, Numero, Complemento, CEP, Cidade, UF, IdUsuario)
-		VALUES
-			(@Rua, @Bairro, @Numero, @Complemento, @CEP, @Cidade, @UF, @idUsuario)
+			VALUES
+				(@Rua, @Bairro, @Numero, @Complemento, @CEP, @Cidade, @UF, @idUsuario)
 			
 	END
