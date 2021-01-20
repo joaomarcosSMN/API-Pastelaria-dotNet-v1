@@ -15,7 +15,7 @@ namespace PastelariaSMN.Data
         Tarefa[] ConsultarTarefasStatusUsuario(int idUsuario, int idStatusTarefa);
         Tarefa[] ConsultarTarefasGestorStatus(int idGestor, int idStatusTarefa);
         Tarefa[] ConsultarTarefasGestor(int idGestor);
-        int ConcluirTarefa(int idTarefa);
+        string ConcluirTarefa(int idTarefa);
         int CancelarTarefa(int idTarefa);
         int AlterarStatusDaTarefa(int idTarefa, int novoStatus);
         Tarefa[] ConsultarTodasTarefasGestor(int idGestor);

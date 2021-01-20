@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using PastelariaSMN.DTOs;
 using PastelariaSMN.Models;
 
 namespace PastelariaSMN.Data
@@ -23,6 +24,7 @@ namespace PastelariaSMN.Data
       SP_CriarComentario,
       SP_CriarTarefa,
       SP_EditarDataLimite,
+      SP_ConsultarEmailGestorNomeSubordinado,
 
     }
     public int AlterarStatusDaTarefa(int idTarefa, int novoStatus)
@@ -44,13 +46,36 @@ namespace PastelariaSMN.Data
       return ExecuteNonQuery();
     }
 
-    public int ConcluirTarefa(int idTarefa)
+    public string ConcluirTarefa(int idTarefa)
     {
+
       SetProcedure(Procedures.SP_ConcluirTarefa);
 
       AddParameter("IdTarefa", idTarefa);
 
-      return ExecuteNonQuery();
+      if(ExecuteNonQuery() > 0)
+      {
+        SetProcedure(Procedures.SP_ConsultarEmailGestorNomeSubordinado);
+
+        AddParameter("IdTarefa", idTarefa);
+
+        var result = new SendMailsDTO();
+
+        var reader = ExecuteReader();
+        if(reader.Read())
+        {
+          result.NomeGestor = (string)reader["NomeGestor"];
+          result.NomeSubordinado = (string)reader["NomeSubordinado"];
+          result.EmailGestor = (string)reader["EmailGestor"];
+          result.EmailSubordinado = (string)reader["EmailSubordinado"];
+        }
+
+        string body = "O seu subordinado " + result.NomeSubordinado + " concluiu uma tarefa";
+
+        EnviarEmail(result.EmailGestor, "Uma tarefa foi concluida por um subordinado seu!", body);
+      }
+
+      return "Tarefa concluída e email enviado com sucesso";
     }
 
     public Comentario[] ConsultarComentarioTarefa(int TarefaId)
