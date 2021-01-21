@@ -27,14 +27,21 @@ namespace PastelariaSMN.Data
       SP_ConsultarEmailGestorNomeSubordinado,
 
     }
-    public int AlterarStatusDaTarefa(int idTarefa, int novoStatus)
+    public string AlterarStatusDaTarefa(int idTarefa, int novoStatus)
     {
       SetProcedure(Procedures.SP_AlterarStatusDaTarefa);
 
       AddParameter("IdTarefa", idTarefa);
       AddParameter("NovoStatus", novoStatus);
+      var retorno = ExecuteNonQuery();
 
-      return ExecuteNonQuery();
+      if(retorno>0){
+        return "Requisição bem Sucedida";
+      }
+      else{
+        return "Algo de errado não está certo.";
+      }
+      
     }
 
     public int CancelarTarefa(int idTarefa)
@@ -291,8 +298,39 @@ namespace PastelariaSMN.Data
       AddParameter("IdGestor", idGestor);
       AddParameter("IdSubordinado", idSubordinado);
       AddParameter("IdStatusTarefa", idStatusTarefa);
-                   
-      return ExecuteNonQuery();
+
+      var readerIdTarefa = ExecuteReader();
+      
+      
+      readerIdTarefa.Read();
+      int idTarefa = int.Parse(readerIdTarefa["IdTarefa"].ToString());
+
+      // readerIdTarefa.Close();
+
+      if(idTarefa > 0)
+      {
+        SetProcedure(Procedures.SP_ConsultarEmailGestorNomeSubordinado);
+
+        AddParameter("IdTarefa", idTarefa);
+
+        var result = new SendMailsDTO();
+
+        var reader = ExecuteReader();
+        if(reader.Read())
+        {
+          result.NomeGestor = (string)reader["NomeGestor"];
+          result.NomeSubordinado = (string)reader["NomeSubordinado"];
+          result.EmailGestor = (string)reader["EmailGestor"];
+          result.EmailSubordinado = (string)reader["EmailSubordinado"];
+        }
+
+        // string body = "O seu gestor " + result.NomeGestor + " criou uma tarefa";
+        string body = $"O seu gestor { result.NomeGestor } criou uma tarefa com a descrição: '{ descricao }'.";
+
+        EnviarEmail(result.EmailSubordinado, $"Uma tarefa foi criada para você pelo seu gestor { result.NomeGestor }", body);
+      }
+
+      return 100;
     }
 
     public int EditarDataLimite(int idTarefa, DateTime novaDataLimite)

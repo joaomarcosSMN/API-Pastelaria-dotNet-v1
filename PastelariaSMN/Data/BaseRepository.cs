@@ -10,7 +10,7 @@ using PastelariaSMN.Models;
 
 namespace PastelariaSMN.Data
 {
-    public abstract class BaseRepository : IDisposable
+    public abstract class BaseRepository : IDisposable 
     {
         public BaseRepository()
         {
@@ -20,10 +20,21 @@ namespace PastelariaSMN.Data
         private SqlConnection connection;
         private SqlCommand command;
 
-        protected void SetProcedure(object procedureName)
+        protected int SetProcedure(object procedureName)
         {
-            command = new SqlCommand(procedureName.ToString(), connection);
-            command.CommandType = CommandType.StoredProcedure;
+            try 
+            {
+                command = new SqlCommand(procedureName.ToString(), connection);
+                command.CommandType = CommandType.StoredProcedure;
+
+                return 200;
+            } 
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                // throw new Exception();
+                return 500;
+            }
         }
         protected void AddParameter(string name, object value)
         {
@@ -40,10 +51,12 @@ namespace PastelariaSMN.Data
 
         protected SqlDataReader ExecuteReader()
         {
-            OpenConnection();
-            var reader = command.ExecuteReader();
-            // CloseConnection();
-            return reader;
+            
+                OpenConnection();
+                var reader = command.ExecuteReader();
+                // CloseConnection();
+                return reader;
+            
         }
 
         protected void OpenConnection() {
@@ -53,29 +66,6 @@ namespace PastelariaSMN.Data
         // protected void CloseConnection() {
         //     if(connection.State == ConnectionState.Open)
         //         connection.Close();
-        // }
-
-        // protected Usuario[] ReturnArrayUsuarios()
-        // {
-        //     connection.Open();
-        //     var reader = command.ExecuteReader();
-        //     reader.Read();
-
-        //     List<Usuario> resultado = new List<Usuario>();
-
-        //     while(reader.Read())
-        //     {
-        //         resultado.Add(new Usuario 
-        //             {
-        //                 IdUsuario = int.Parse(reader["IdUsuario"].ToString()),
-        //                 Nome = reader["Nome"].ToString(),
-        //                 Sobrenome = reader["Sobrenome"].ToString(),
-        //                 EstaAtivo = bool.Parse(reader["EstaAtivo"].ToString())
-        //             });
-        //     }
-
-        //     connection.Close();
-        //     return resultado.ToArray();
         // }
 
         protected bool CheckLogin(string email, string senha)
@@ -175,28 +165,6 @@ namespace PastelariaSMN.Data
     */
      
 }
+
+
 }
-
-
-// protected Usuario ReturnUsuario()
-// {
-//     connection.Open();
-//     var reader = command.ExecuteReader();
-//     reader.Read();
-    
-//     var usuario = new Usuario
-//     {
-//         IdUsuario = int.Parse(reader["IdUsuario"].ToString()),
-//         Nome = reader["Nome"].ToString(),
-//         Sobrenome = reader["Sobrenome"].ToString(),
-//         DataNascimento = DateTime.Parse(reader["DataNascimento"].ToString()),
-//         EGestor = bool.Parse(reader["EGestor"].ToString()),
-//         EstaAtivo = bool.Parse(reader["EstaAtivo"].ToString()),
-//         IdGestor = reader["IdGestor"].ToString() == "" 
-//             ? (int?)null 
-//             : int.Parse(reader["IdGestor"].ToString())
-//     };
-
-//     connection.Close();
-//     return usuario;
-// }
