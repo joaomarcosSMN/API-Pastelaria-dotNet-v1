@@ -6,14 +6,21 @@ CREATE PROCEDURE [dbo].[SP_ConsultarUsuario]
 	
 AS
 	/* 
-	Documentação
-	Módulo............: Usuario
-	Objetivo..........: Consulta Usuário por IdUsuario
+	Documentaï¿½ï¿½o
+	Mï¿½dulo............: Usuario
+	Objetivo..........: Consulta Usuï¿½rio por IdUsuario
 	EX................: EXEC [dbo].[SP_ConsultarUsuario] 1
 	*/
 	BEGIN
-		SELECT IdUsuario, Nome, Sobrenome, DataNascimento, EGestor, EstaAtivo, IdGestor
-			FROM [dbo].[Usuario]
-			WHERE IdUsuario = @IdUsuario
+		SELECT u.IdUsuario, u.Nome, u.Sobrenome, u.DataNascimento, u.EGestor, u.EstaAtivo, u.IdGestor,
+			   ug.Nome + ' ' + ug.Sobrenome AS NomeGestor
+			FROM [dbo].[Usuario] AS u
+
+			INNER JOIN Usuario AS ug 
+				ON ug.IdUsuario = u.IdGestor
+
+			WHERE u.IdUsuario = @IdUsuario
 		
 	END
+
+	--passar o nome do gestor no lugar do id dele? ou os dois?
