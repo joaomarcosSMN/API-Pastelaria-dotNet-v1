@@ -195,25 +195,27 @@ namespace PastelariaSMN.Data
       return result.ToArray();
     }
 
-    public Tarefa[] ConsultarTarefasUsuario(int idUsuario)
+    public TarefaDTO[] ConsultarTarefasUsuario(int idUsuario)
     {
       SetProcedure(Procedures.SP_ConsultarTarefasUsuario);
       AddParameter("IdUsuario", idUsuario);
 
-      List<Tarefa> result = new List<Tarefa>();
+      List<TarefaDTO> result = new List<TarefaDTO>();
 
       var reader = ExecuteReader();
       while(reader.Read())
       {
-        Tarefa tarefa = new Tarefa();
+        TarefaDTO tarefa = new TarefaDTO();
 
         tarefa.IdTarefa = (short)reader["IdTarefa"];
         tarefa.Descricao = (string)reader["Descricao"];
         tarefa.DataCadastro = (DateTime)reader["DataCadastro"];
         tarefa.DataLimite = (DateTime)reader["DataLimite"];
+        tarefa.IdStatusTarefa = (byte)reader["IdStatusTarefa"];
         tarefa.IdGestor = (short)reader["IdGestor"];
         tarefa.IdSubordinado = (short)reader["IdSubordinado"];
-        tarefa.IdStatusTarefa = (byte)reader["IdStatusTarefa"];
+        tarefa.NomeGestor = (string)reader["NomeGestor"];
+        tarefa.NomeSubordinado = (string)reader["NomeSubordinado"];
 
         if(reader["DataConclusao"].ToString() != "")
           tarefa.DataConclusao = (DateTime)reader["DataConclusao"];
@@ -225,23 +227,27 @@ namespace PastelariaSMN.Data
       return result.ToArray();
     }
 
-    public Tarefa[] ConsultarTodasTarefasGestor(int idGestor)
+    public TarefaDTO[] ConsultarTodasTarefasGestor(int idGestor)
     {
       SetProcedure(Procedures.SP_ConsultarTodasTarefasGestor);
       AddParameter("IdGestor", idGestor);
 
-      List<Tarefa> result = new List<Tarefa>();
+      List<TarefaDTO> result = new List<TarefaDTO>();
 
       var reader = ExecuteReader();
       while(reader.Read())
       {
-        Tarefa tarefa = new Tarefa();
+        TarefaDTO tarefa = new TarefaDTO();
 
         tarefa.IdTarefa = (short)reader["IdTarefa"];
         tarefa.Descricao = (string)reader["Descricao"];
         tarefa.DataCadastro = (DateTime)reader["DataCadastro"];
         tarefa.DataLimite = (DateTime)reader["DataLimite"];
         tarefa.IdStatusTarefa = (byte)reader["IdStatusTarefa"];
+        tarefa.IdGestor = (short)reader["IdGestor"];
+        tarefa.IdSubordinado = (short)reader["IdSubordinado"];
+        tarefa.NomeGestor = (string)reader["NomeGestor"];
+        tarefa.NomeSubordinado = (string)reader["NomeSubordinado"];
 
         if(reader["DataConclusao"].ToString() != "")
           tarefa.DataConclusao = (DateTime)reader["DataConclusao"];

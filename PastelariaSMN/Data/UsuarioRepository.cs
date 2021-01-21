@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using PastelariaSMN.DTOs;
 using PastelariaSMN.Models;
 
 namespace PastelariaSMN.Data
@@ -36,12 +37,12 @@ namespace PastelariaSMN.Data
         return ExecuteNonQuery();
     }
 
-    public Usuario ConsultarUsuario(int idUsuario)
+    public UsuarioDTO ConsultarUsuario(int idUsuario)
     {
         SetProcedure(Procedures.SP_ConsultarUsuario);
         AddParameter("IdUsuario", idUsuario);
 
-        var usuario = new Usuario();
+        var usuario = new UsuarioDTO();
 
         var reader = ExecuteReader();
         if(reader.Read())
@@ -55,7 +56,11 @@ namespace PastelariaSMN.Data
 
             var idGestor = (string)reader["IdGestor"];
             if(idGestor != "" )
+            {
                 usuario.IdGestor = int.Parse(idGestor);
+                usuario.NomeGestor = (string)reader["EstaAtivo"];
+            }
+                
         }
 
         return usuario;

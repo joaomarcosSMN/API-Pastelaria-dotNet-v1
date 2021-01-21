@@ -6,13 +6,21 @@ CREATE PROCEDURE [dbo].[SP_ConsultarTarefasUsuario]
 
 AS
 	/* 
-	Documentação
-	Módulo............: Tarefa
-	Objetivo..........: Consulta as tarefas de um usuário específico
-	EX................: EXEC [dbo].[SP_ConsultarTarefasUsuario] 1
+	Documentaï¿½ï¿½o
+	Mï¿½dulo............: Tarefa
+	Objetivo..........: Consulta as tarefas de um usuï¿½rio especï¿½fico
+	EX................: EXEC [dbo].[SP_ConsultarTarefasUsuario] 2
 	*/
 	BEGIN
-		SELECT IdTarefa, Descricao, DataCadastro, DataLimite, DataConclusao, DataCancelada, IdGestor, IdSubordinado, IdStatusTarefa  
-			FROM [dbo].[Tarefa] 
-			WHERE IdSubordinado = @IdUsuario
+		SELECT IdTarefa, Descricao, DataCadastro, DataLimite, DataConclusao, DataCancelada, t.IdGestor, t.IdSubordinado, IdStatusTarefa,
+			   ug.Nome + ' ' + ug.Sobrenome AS NomeGestor, us.Nome + ' ' + us.Sobrenome AS NomeSubordinado
+			FROM [dbo].[Tarefa] AS t
+
+			INNER JOIN Usuario AS ug 
+				ON ug.IdUsuario = t.IdGestor
+			INNER JOIN Usuario AS us
+				ON us.IdUsuario = t.IdSubordinado
+
+			WHERE t.IdSubordinado = @IdUsuario
+
 	END

@@ -7,8 +7,8 @@ CREATE PROCEDURE [dbo].[SP_ConsultarTarefasGestorStatus]
 
 AS
 	/* 
-	Documentação
-	Módulo............: Tarefa
+	Documentaï¿½ï¿½o
+	Mï¿½dulo............: Tarefa
 	Objetivo..........: Consultar tarefas de acordo com IdStatusTarefa e IdGestor
 	EX................: EXEC [dbo].[SP_ConsultarTarefasGestorStatus] 1, 3
 	*/
@@ -18,3 +18,4 @@ AS
 			WHERE IdGestor = @IdGestor AND IdStatusTarefa = @IdStatusTarefa
 
 	END
+	

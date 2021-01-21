@@ -5,9 +5,9 @@ CREATE PROCEDURE [dbo].[SP_ConsultarTarefasStatusUsuario]
 (@IdUsuario SMALLINT, @IdStatusTarefa TINYINT)	
 AS
 	/* 
-	Documentação
-	Módulo............: Tarefa
-	Objetivo..........: Consulta as tarefas de um usuário específico, que possuem um status específico
+	Documentaï¿½ï¿½o
+	Mï¿½dulo............: Tarefa
+	Objetivo..........: Consulta as tarefas de um usuï¿½rio especï¿½fico, que possuem um status especï¿½fico
 	EX................: EXEC [dbo].[SP_ConsultarTarefasStatusUsuario] 1, 1
 	*/
 	BEGIN
@@ -15,3 +15,4 @@ AS
 			FROM Tarefa 
 			WHERE IdSubordinado = @IdUsuario AND IdStatusTarefa = @IdStatusTarefa
 	END
+	

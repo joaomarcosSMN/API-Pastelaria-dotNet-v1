@@ -1,4 +1,5 @@
 using System;
+using PastelariaSMN.DTOs;
 using PastelariaSMN.Models;
 
 namespace PastelariaSMN.Data
@@ -11,13 +12,13 @@ namespace PastelariaSMN.Data
         int CriarComentario(string comentario, int idTarefa);
         int ContarTarefasPorSubordinado(int idSubordinado);
         int ConsultarTotalTarefasGestor(int idGestor);
-        Tarefa[] ConsultarTarefasUsuario(int idUsuario);
+        TarefaDTO[] ConsultarTarefasUsuario(int idUsuario);
         Tarefa[] ConsultarTarefasStatusUsuario(int idUsuario, int idStatusTarefa);
         Tarefa[] ConsultarTarefasGestorStatus(int idGestor, int idStatusTarefa);
         Tarefa[] ConsultarTarefasGestor(int idGestor);
         string ConcluirTarefa(int idTarefa);
         int CancelarTarefa(int idTarefa);
         string AlterarStatusDaTarefa(int idTarefa, int novoStatus);
-        Tarefa[] ConsultarTodasTarefasGestor(int idGestor);
+        TarefaDTO[] ConsultarTodasTarefasGestor(int idGestor);
     }
 }
