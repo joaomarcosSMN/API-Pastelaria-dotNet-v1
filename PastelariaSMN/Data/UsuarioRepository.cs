@@ -61,8 +61,6 @@ namespace PastelariaSMN.Data
         return usuario;
     }
 
-
-
     public Usuario[] ConsultarUsuariosDoGestor(int idGestor)
     {
         SetProcedure(Procedures.SP_ConsultarUsuariosDoGestor);
@@ -85,17 +83,37 @@ namespace PastelariaSMN.Data
         return resultado.ToArray();
     }
 
-    public int CriarUsuario(string nome, string sobrenome, DateTime dataNascimento, string senha, bool eGestor, bool estaAtivo, int? idGestor)
+    public int CriarUsuario(string nome, string sobrenome, DateTime dataNascimento, string senha, bool eGestor, bool estaAtivo, int? idGestor,
+                            string email,
+                            int DDD, int telefone, int idTipoTelefone,
+                            string rua, string bairro, string numero, string complemento, string CEP, string cidade, string UF)
     {
         SetProcedure(Procedures.SP_CriarUsuario);
+
+        string hash = GerarHashMd5(senha);
 
         AddParameter("Nome", nome);
         AddParameter("Sobrenome", sobrenome);
         AddParameter("DataNascimento", dataNascimento);
-        AddParameter("Senha", senha);
+        AddParameter("Senha", hash);
         AddParameter("EGestor", eGestor ? 1 : 0);
         AddParameter("EstaAtivo", estaAtivo ? 1 : 0);
         AddParameter("IdGestor", idGestor > 0 ? idGestor : null);
+
+        AddParameter("Email", email);
+
+        AddParameter("DDD", DDD);
+        AddParameter("Telefone", telefone);
+        AddParameter("IdTipoTelefone", idTipoTelefone);
+
+        AddParameter("Rua", rua);
+        AddParameter("Bairro", bairro);
+        AddParameter("Numero", numero);
+        AddParameter("Complemento", complemento);
+        AddParameter("CEP", CEP);
+        AddParameter("Cidade", cidade);
+        AddParameter("UF", UF);
+
 
         return ExecuteNonQuery();
     }
@@ -105,11 +123,13 @@ namespace PastelariaSMN.Data
     */
     public bool VerificarLogin(string email, string senha)
     {
+        string hash = GerarHashMd5(senha);
+
         SetProcedure(Procedures.SP_VerificarLogin);
 
         AddParameter("Email", email);
 
-        return CheckLogin(email, senha);
+        return CheckLogin(email, hash);
     }
   }
 }

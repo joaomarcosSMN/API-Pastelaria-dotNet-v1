@@ -5,7 +5,10 @@ namespace PastelariaSMN.Data
 {
     public interface IUsuarioRepository
     {
-        int CriarUsuario(string nome, string sobrenome, DateTime dataNascimento, string senha, bool eGestor, bool estaAtivo, int? idGestor);
+        public int CriarUsuario(string nome, string sobrenome, DateTime dataNascimento, string senha, bool eGestor, bool estaAtivo, int? idGestor,
+                            string email,
+                            int DDD, int telefone, int idTipoTelefone,
+                            string rua, string bairro, string numero, string complemento, string CEP, string cidade, string UF);
         Usuario[] ConsultarUsuariosDoGestor(int idGestor);
         Usuario ConsultarUsuario(int idUsuario);
         bool VerificarLogin(string email, string senha);

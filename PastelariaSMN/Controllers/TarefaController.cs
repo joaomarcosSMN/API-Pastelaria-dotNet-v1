@@ -1,6 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
 using PastelariaSMN.Data;
+using PastelariaSMN.DTOs;
 using PastelariaSMN.Models;
 
 namespace PastelariaSMN.Controllers
