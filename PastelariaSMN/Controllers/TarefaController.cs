@@ -21,104 +21,205 @@ namespace PastelariaSMN.Controllers
         [HttpPatch("tarefa/{idTarefa}/status")]
         public IActionResult AlterarStatusDaTarefa(int idTarefa, Tarefa tarefaEditada)
         {
-            var result = _repo.AlterarStatusDaTarefa(idTarefa, tarefaEditada.IdStatusTarefa);
-            return Ok(result);
+            try
+            {
+                var result = _repo.AlterarStatusDaTarefa(idTarefa, tarefaEditada.IdStatusTarefa);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, "Internal Server Error");
+            }
         }
         
         [HttpPatch("tarefa/{idTarefa}/cancelar")]
         public IActionResult CancelarTarefa(int idTarefa)
         {
-            var result = _repo.CancelarTarefa(idTarefa);
-            return Ok(result);
+            try
+            {
+                var result = _repo.CancelarTarefa(idTarefa);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, "Internal Server Error");
+            }
         }
 
         [HttpGet("tarefa/{IdTarefa}/comentarios")]
         public IActionResult ConsultarComentarioTarefa(int idTarefa)
         {
-            var result = _repo.ConsultarComentarioTarefa(idTarefa);
-            return Ok(result);
+            try
+            {
+                var result = _repo.ConsultarComentarioTarefa(idTarefa);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, "Internal Server Error");
+            }
+            
         }
 
         [HttpPost("tarefa/criar")]
         public IActionResult CriarTarefa(Tarefa novaTarefa)
         {
-            try{
+            try 
+            {
                 var result = _repo.CriarTarefa(novaTarefa.Descricao, 
-                                           novaTarefa.DataLimite,
-                                           novaTarefa.IdGestor,
-                                           novaTarefa.IdSubordinado,
-                                           novaTarefa.IdStatusTarefa);
+                                               novaTarefa.DataLimite,
+                                               novaTarefa.IdGestor,
+                                               novaTarefa.IdSubordinado,
+                                               novaTarefa.IdStatusTarefa);
+
                 return Ok(result);
             }
-            catch{
-                // return StatusCode(500, "Deu erro, desista");
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }   
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, "Internal Server Error");
+            }
         }
 
         [HttpPatch("tarefa/{idTarefa}/datalimite")]
         public IActionResult EditarDataLimite(int idTarefa, Tarefa tarefaEditada)
         {           
-            var result = _repo.EditarDataLimite(idTarefa, tarefaEditada.DataLimite);
-            return Ok(result);
+            try
+            {
+                var result = _repo.EditarDataLimite(idTarefa, tarefaEditada.DataLimite);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, "Internal Server Error");
+            }
         }
 
 
         [HttpPatch("tarefa/{idTarefa}/concluir")]
         public IActionResult ConcluirTarefa(int idTarefa)
         {
-            var result = _repo.ConcluirTarefa(idTarefa);
-            return Ok(result);
+            try
+            {
+                var result = _repo.ConcluirTarefa(idTarefa);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, "Internal Server Error");
+            }
         }
 
         [HttpGet("usuario/{idSubordinado}/tarefa/quantidade")]
         public IActionResult ContarTarefasPorSubordinado(int idSubordinado)
         {
-            var result = _repo.ContarTarefasPorSubordinado(idSubordinado);
-            return Ok(result);
+            try
+            {
+                var result = _repo.ContarTarefasPorSubordinado(idSubordinado);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, "Internal Server Error");
+            }
         }
 
 
         [HttpGet("usuario/gestor/{idGestor}/tarefa/total")]
         public IActionResult ConsultarTotalTarefasGestor(int idGestor)
         {
-            var result = _repo.ConsultarTotalTarefasGestor(idGestor);
-            return Ok(result);
+            try
+            {
+                var result = _repo.ConsultarTotalTarefasGestor(idGestor);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, "Internal Server Error");
+            }
         }
 
         [HttpGet("usuario/gestor/{idGestor}/tarefa/todas")]
         public IActionResult ConsultarTodasTarefasGestor(int idGestor)
         {
-            var result = _repo.ConsultarTodasTarefasGestor(idGestor);
-            return Ok(result);
+            try
+            {
+                var result = _repo.ConsultarTodasTarefasGestor(idGestor);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, "Internal Server Error");
+            }
         }
 
         [HttpGet("usuario/gestor/{idGestor}/tarefa/status/{idStatusTarefa}")]
         public IActionResult ConsultarTarefasGestorStatus(int idGestor, int idStatusTarefa)
         {
-            var result = _repo.ConsultarTarefasGestorStatus(idGestor, idStatusTarefa);
-            return Ok(result);
+            try
+            {
+                var result = _repo.ConsultarTarefasGestorStatus(idGestor, idStatusTarefa);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, "Internal Server Error");
+            }
         }
 
         [HttpGet("usuario/gestor/{idGestor}/tarefa/pendentes")]
         public IActionResult ConsultarTarefasGestor(int idGestor)
         {
-            var result = _repo.ConsultarTarefasGestor(idGestor);
-            return Ok(result);
+            try
+            {
+                var result = _repo.ConsultarTarefasGestor(idGestor);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, "Internal Server Error");
+            }
+
         }
 
         [HttpGet("usuario/{idSubordinado}/tarefa/todas")]
         public IActionResult ConsultarTarefasUsuario(int idSubordinado)
         {
-            var result = _repo.ConsultarTarefasUsuario(idSubordinado);
-            return Ok(result);
+            try
+            {
+                var result = _repo.ConsultarTarefasUsuario(idSubordinado);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, "Internal Server Error");
+            }
         }
 
         [HttpGet("usuario/{idSubordinado}/tarefa/status/{idStatusTarefa}")]
         public IActionResult ConsultarTarefasStatusUsuario(int idSubordinado, int idStatusTarefa)
         {
-            var result = _repo.ConsultarTarefasStatusUsuario(idSubordinado, idStatusTarefa);
-            return Ok(result);
+            try
+            {
+                var result = _repo.ConsultarTarefasStatusUsuario(idSubordinado, idStatusTarefa);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, "Internal Server Error");
+            }
         }
 
         // post - usuario/0/tarefa

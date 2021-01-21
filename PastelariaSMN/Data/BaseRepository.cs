@@ -20,21 +20,10 @@ namespace PastelariaSMN.Data
         private SqlConnection connection;
         private SqlCommand command;
 
-        protected int SetProcedure(object procedureName)
+        protected void SetProcedure(object procedureName)
         {
-            try 
-            {
-                command = new SqlCommand(procedureName.ToString(), connection);
-                command.CommandType = CommandType.StoredProcedure;
-
-                return 200;
-            } 
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                // throw new Exception();
-                return 500;
-            }
+            command = new SqlCommand(procedureName.ToString(), connection);
+            command.CommandType = CommandType.StoredProcedure;
         }
         protected void AddParameter(string name, object value)
         {
@@ -63,6 +52,7 @@ namespace PastelariaSMN.Data
             if(connection.State == ConnectionState.Closed)
                 connection.Open();
         }
+
         // protected void CloseConnection() {
         //     if(connection.State == ConnectionState.Open)
         //         connection.Close();

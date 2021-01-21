@@ -324,7 +324,8 @@ namespace PastelariaSMN.Data
         EnviarEmail(result.EmailSubordinado, $"Uma tarefa foi criada para você pelo seu gestor { result.NomeGestor }", body);
       }
 
-      return 100;
+      return 200;
+     
     }
 
     public int EditarDataLimite(int idTarefa, DateTime novaDataLimite)
