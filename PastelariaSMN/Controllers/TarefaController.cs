@@ -1,4 +1,5 @@
 using System;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PastelariaSMN.Data;
 using PastelariaSMN.DTOs;
@@ -41,13 +42,18 @@ namespace PastelariaSMN.Controllers
         [HttpPost("tarefa/criar")]
         public IActionResult CriarTarefa(Tarefa novaTarefa)
         {
-            
-            var result = _repo.CriarTarefa(novaTarefa.Descricao, 
+            try{
+                var result = _repo.CriarTarefa(novaTarefa.Descricao, 
                                            novaTarefa.DataLimite,
                                            novaTarefa.IdGestor,
                                            novaTarefa.IdSubordinado,
                                            novaTarefa.IdStatusTarefa);
-            return Ok(result);
+                return Ok(result);
+            }
+            catch{
+                // return StatusCode(500, "Deu erro, desista");
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }   
         }
 
         [HttpPatch("tarefa/{idTarefa}/datalimite")]
