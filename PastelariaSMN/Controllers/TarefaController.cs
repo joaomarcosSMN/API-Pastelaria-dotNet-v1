@@ -10,7 +10,7 @@ namespace PastelariaSMN.Controllers
     
     [ApiController]
     [Route("api")]
-    public class TarefaController : ControllerBase
+    public class TarefaController : BaseController
     {
         public readonly ITarefaRepository _repo;
         public TarefaController(ITarefaRepository repo) 
@@ -21,15 +21,19 @@ namespace PastelariaSMN.Controllers
         [HttpPatch("tarefa/{idTarefa}/status")]
         public IActionResult AlterarStatusDaTarefa(int idTarefa, Tarefa tarefaEditada)
         {
+            // TODO: Implementar o exception filter como middleware 
             try
             {
                 var result = _repo.AlterarStatusDaTarefa(idTarefa, tarefaEditada.IdStatusTarefa);
-                return Ok(result);
+
+                if(result.sucess) 
+                    return Ok();
+
+                return BadRequest(result.Message);
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                return StatusCode(500, "Internal Server Error");
+                return Error(ex);
             }
         }
         
@@ -171,6 +175,7 @@ namespace PastelariaSMN.Controllers
             }
             catch (Exception ex)
             {
+                // TODO: Usar método encapsulado no baseController para retorno de error
                 Console.WriteLine(ex.Message);
                 return StatusCode(500, "Internal Server Error");
             }

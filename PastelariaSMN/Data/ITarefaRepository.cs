@@ -1,4 +1,5 @@
 using System;
+using PastelariaSMN.Controllers;
 using PastelariaSMN.DTOs;
 using PastelariaSMN.Models;
 
@@ -18,7 +19,7 @@ namespace PastelariaSMN.Data
         Tarefa[] ConsultarTarefasGestor(int idGestor);
         string ConcluirTarefa(int idTarefa);
         int CancelarTarefa(int idTarefa);
-        string AlterarStatusDaTarefa(int idTarefa, int novoStatus);
+        RepositoryResult<int> AlterarStatusDaTarefa(int idTarefa, int novoStatus);
         TarefaDTO[] ConsultarTodasTarefasGestor(int idGestor);
     }
 }

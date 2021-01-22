@@ -134,6 +134,7 @@ namespace PastelariaSMN.Data
 
         AddParameter("Email", email);
 
+        // TODO: A responsábilidade de verificar, validar, orquestrar as camadas é do controller
         return CheckLogin(email, hash);
     }
   }

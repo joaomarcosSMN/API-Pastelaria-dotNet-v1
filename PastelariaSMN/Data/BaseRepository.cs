@@ -1,12 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
 using PastelariaSMN.DTOs;
-using PastelariaSMN.Models;
 
 namespace PastelariaSMN.Data
 {
@@ -14,6 +12,7 @@ namespace PastelariaSMN.Data
     {
         public BaseRepository()
         {
+            // TODO: Mover variaveis de ambiente para arquivo de configuração
             connection = new SqlConnection(@"Server=DESKTOP-DU3ENNC\SQLEXPRESS;Database=PastelariaSMN;User Id=joaozinho;Password=belo1111;");
         }
 
@@ -58,6 +57,7 @@ namespace PastelariaSMN.Data
         //         connection.Close();
         // }
 
+        // TODO: Mover esquema de login para classe do usuário
         protected bool CheckLogin(string email, string senha)
         {
             connection.Open();
@@ -85,6 +85,8 @@ namespace PastelariaSMN.Data
             if(connection.State == ConnectionState.Open)
                 connection.Close();
         }
+        
+        // TODO: Mover esquema de criptografia para uma classe especifica
 
         public string GerarHashMd5(string input)
         {
@@ -103,8 +105,8 @@ namespace PastelariaSMN.Data
 
             return sBuilder.ToString();
         }
-
         
+        // TODO: Mover envio de email para uma classe especifica de emails
         public void EnviarEmail(string recepient, string subject, string body)
 
         {

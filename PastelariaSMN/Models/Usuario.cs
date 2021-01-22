@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace PastelariaSMN.Models
 {
@@ -13,5 +14,8 @@ namespace PastelariaSMN.Models
         public bool EGestor { get; set; }
         public int? IdGestor { get; set; } = null;
         public Usuario Gestor { get; set; }
+
+        //TODO: Mapear os relacionamentos entre as entidades e eliminar as DTOs que forem possíveis
+        public List<Tarefa> Tarefas { get;set;}
     }
 }

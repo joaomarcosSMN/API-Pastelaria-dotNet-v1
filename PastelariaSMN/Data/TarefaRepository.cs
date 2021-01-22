@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using PastelariaSMN.Controllers;
 using PastelariaSMN.DTOs;
 using PastelariaSMN.Models;
 
@@ -27,21 +28,19 @@ namespace PastelariaSMN.Data
       SP_ConsultarEmailGestorNomeSubordinado,
 
     }
-    public string AlterarStatusDaTarefa(int idTarefa, int novoStatus)
+    public RepositoryResult<int> AlterarStatusDaTarefa(int idTarefa, int novoStatus)
     {
       SetProcedure(Procedures.SP_AlterarStatusDaTarefa);
 
       AddParameter("IdTarefa", idTarefa);
       AddParameter("NovoStatus", novoStatus);
+
       var retorno = ExecuteNonQuery();
 
-      if(retorno>0){
-        return "Requisição bem Sucedida";
-      }
-      else{
-        return "Algo de errado não está certo.";
-      }
-      
+      if(retorno == 0)
+          return RepositoryResult<int>.Error("Algo de errado não está certo.");
+        
+      return RepositoryResult<int>.Sucess(retorno);
     }
 
     public int CancelarTarefa(int idTarefa)
@@ -76,6 +75,8 @@ namespace PastelariaSMN.Data
           result.EmailGestor = (string)reader["EmailGestor"];
           result.EmailSubordinado = (string)reader["EmailSubordinado"];
         }
+
+        // TODO: Mover a responsábilidade de envio de email para o controller
 
         string body = "O seu subordinado " + result.NomeSubordinado + " concluiu uma tarefa";
 
