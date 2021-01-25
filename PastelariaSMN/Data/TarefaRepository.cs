@@ -28,6 +28,8 @@ namespace PastelariaSMN.Data
       SP_ConsultarEmailGestorNomeSubordinado,
 
     }
+
+    // public TarefaRepository(Tarefa tarefa) : base(tarefa)
     public RepositoryResult<int> AlterarStatusDaTarefa(int idTarefa, int novoStatus)
     {
 
@@ -348,9 +350,9 @@ namespace PastelariaSMN.Data
     {
         SetProcedure(Procedures.SP_ConsultarEmailGestorNomeSubordinado);
 
-        AddParameter("IdTarefa", idTarefa);
+      AddParameter("IdTarefa", idTarefa);
 
-        var result = new SendMailsDTO();
+      var result = new SendMailsDTO();
 
         var reader = ExecuteReader();
         if (reader.Read())

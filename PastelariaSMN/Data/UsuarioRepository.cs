@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using PastelariaSMN.DTOs;
+using PastelariaSMN.Infra;
 using PastelariaSMN.Models;
 
 namespace PastelariaSMN.Data
@@ -109,7 +110,7 @@ namespace PastelariaSMN.Data
     {
         SetProcedure(Procedures.SP_CriarUsuario);
 
-        string hash = GerarHashMd5(senha);
+        string hash = Cryptography.GerarHash(senha);
 
         AddParameter("Nome", nome);
         AddParameter("Sobrenome", sobrenome);
@@ -142,7 +143,7 @@ namespace PastelariaSMN.Data
     */
     public bool VerificarLogin(string email, string senha)
     {
-        string hash = GerarHashMd5(senha);
+        string hash = Cryptography.GerarHash(senha);
 
         SetProcedure(Procedures.SP_VerificarLogin);
 
