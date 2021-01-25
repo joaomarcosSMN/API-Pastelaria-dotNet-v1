@@ -13,7 +13,7 @@ namespace PastelariaSMN.Data
         public BaseRepository()
         {
             // TODO: Mover variaveis de ambiente para arquivo de configuração
-            connection = new SqlConnection(@"Server=DESKTOP-DU3ENNC\SQLEXPRESS;Database=PastelariaSMN;User Id=joaozinho;Password=belo1111;");
+            connection = new SqlConnection(@"Server=DESKTOP-UPQMUCU\SQLEXPRESS;Database=PastelariaSMN;User Id=derek;Password=abcd1234;");
         }
 
         private SqlConnection connection;

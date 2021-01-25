@@ -16,16 +16,20 @@ namespace PastelariaSMN.Data
         SP_ConsultarUsuariosDoGestor,
         SP_VerificarLogin
     }
-    public int AtivarDesativarUsuario(int idUsuario)
+    public RepositoryResult<int> AtivarDesativarUsuario(int idUsuario)
     {
         SetProcedure(Procedures.SP_AtivarDesativarUsuario);
 
         AddParameter("IdUsuario", idUsuario);
 
-        return ExecuteNonQuery();
+        var retorno = ExecuteNonQuery();
+        if (retorno == 0)
+            return RepositoryResult<int>.Error("Algo deu errado. Contate o servidor.");
+
+        return RepositoryResult<int>.Sucess(retorno);
     }
 
-    public int AtualizarUsuario(int idUsuario, string nome, string sobrenome, string senha)
+    public RepositoryResult<int> AtualizarUsuario(int idUsuario, string nome, string sobrenome, string senha)
     {
         SetProcedure(Procedures.SP_AtualizarUsuario);
 
@@ -34,10 +38,14 @@ namespace PastelariaSMN.Data
         AddParameter("Sobrenome", sobrenome);
         AddParameter("Senha", senha);
 
-        return ExecuteNonQuery();
+        var retorno = ExecuteNonQuery();
+        if (retorno == 0)
+            return RepositoryResult<int>.Error("Algo deu errado. Contate o servidor.");
+
+        return RepositoryResult<int>.Sucess(retorno);
     }
 
-    public UsuarioDTO ConsultarUsuario(int idUsuario)
+    public RepositoryResult<UsuarioDTO> ConsultarUsuario(int idUsuario)
     {
         SetProcedure(Procedures.SP_ConsultarUsuario);
         AddParameter("IdUsuario", idUsuario);
@@ -63,10 +71,15 @@ namespace PastelariaSMN.Data
                 
         }
 
-        return usuario;
+        if (usuario == null)
+            return RepositoryResult<UsuarioDTO>.Error("Algo deu errado. Contate o servidor.");
+
+        return RepositoryResult<UsuarioDTO>.Sucess(usuario);
     }
 
-    public Usuario[] ConsultarUsuariosDoGestor(int idGestor)
+
+// TODO
+        public Usuario[] ConsultarUsuariosDoGestor(int idGestor)
     {
         SetProcedure(Procedures.SP_ConsultarUsuariosDoGestor);
         AddParameter("IdGestor", idGestor);
@@ -88,6 +101,7 @@ namespace PastelariaSMN.Data
         return resultado.ToArray();
     }
 
+//TODO
     public int CriarUsuario(string nome, string sobrenome, DateTime dataNascimento, string senha, bool eGestor, bool estaAtivo, int? idGestor,
                             string email,
                             int DDD, int telefone, int idTipoTelefone,
