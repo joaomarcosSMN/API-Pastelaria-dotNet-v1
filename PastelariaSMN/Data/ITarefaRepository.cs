@@ -21,5 +21,6 @@ namespace PastelariaSMN.Data
         int CancelarTarefa(int idTarefa);
         RepositoryResult<int> AlterarStatusDaTarefa(int idTarefa, int novoStatus);
         TarefaDTO[] ConsultarTodasTarefasGestor(int idGestor);
-    }
+        SendMailsDTO ConsultarEmailGestorNomeSubordinado(int idTarefa);
+   }
 }

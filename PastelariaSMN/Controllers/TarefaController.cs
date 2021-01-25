@@ -1,8 +1,10 @@
 using System;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using PastelariaSMN.Data;
 using PastelariaSMN.DTOs;
+using PastelariaSMN.Infra;
 using PastelariaSMN.Models;
 
 namespace PastelariaSMN.Controllers
@@ -13,8 +15,10 @@ namespace PastelariaSMN.Controllers
     public class TarefaController : BaseController
     {
         public readonly ITarefaRepository _repo;
-        public TarefaController(ITarefaRepository repo) 
+        public readonly EmailSettings _options;
+        public TarefaController(EmailSettings options, ITarefaRepository repo) 
         {
+            _options = options;
             _repo = repo;
         }
         
@@ -26,8 +30,9 @@ namespace PastelariaSMN.Controllers
             {
                 var result = _repo.AlterarStatusDaTarefa(idTarefa, tarefaEditada.IdStatusTarefa);
 
-                if(result.sucess) 
+                if(result.success) 
                     return Ok();
+                
 
                 return BadRequest(result.Message);
             }
@@ -68,6 +73,16 @@ namespace PastelariaSMN.Controllers
             
         }
 
+        [HttpPost("tarefa/comentario/criar")]
+        public IActionResult CriarComentario(Comentario novoComentario)
+        {
+            
+            var result = _repo.CriarComentario(novoComentario.Descricao, 
+                                               novoComentario.IdTarefa
+                                               );
+            return Ok(result);
+        }
+
         [HttpPost("tarefa/criar")]
         public IActionResult CriarTarefa(Tarefa novaTarefa)
         {
@@ -79,7 +94,15 @@ namespace PastelariaSMN.Controllers
                                                novaTarefa.IdSubordinado,
                                                novaTarefa.IdStatusTarefa);
 
-                return Ok(result);
+                // result retorna int idTarefa da tarefa recem criada
+                var emailData = _repo.ConsultarEmailGestorNomeSubordinado(result);
+                
+                // string body = "O seu gestor " + result.NomeGestor + " criou uma tarefa";
+                string body = $"O seu gestor { emailData.NomeGestor } criou uma tarefa com a descrição: '{ novaTarefa.Descricao }'.";
+
+                EmailSent.SendEmail(_options, emailData.EmailSubordinado, $"Uma tarefa foi criada para você pelo seu gestor { emailData.NomeGestor }", body);
+
+                return Ok($"Tarefa com id {result} foi criada");
             }
             catch (Exception ex)
             {
@@ -110,6 +133,13 @@ namespace PastelariaSMN.Controllers
             try
             {
                 var result = _repo.ConcluirTarefa(idTarefa);
+
+                var emailData = _repo.ConsultarEmailGestorNomeSubordinado(idTarefa);
+
+                string body = $"O seu subordinado {emailData.NomeSubordinado} concluiu uma tarefa";
+
+                EmailSent.SendEmail(_options, emailData.EmailGestor, "Uma tarefa foi concluida por um subordinado seu!", body);
+
                 return Ok(result);
             }
             catch (Exception ex)

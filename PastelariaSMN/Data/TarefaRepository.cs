@@ -28,6 +28,8 @@ namespace PastelariaSMN.Data
       SP_ConsultarEmailGestorNomeSubordinado,
 
     }
+
+    // public TarefaRepository(Tarefa tarefa) : base(tarefa)
     public RepositoryResult<int> AlterarStatusDaTarefa(int idTarefa, int novoStatus)
     {
       SetProcedure(Procedures.SP_AlterarStatusDaTarefa);
@@ -40,7 +42,7 @@ namespace PastelariaSMN.Data
       if(retorno == 0)
           return RepositoryResult<int>.Error("Algo de errado não está certo.");
         
-      return RepositoryResult<int>.Sucess(retorno);
+      return RepositoryResult<int>.Success(retorno);
     }
 
     public int CancelarTarefa(int idTarefa)
@@ -59,31 +61,8 @@ namespace PastelariaSMN.Data
 
       AddParameter("IdTarefa", idTarefa);
 
-      if(ExecuteNonQuery() > 0)
-      {
-        SetProcedure(Procedures.SP_ConsultarEmailGestorNomeSubordinado);
+      return $"Tarefa de id {idTarefa} foi concluída";
 
-        AddParameter("IdTarefa", idTarefa);
-
-        var result = new SendMailsDTO();
-
-        var reader = ExecuteReader();
-        if(reader.Read())
-        {
-          result.NomeGestor = (string)reader["NomeGestor"];
-          result.NomeSubordinado = (string)reader["NomeSubordinado"];
-          result.EmailGestor = (string)reader["EmailGestor"];
-          result.EmailSubordinado = (string)reader["EmailSubordinado"];
-        }
-
-        // TODO: Mover a responsábilidade de envio de email para o controller
-
-        string body = "O seu subordinado " + result.NomeSubordinado + " concluiu uma tarefa";
-
-        EnviarEmail(result.EmailGestor, "Uma tarefa foi concluida por um subordinado seu!", body);
-      }
-
-      return "Tarefa concluída e email enviado com sucesso";
     }
 
     public Comentario[] ConsultarComentarioTarefa(int TarefaId)
@@ -301,37 +280,12 @@ namespace PastelariaSMN.Data
       AddParameter("IdStatusTarefa", idStatusTarefa);
 
       var readerIdTarefa = ExecuteReader();
-      
-      
       readerIdTarefa.Read();
+      
       int idTarefa = int.Parse(readerIdTarefa["IdTarefa"].ToString());
 
-      // readerIdTarefa.Close();
-
-      if(idTarefa > 0)
-      {
-        SetProcedure(Procedures.SP_ConsultarEmailGestorNomeSubordinado);
-
-        AddParameter("IdTarefa", idTarefa);
-
-        var result = new SendMailsDTO();
-
-        var reader = ExecuteReader();
-        if(reader.Read())
-        {
-          result.NomeGestor = (string)reader["NomeGestor"];
-          result.NomeSubordinado = (string)reader["NomeSubordinado"];
-          result.EmailGestor = (string)reader["EmailGestor"];
-          result.EmailSubordinado = (string)reader["EmailSubordinado"];
-        }
-
-        // string body = "O seu gestor " + result.NomeGestor + " criou uma tarefa";
-        string body = $"O seu gestor { result.NomeGestor } criou uma tarefa com a descrição: '{ descricao }'.";
-
-        EnviarEmail(result.EmailSubordinado, $"Uma tarefa foi criada para você pelo seu gestor { result.NomeGestor }", body);
-      }
-
-      return 200;
+      readerIdTarefa.Close();
+      return idTarefa;
      
     }
 
@@ -343,6 +297,27 @@ namespace PastelariaSMN.Data
       AddParameter("DataLimite", novaDataLimite);
 
       return ExecuteNonQuery();
+    }
+
+    public SendMailsDTO ConsultarEmailGestorNomeSubordinado(int idTarefa) 
+    {
+      SetProcedure(Procedures.SP_ConsultarEmailGestorNomeSubordinado);
+
+      AddParameter("IdTarefa", idTarefa);
+
+      var result = new SendMailsDTO();
+
+      var reader = ExecuteReader();
+      if(reader.Read())
+      {
+        result.NomeGestor = (string)reader["NomeGestor"];
+        result.NomeSubordinado = (string)reader["NomeSubordinado"];
+        result.EmailGestor = (string)reader["EmailGestor"];
+        result.EmailSubordinado = (string)reader["EmailSubordinado"];
+      }
+
+      return result;
+
     }
   }
 }

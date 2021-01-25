@@ -4,7 +4,7 @@ namespace PastelariaSMN.Data
     {
         public type Result {get; set;}
 
-        public bool sucess { get; set;}
+        public bool success { get; set;}
 
         public string Message {get; set;} 
 
@@ -12,16 +12,16 @@ namespace PastelariaSMN.Data
         {
             return new RepositoryResult<type>() 
             {
-                sucess = false,
+                success = false,
                 Message = mensagem
             };
         }
 
-        public static RepositoryResult<type> Sucess(type result)
+        public static RepositoryResult<type> Success(type result)
         {
             return new RepositoryResult<type>()
             {
-                sucess = true,
+                success = true,
                 Result = result
             };
         }
