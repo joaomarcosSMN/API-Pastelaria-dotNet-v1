@@ -42,7 +42,7 @@ namespace PastelariaSMN.Data
       if(retorno == 0)
           return RepositoryResult<int>.Error("Algo de errado não está certo.");
         
-      return RepositoryResult<int>.Success(retorno);
+      return RepositoryResult<int>.Sucess(retorno);
     }
 
     public int CancelarTarefa(int idTarefa)

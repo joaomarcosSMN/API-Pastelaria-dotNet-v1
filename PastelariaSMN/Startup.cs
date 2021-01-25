@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PastelariaSMN.Data;
 using PastelariaSMN.Infra;
+using PastelariaSMN.Middleware;
 
 namespace PastelariaSMN
 {
@@ -50,12 +51,15 @@ namespace PastelariaSMN
 
             app.UseRouting();
 
-            app.UseAuthorization(); 
+            app.UseAuthorization();
+
+            app.UseMiddleware(typeof(ErrorHandling));
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+            
         }
     }
 }
