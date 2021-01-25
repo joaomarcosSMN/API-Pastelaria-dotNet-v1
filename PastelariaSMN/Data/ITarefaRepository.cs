@@ -16,10 +16,11 @@ namespace PastelariaSMN.Data
         RepositoryResult<Tarefa[]> ConsultarTarefasStatusUsuario(int idUsuario, int idStatusTarefa);
         RepositoryResult<Tarefa[]> ConsultarTarefasGestorStatus(int idGestor, int idStatusTarefa);
         RepositoryResult<Tarefa[]> ConsultarTarefasGestor(int idGestor);
-        RepositoryResult<int> ConcluirTarefa(int idTarefa);
+        RepositoryResult<int> ConcluirTarefa(RepositoryResult<int> idTarefa);
         RepositoryResult<int> CancelarTarefa(int idTarefa);
         RepositoryResult<int> AlterarStatusDaTarefa(int idTarefa, int novoStatus);
         RepositoryResult<TarefaDTO[]> ConsultarTodasTarefasGestor(int idGestor);
         RepositoryResult<Comentario[]> ConsultarComentarioTarefa(int TarefaId);
+        SendMailsDTO ConsultarEmailGestorNomeSubordinado(RepositoryResult<int> idTarefa);
     }
 }

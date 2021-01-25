@@ -61,7 +61,7 @@ namespace PastelariaSMN.Data
 
     }
 
-    public RepositoryResult<int> ConcluirTarefa(int idTarefa)
+    public RepositoryResult<int> ConcluirTarefa(RepositoryResult<int> idTarefa)
     {
 
     SetProcedure(Procedures.SP_ConcluirTarefa);
@@ -343,6 +343,26 @@ namespace PastelariaSMN.Data
         return RepositoryResult<int>.Error("Algo deu errado. Contate o servidor.");
 
       return RepositoryResult<int>.Sucess(idTarefa);
+    }
+    public SendMailsDTO ConsultarEmailGestorNomeSubordinado(RepositoryResult<int> idTarefa)
+    {
+        SetProcedure(Procedures.SP_ConsultarEmailGestorNomeSubordinado);
+
+        AddParameter("IdTarefa", idTarefa);
+
+        var result = new SendMailsDTO();
+
+        var reader = ExecuteReader();
+        if (reader.Read())
+        {
+            result.NomeGestor = (string)reader["NomeGestor"];
+            result.NomeSubordinado = (string)reader["NomeSubordinado"];
+            result.EmailGestor = (string)reader["EmailGestor"];
+            result.EmailSubordinado = (string)reader["EmailSubordinado"];
+        }
+
+        return result;
+
     }
   }
 }
