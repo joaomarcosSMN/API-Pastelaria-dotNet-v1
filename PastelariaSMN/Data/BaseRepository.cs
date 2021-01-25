@@ -13,7 +13,7 @@ namespace PastelariaSMN.Data
         public BaseRepository()
         {
             // TODO: Mover variaveis de ambiente para arquivo de configuração
-            connection = new SqlConnection(@"Server=DESKTOP-DU3ENNC\SQLEXPRESS;Database=PastelariaSMN;User Id=joaozinho;Password=belo1111;");
+            connection = new SqlConnection(@"Server=DESKTOP-9RL15ND\MSSQLSERVER01;Database=PastelariaSMN;User Id=sa;Password=smn123;");
         }
 
         private SqlConnection connection;
@@ -86,25 +86,9 @@ namespace PastelariaSMN.Data
                 connection.Close();
         }
         
-        // TODO: Mover esquema de criptografia para uma classe especifica
+        
 
-        public string GerarHashMd5(string input)
-        {
-            MD5 md5Hash = MD5.Create();
-            // Converter a String para array de bytes, que é como a biblioteca trabalha.
-            byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
-
-            // Cria-se um StringBuilder para recompôr a string.
-            StringBuilder sBuilder = new StringBuilder();
-
-            // Loop para formatar cada byte como uma String em hexadecimal
-            for (int i = 0; i < data.Length; i++)
-            {
-                sBuilder.Append(data[i].ToString("x2"));
-            }
-
-            return sBuilder.ToString();
-        }
+        
         
         // TODO: Mover envio de email para uma classe especifica de emails
         public void EnviarEmail(string recepient, string subject, string body)
