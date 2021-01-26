@@ -80,7 +80,7 @@ namespace PastelariaSMN.Data
 
 
 // TODO
-        public Usuario[] ConsultarUsuariosDoGestor(int idGestor)
+    public RepositoryResult<Usuario[]> ConsultarUsuariosDoGestor(int idGestor)
     {
         SetProcedure(Procedures.SP_ConsultarUsuariosDoGestor);
         AddParameter("IdGestor", idGestor);
@@ -99,11 +99,14 @@ namespace PastelariaSMN.Data
             });
         }
 
-        return resultado.ToArray();
+        if (resultado == null)
+            return RepositoryResult<Usuario[]>.Error("Algo deu errado. Contate o servidor.");
+
+        return RepositoryResult<Usuario[]>.Sucess(resultado.ToArray());
     }
 
 //TODO
-    public int CriarUsuario(string nome, string sobrenome, DateTime dataNascimento, string senha, bool eGestor, bool estaAtivo, int? idGestor,
+    public RepositoryResult<int> CriarUsuario(string nome, string sobrenome, DateTime dataNascimento, string senha, bool eGestor, bool estaAtivo, int? idGestor,
                             string email,
                             int DDD, int telefone, int idTipoTelefone,
                             string rua, string bairro, string numero, string complemento, string CEP, string cidade, string UF)
@@ -135,7 +138,12 @@ namespace PastelariaSMN.Data
         AddParameter("UF", UF);
 
 
-        return ExecuteNonQuery();
+        var retorno = ExecuteNonQuery();
+            if (retorno == 0)
+                return RepositoryResult<int>.Error("Algo deu errado. Contate o servidor.");
+
+            return RepositoryResult<int>.Sucess(retorno);
+
     }
 
     /* ToDo
