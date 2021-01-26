@@ -6,23 +6,24 @@ using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using PastelariaSMN.DTOs;
+using PastelariaSMN.Infra;
 
 namespace PastelariaSMN.Data
 {
-    public abstract class BaseRepository : IDisposable 
+    public abstract class BaseRepository 
     {
         public BaseRepository() 
         {
-            // TODO: Mover variaveis de ambiente para arquivo de configuração
-            connection = new SqlConnection(@"Server=DESKTOP-9RL15ND\MSSQLSERVER01;Database=PastelariaSMN;User Id=sa;Password=smn123;");
+        
+            conn = new Connection();
         }
 
-        private SqlConnection connection;
+        private Connection conn;
         private SqlCommand command;
 
         protected void SetProcedure(object procedureName)
         {
-            command = new SqlCommand(procedureName.ToString(), connection);
+            command = new SqlCommand(procedureName.ToString(), conn.connection);
             command.CommandType = CommandType.StoredProcedure;
         }
         protected void AddParameter(string name, object value)
@@ -32,7 +33,7 @@ namespace PastelariaSMN.Data
 
         protected int ExecuteNonQuery()
         {
-            OpenConnection();
+            conn.OpenConnection();
             var retorno = command.ExecuteNonQuery();
             // CloseConnection();
             return retorno;
@@ -40,23 +41,23 @@ namespace PastelariaSMN.Data
 
         protected SqlDataReader ExecuteReader()
         {
-            
-                OpenConnection();
-                var reader = command.ExecuteReader();
-                // CloseConnection();
-                return reader;
-            
+            conn.OpenConnection();
+            var reader = command.ExecuteReader();
+            // CloseConnection();
+            return reader;
+        
         }
 
-        protected void OpenConnection() {
-            if(connection.State == ConnectionState.Closed)
-                connection.Open();
-        }
+        // protected void connection.OpenConnection() {
+        //     if(connection.State == ConnectionState.Closed)
+        //         connection.Open();
+        // }
 
         // TODO: Mover esquema de login para classe do usuário
+        
         protected bool CheckLogin(string email, string senha)
         {
-            connection.Open();
+            conn.OpenConnection();
 
             var reader = command.ExecuteReader();
             reader.Read();
@@ -67,7 +68,7 @@ namespace PastelariaSMN.Data
                 Senha = reader["Senha"].ToString()
             };
 
-            connection.Close();
+            // connection.Close();
 
             if( email != login.Email || senha != login.Senha) {
                 return false;
@@ -76,12 +77,8 @@ namespace PastelariaSMN.Data
             }
         }
             
-        public void Dispose()
-        {
-            if(connection.State == ConnectionState.Open)
-                connection.Close();
-        }
-        
+
+        ///////
         
 
         
