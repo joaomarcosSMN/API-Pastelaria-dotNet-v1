@@ -27,12 +27,8 @@ namespace PastelariaSMN.Controllers
         {
             
             var result = _repo.AlterarStatusDaTarefa(idTarefa, tarefaEditada.IdStatusTarefa);
-
-            if(result.sucess) 
-                return Ok();
-
-            return BadRequest(result.Message);
-            
+     
+            return Ok(result); 
         }
         
         [HttpPatch("tarefa/{idTarefa}/cancelar")]
@@ -96,7 +92,7 @@ namespace PastelariaSMN.Controllers
 
 
         [HttpPatch("tarefa/{idTarefa}/concluir")]
-        public IActionResult ConcluirTarefa(RepositoryResult<int> idTarefa)
+        public IActionResult ConcluirTarefa(int idTarefa)
         {
             var result = _repo.ConcluirTarefa(idTarefa);
 
