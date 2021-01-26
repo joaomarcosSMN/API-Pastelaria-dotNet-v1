@@ -96,7 +96,7 @@ namespace PastelariaSMN.Controllers
 
 
         [HttpPatch("tarefa/{idTarefa}/concluir")]
-        public IActionResult ConcluirTarefa(int idTarefa)
+        public IActionResult ConcluirTarefa(RepositoryResult<int> idTarefa)
         {
             var result = _repo.ConcluirTarefa(idTarefa);
 
