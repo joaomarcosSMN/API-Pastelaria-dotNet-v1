@@ -35,7 +35,7 @@ namespace PastelariaSMN.Data
     }
 
     // public TarefaRepository(Tarefa tarefa) : base(tarefa)
-    public RepositoryResult<int> AlterarStatusDaTarefa(int idTarefa, int novoStatus)
+    public int AlterarStatusDaTarefa(int idTarefa, int novoStatus)
     {
 
       SetProcedure(Procedures.SP_AlterarStatusDaTarefa);
@@ -43,48 +43,30 @@ namespace PastelariaSMN.Data
       AddParameter("IdTarefa", idTarefa);
       AddParameter("NovoStatus", novoStatus);
 
-      var retorno = ExecuteNonQuery();
-
-      if(retorno == 0)
-          return RepositoryResult<int>.Error("Algo deu errado. Contate o servidor.");
-          
-      return RepositoryResult<int>.Sucess(retorno);
-
+      return ExecuteNonQuery();
     }
 
-    public RepositoryResult<int> CancelarTarefa(int idTarefa)
+    public int CancelarTarefa(int idTarefa)
     {
 
       SetProcedure(Procedures.SP_CancelarTarefa);
 
       AddParameter("IdTarefa", idTarefa);
 
-      var retorno =  ExecuteNonQuery();
-
-      if(retorno == 0)
-          return RepositoryResult<int>.Error("Algo deu errado. Contate o servidor.");
-
-      return RepositoryResult<int>.Sucess(retorno);
-
+      return ExecuteNonQuery();
     }
 
-    public RepositoryResult<int> ConcluirTarefa(RepositoryResult<int> idTarefa)
+    public int ConcluirTarefa(int idTarefa)
     {
 
       SetProcedure(Procedures.SP_ConcluirTarefa);
 
       AddParameter("IdTarefa", idTarefa);
 
-      var retorno = ExecuteNonQuery();
-
-      if (retorno == 0)
-          return RepositoryResult<int>.Error("Algo deu errado. Contate o servidor.");
-
-      return RepositoryResult<int>.Sucess(retorno);
-
+      return ExecuteNonQuery();
     }
 
-    public RepositoryResult<Comentario[]> ConsultarComentarioTarefa(int TarefaId)
+    public Comentario[] ConsultarComentarioTarefa(int TarefaId)
     {
       SetProcedure(Procedures.SP_ConsultarComentarioTarefa);
       AddParameter("IdTarefa", TarefaId);
@@ -100,14 +82,11 @@ namespace PastelariaSMN.Data
           IdTarefa = (short)reader["IdTarefa"]
         });
       }
-    if (retorno == null)
-        return RepositoryResult<Comentario[]>.Error("Algo deu errado. Contate o servidor.");
-
-    return RepositoryResult<Comentario[]>.Sucess(retorno.ToArray());
+    return retorno.ToArray();
 
     }
 
-    public RepositoryResult<Tarefa[]> ConsultarTarefasGestor(int idGestor)
+    public Tarefa[] ConsultarTarefasGestor(int idGestor)
     {
         SetProcedure(Procedures.SP_ConsultarTarefasGestor);
         AddParameter("IdGestor", idGestor);
@@ -127,15 +106,13 @@ namespace PastelariaSMN.Data
             IdStatusTarefa = (byte)reader["IdStatusTarefa"]
             });
         }
-        if (retorno == null)
-            return RepositoryResult<Tarefa[]>.Error("Algo deu errado. Contate o servidor.");
-
-        return RepositoryResult<Tarefa[]>.Sucess(retorno.ToArray());
-        }
+        
+        return retorno.ToArray();
+    }
 
 //  ToDo JM
 //  Tratamendo para o retorno de data cancelada e de conclusao
-    public RepositoryResult<Tarefa[]> ConsultarTarefasGestorStatus(int idGestor, int idStatusTarefa)
+    public Tarefa[] ConsultarTarefasGestorStatus(int idGestor, int idStatusTarefa)
     {
       SetProcedure(Procedures.SP_ConsultarTarefasGestorStatus);
       AddParameter("IdGestor", idGestor);
@@ -163,16 +140,13 @@ namespace PastelariaSMN.Data
 
         retorno.Add(tarefa);
       };
-      if (retorno == null)
-        return RepositoryResult<Tarefa[]>.Error("Algo deu errado. Contate o servidor.");
-
-      return RepositoryResult<Tarefa[]>.Sucess(retorno.ToArray());
+      return retorno.ToArray();
     }
     
 
 //  ToDo
 //  Tratamendo para o retorno de data cancelada e de conclusao
-    public RepositoryResult<Tarefa[]> ConsultarTarefasStatusUsuario(int idUsuario, int idStatusTarefa)
+    public Tarefa[] ConsultarTarefasStatusUsuario(int idUsuario, int idStatusTarefa)
     {
       SetProcedure(Procedures.SP_ConsultarTarefasStatusUsuario);
       AddParameter("IdUsuario", idUsuario);
@@ -200,13 +174,10 @@ namespace PastelariaSMN.Data
 
         retorno.Add(tarefa);
       }
-        if (retorno == null)
-            return RepositoryResult<Tarefa[]>.Error("Algo deu errado. Contate o servidor.");
-
-        return RepositoryResult<Tarefa[]>.Sucess(retorno.ToArray());
+      return retorno.ToArray();
     }
 
-    public RepositoryResult<TarefaDTO[]> ConsultarTarefasUsuario(int idUsuario)
+    public TarefaDTO[] ConsultarTarefasUsuario(int idUsuario)
     {
       SetProcedure(Procedures.SP_ConsultarTarefasUsuario);
       AddParameter("IdUsuario", idUsuario);
@@ -235,13 +206,10 @@ namespace PastelariaSMN.Data
 
         retorno.Add(tarefa);
       }
-        if (retorno == null)
-            return RepositoryResult<TarefaDTO[]>.Error("Algo deu errado. Contate o servidor.");
-
-        return RepositoryResult<TarefaDTO[]>.Sucess(retorno.ToArray());
+      return retorno.ToArray();
     }
 
-    public RepositoryResult<TarefaDTO[]> ConsultarTodasTarefasGestor(int idGestor)
+    public TarefaDTO[] ConsultarTodasTarefasGestor(int idGestor)
     {
       SetProcedure(Procedures.SP_ConsultarTodasTarefasGestor);
       AddParameter("IdGestor", idGestor);
@@ -270,13 +238,10 @@ namespace PastelariaSMN.Data
 
         retorno.Add(tarefa);
       }
-      if (retorno == null)
-        return RepositoryResult<TarefaDTO[]>.Error("Algo deu errado. Contate o servidor.");
-
-      return RepositoryResult<TarefaDTO[]>.Sucess(retorno.ToArray());
+      return retorno.ToArray();
     }
 
-    public RepositoryResult<int> ConsultarTotalTarefasGestor(int idGestor)
+    public int ConsultarTotalTarefasGestor(int idGestor)
     {
       SetProcedure(Procedures.SP_ConsultarTotalTarefasGestor);
 
@@ -284,14 +249,10 @@ namespace PastelariaSMN.Data
 
       var reader = ExecuteReader();
       reader.Read();
-      var retorno = reader["TotalTarefas"];
-      if ((int)retorno == 0)
-        return RepositoryResult<int>.Error("Algo deu errado. Contate o servidor.");
+      return (int)reader["TotalTarefas"];
+    }
 
-      return RepositoryResult<int>.Sucess((int)retorno);
-        }
-
-    public RepositoryResult<int> ContarTarefasPorSubordinado(int idSubordinado)
+    public int ContarTarefasPorSubordinado(int idSubordinado)
     {
       SetProcedure(Procedures.SP_ContarTarefasPorSubordinado);
 
@@ -299,26 +260,18 @@ namespace PastelariaSMN.Data
 
       var reader = ExecuteReader();
       reader.Read();
-      var retorno = reader["Total"];
-      if ((int)retorno == 0)
-          return RepositoryResult<int>.Error("Algo deu errado. Contate o servidor.");
-
-      return RepositoryResult<int>.Sucess((int)retorno);
+      return (int)reader["Total"];
     }
 
-    public RepositoryResult<int> CriarComentario(string comentario, int idTarefa)
+    public int CriarComentario(string comentario, int idTarefa)
     {
       SetProcedure(Procedures.SP_CriarComentario);
       AddParameter("Comentario", comentario);
       AddParameter("IdTarefa", idTarefa);
-      var retorno = ExecuteNonQuery();
-      if (retorno == 0)
-        return RepositoryResult<int>.Error("Algo deu errado. Contate o servidor.");
-
-      return RepositoryResult<int>.Sucess(retorno);
+      return ExecuteNonQuery();
     }
 
-    public RepositoryResult<int> CriarTarefa(string descricao, DateTime dataLimite, int idGestor, int idSubordinado, int idStatusTarefa)
+    public int CriarTarefa(string descricao, DateTime dataLimite, int idGestor, int idSubordinado, int idStatusTarefa)
     {
       SetProcedure(Procedures.SP_CriarTarefa);
 
@@ -331,27 +284,20 @@ namespace PastelariaSMN.Data
       var readerIdTarefa = ExecuteReader();
       readerIdTarefa.Read();
       int idTarefa = int.Parse(readerIdTarefa["IdTarefa"].ToString());
-      if (readerIdTarefa["IdTarefa"] == null)
-        return RepositoryResult<int>.Error("Algo deu errado. Contate o servidor.");
 
-      return RepositoryResult<int>.Sucess(idTarefa);
+      return idTarefa;
+    }
 
-        }
-
-    public RepositoryResult<int> EditarDataLimite(int idTarefa, DateTime novaDataLimite)
+    public int EditarDataLimite(int idTarefa, DateTime novaDataLimite)
     {
       SetProcedure(Procedures.SP_CriarTarefa);
 
       AddParameter("IdTarefa", idTarefa);
       AddParameter("DataLimite", novaDataLimite);
 
-      var retorno = ExecuteNonQuery();
-      if (retorno == 0)
-        return RepositoryResult<int>.Error("Algo deu errado. Contate o servidor.");
-
-      return RepositoryResult<int>.Sucess(idTarefa);
+      return ExecuteNonQuery();
     }
-    public SendMailsDTO ConsultarEmailGestorNomeSubordinado(RepositoryResult<int> idTarefa)
+    public SendMailsDTO ConsultarEmailGestorNomeSubordinado(int idTarefa)
     {
         SetProcedure(Procedures.SP_ConsultarEmailGestorNomeSubordinado);
 
