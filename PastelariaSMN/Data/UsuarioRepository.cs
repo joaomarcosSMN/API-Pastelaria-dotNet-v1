@@ -8,6 +8,10 @@ namespace PastelariaSMN.Data
 {
   public class UsuarioRepository : BaseRepository, IUsuarioRepository
   {
+    public UsuarioRepository(Connection conn) : base(conn)
+    {
+        
+    }
     private enum Procedures 
     {
         SP_AtivarDesativarUsuario,

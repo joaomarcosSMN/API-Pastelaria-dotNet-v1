@@ -1,27 +1,23 @@
 using System;
 using System.Data;
 using System.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 
 namespace PastelariaSMN.Infra
 {
     public class Connection : IDisposable
     {
-        // public SqlConnection connection { get; private set; }
         public readonly SqlConnection connection;
 
-        public Connection()
+        public Connection(IConfiguration configuration)
         {
-            connection = new SqlConnection(@"Server=DESKTOP-DU3ENNC\SQLEXPRESS;Database=PastelariaSMN;User Id=joaozinho;Password=belo1111;");
+            connection = new SqlConnection(configuration.GetValue<string>("ConnectionStrings:DefaultConnection"));
         }
 
         public void OpenConnection() {
             if(connection.State == ConnectionState.Closed)
                 connection.Open();
         }
-        // public void CloseConnection() {
-        //     if(connection.State == ConnectionState.Open)
-        //         connection.Close();
-        // }
         
         public void Dispose()
         {

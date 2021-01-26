@@ -12,10 +12,9 @@ namespace PastelariaSMN.Data
 {
     public abstract class BaseRepository 
     {
-        public BaseRepository() 
+        public BaseRepository(Connection conn) 
         {
-        
-            conn = new Connection();
+            this.conn = conn;
         }
 
         private Connection conn;

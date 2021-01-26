@@ -33,6 +33,8 @@ namespace PastelariaSMN
             // If you want to apply changes without restarting the app, 
             // you need to change the registration code to use AddScoped instead of AddSingleton 
 
+            services.AddScoped<Connection, Connection>();
+
             services.AddSingleton<EmailSettings>(
                 Configuration.GetSection("EmailSettings")
                     .Get<EmailSettings>(options => options.BindNonPublicProperties = true)

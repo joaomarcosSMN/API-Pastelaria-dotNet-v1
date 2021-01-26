@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using PastelariaSMN.Controllers;
 using PastelariaSMN.DTOs;
+using PastelariaSMN.Infra;
 using PastelariaSMN.Models;
 
 namespace PastelariaSMN.Data
@@ -9,6 +10,10 @@ namespace PastelariaSMN.Data
 
   public class TarefaRepository : BaseRepository, ITarefaRepository
   {
+    public TarefaRepository(Connection conn) : base(conn)
+    {
+    
+    }
     private enum Procedures 
     {
       SP_AlterarStatusDaTarefa,
@@ -33,49 +38,49 @@ namespace PastelariaSMN.Data
     public RepositoryResult<int> AlterarStatusDaTarefa(int idTarefa, int novoStatus)
     {
 
-    SetProcedure(Procedures.SP_AlterarStatusDaTarefa);
+      SetProcedure(Procedures.SP_AlterarStatusDaTarefa);
 
-    AddParameter("IdTarefa", idTarefa);
-    AddParameter("NovoStatus", novoStatus);
+      AddParameter("IdTarefa", idTarefa);
+      AddParameter("NovoStatus", novoStatus);
 
-    var retorno = ExecuteNonQuery();
+      var retorno = ExecuteNonQuery();
 
-    if(retorno == 0)
-        return RepositoryResult<int>.Error("Algo deu errado. Contate o servidor.");
-        
-    return RepositoryResult<int>.Sucess(retorno);
+      if(retorno == 0)
+          return RepositoryResult<int>.Error("Algo deu errado. Contate o servidor.");
+          
+      return RepositoryResult<int>.Sucess(retorno);
 
     }
 
     public RepositoryResult<int> CancelarTarefa(int idTarefa)
     {
 
-    SetProcedure(Procedures.SP_CancelarTarefa);
+      SetProcedure(Procedures.SP_CancelarTarefa);
 
-    AddParameter("IdTarefa", idTarefa);
+      AddParameter("IdTarefa", idTarefa);
 
-    var retorno =  ExecuteNonQuery();
+      var retorno =  ExecuteNonQuery();
 
-    if(retorno == 0)
-        return RepositoryResult<int>.Error("Algo deu errado. Contate o servidor.");
+      if(retorno == 0)
+          return RepositoryResult<int>.Error("Algo deu errado. Contate o servidor.");
 
-    return RepositoryResult<int>.Sucess(retorno);
+      return RepositoryResult<int>.Sucess(retorno);
 
     }
 
     public RepositoryResult<int> ConcluirTarefa(RepositoryResult<int> idTarefa)
     {
 
-    SetProcedure(Procedures.SP_ConcluirTarefa);
+      SetProcedure(Procedures.SP_ConcluirTarefa);
 
-    AddParameter("IdTarefa", idTarefa);
+      AddParameter("IdTarefa", idTarefa);
 
-    var retorno = ExecuteNonQuery();
+      var retorno = ExecuteNonQuery();
 
-    if (retorno == 0)
-        return RepositoryResult<int>.Error("Algo deu errado. Contate o servidor.");
+      if (retorno == 0)
+          return RepositoryResult<int>.Error("Algo deu errado. Contate o servidor.");
 
-    return RepositoryResult<int>.Sucess(retorno);
+      return RepositoryResult<int>.Sucess(retorno);
 
     }
 
@@ -123,9 +128,9 @@ namespace PastelariaSMN.Data
             });
         }
         if (retorno == null)
-                return RepositoryResult<Tarefa[]>.Error("Algo deu errado. Contate o servidor.");
+            return RepositoryResult<Tarefa[]>.Error("Algo deu errado. Contate o servidor.");
 
-            return RepositoryResult<Tarefa[]>.Sucess(retorno.ToArray());
+        return RepositoryResult<Tarefa[]>.Sucess(retorno.ToArray());
         }
 
 //  ToDo JM
