@@ -12,7 +12,7 @@ namespace PastelariaSMN.Data
                             string rua, string bairro, string numero, string complemento, string CEP, string cidade, string UF);
         Usuario[] ConsultarUsuariosDoGestor(int idGestor);
         UsuarioDTO ConsultarUsuario(int idUsuario);
-        bool VerificarLogin(string email, string senha);
+        LoginDTO VerificarLogin(string email, string senha);
         int AtualizarUsuario(int idUsuario, string nome, string sobrenome, string senha);
         int AtivarDesativarUsuario(int idUsuario);
     }

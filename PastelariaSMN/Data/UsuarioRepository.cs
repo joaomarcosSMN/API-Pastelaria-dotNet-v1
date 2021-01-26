@@ -10,7 +10,7 @@ namespace PastelariaSMN.Data
   {
     public UsuarioRepository(Connection conn) : base(conn)
     {
-        
+
     }
     private enum Procedures 
     {
@@ -127,19 +127,28 @@ namespace PastelariaSMN.Data
         return ExecuteNonQuery();
     }
 
-    /* ToDo
-        FALTANDO CONSERTAR VerificarLogin
-    */
-    public bool VerificarLogin(string email, string senha)
+    public LoginDTO VerificarLogin(string email, string senha)
     {
         string hash = Cryptography.GerarHash(senha);
 
         SetProcedure(Procedures.SP_VerificarLogin);
-
         AddParameter("Email", email);
 
+        var reader = ExecuteReader();
+        if(reader.Read() == false) 
+        {
+            return null;
+        }
+
+        var result = new LoginDTO 
+        {
+            Email = reader["EnderecoEmail"].ToString(),
+            Senha = reader["Senha"].ToString()
+        };
+
+        return result;
+
         // TODO: A responsábilidade de verificar, validar, orquestrar as camadas é do controller
-        return CheckLogin(email, hash);
     }
   }
 }

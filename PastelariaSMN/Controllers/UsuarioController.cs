@@ -42,10 +42,6 @@ namespace PastelariaSMN.Controllers
         {
                 var result = _repo.ConsultarUsuario(idUsuario);
                 return Ok(result);
-            
-            
-                
-            
         }
 
         [HttpGet("{idGestor}/subordinados")]
@@ -84,25 +80,24 @@ namespace PastelariaSMN.Controllers
         }
 
         [HttpPost("login")]
-        public  IActionResult VerificarLogin(LoginDTO login)
-        {     
+        public IActionResult VerificarLogin(LoginDTO login)
+        {   
+            // TODO (jm) Validar o email antes de ler a procedure  
             var result = _repo.VerificarLogin(login.Email, login.Senha);
-            return Ok(result);              
+            
+            if(result == null)
+            {
+                return BadRequest("Email ou senha incorreta 1");
+            }
+
+            if(login.Senha != result.Senha)
+            {
+                return Unauthorized("Email ou senha incorreta 2");
+            }
+            else 
+            {
+                return Ok("Login válido");
+            }
         }
-
-
-        // [HttpPatch("{idUsuario}/desativar")]
-        // public IActionResult UpdateDesativarUsuario(int idUsuario)
-        // {
-        //     var result = _repo.DesativarUsuario(idUsuario);
-        //     return Ok(result);
-        // }
-
-        // [HttpPatch("{idUsuario}/ativar")]
-        // public IActionResult UpdateAtivarUsuario(int idUsuario)
-        // {
-        //     var result = _repo.AtivarUsuario(idUsuario);
-        //     return Ok(result);
-        // }
     }
 }
