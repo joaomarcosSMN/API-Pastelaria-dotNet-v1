@@ -8,7 +8,7 @@ namespace PastelariaSMN.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UsuarioController : ControllerBase
+    public class UsuarioController : BaseController
     {
         public readonly IUsuarioRepository _repo;
         public UsuarioController(IUsuarioRepository repo) 
