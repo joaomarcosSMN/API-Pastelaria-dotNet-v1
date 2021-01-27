@@ -23,7 +23,7 @@ namespace PastelariaSMN
         {
             // services.AddControllers();
 
-            // services.AddScoped<IRepository, Repository>();
+            services.AddScoped<NotificationList, NotificationList>();
             services.AddScoped<ITarefaRepository, TarefaRepository>();
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 

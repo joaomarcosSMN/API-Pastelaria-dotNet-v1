@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using PastelariaSMN.Data;
 using PastelariaSMN.DTOs;
+using PastelariaSMN.Infra;
 using PastelariaSMN.Models;
 
 namespace PastelariaSMN.Controllers
@@ -11,9 +13,12 @@ namespace PastelariaSMN.Controllers
     public class UsuarioController : BaseController
     {
         public readonly IUsuarioRepository _repo;
-        public UsuarioController(IUsuarioRepository repo) 
+        public readonly NotificationList _notifications;
+
+        public UsuarioController(IUsuarioRepository repo, NotificationList notifications) 
         { 
             _repo = repo;
+            _notifications = notifications;
         }
 
         [HttpPatch("{idUsuario}/status")]
@@ -98,6 +103,17 @@ namespace PastelariaSMN.Controllers
             {
                 return Ok("Login válido");
             }
+        }
+
+        [HttpPost("Teste")]
+        public IActionResult Teste(Usuario usuario)
+        {
+            bool result = usuario.is_valid(_notifications);
+            if (_notifications.HasNotifications)
+            {
+                return BadRequest(_notifications.Notifications);
+            }
+            return Ok();
         }
     }
 }
