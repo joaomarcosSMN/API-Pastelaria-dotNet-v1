@@ -69,15 +69,15 @@ namespace PastelariaSMN.Controllers
                                             novaTarefa.IdSubordinado,
                                             novaTarefa.IdStatusTarefa);
 
-                // result retorna int idTarefa da tarefa recem criada
-                var emailData = _repo.ConsultarEmailGestorNomeSubordinado(result);
-                
-                // string body = "O seu gestor " + result.NomeGestor + " criou uma tarefa";
-                string body = $"O seu gestor { emailData.NomeGestor } criou uma tarefa com a descrição: '{ novaTarefa.Descricao }'.";
+            // result retorna int idTarefa da tarefa recem criada
+            var emailData = _repo.ConsultarEmailGestorNomeSubordinado(result);
+            
+            // string body = "O seu gestor " + result.NomeGestor + " criou uma tarefa";
+            string body = $"O seu gestor { emailData.NomeGestor } criou uma tarefa com a descrição: '{ novaTarefa.Descricao }'.";
 
-                EmailSent.SendEmail(_options, emailData.EmailSubordinado, $"Uma tarefa foi criada para você pelo seu gestor { emailData.NomeGestor }", body);
+            EmailSent.SendEmail(_options, emailData.EmailSubordinado, $"Uma tarefa foi criada para você pelo seu gestor { emailData.NomeGestor }", body);
 
-                return Ok($"Tarefa com id {result} foi criada");
+            return Ok($"Tarefa com id {result} foi criada");
 
         }
 
@@ -121,52 +121,41 @@ namespace PastelariaSMN.Controllers
         {
             var result = _repo.ConsultarTotalTarefasGestor(idGestor);
             return Ok(result);
-            
         }
 
         [HttpGet("usuario/gestor/{idGestor}/tarefa/todas")]
         public IActionResult ConsultarTodasTarefasGestor(int idGestor)
         {
-            
             var result = _repo.ConsultarTodasTarefasGestor(idGestor);
             return Ok(result);
-           
         }
 
         [HttpGet("usuario/gestor/{idGestor}/tarefa/status/{idStatusTarefa}")]
         public IActionResult ConsultarTarefasGestorStatus(int idGestor, int idStatusTarefa)
         {
-            
             var result = _repo.ConsultarTarefasGestorStatus(idGestor, idStatusTarefa);
             return Ok(result);
-            
         }
 
         [HttpGet("usuario/gestor/{idGestor}/tarefa/pendentes")]
         public IActionResult ConsultarTarefasGestor(int idGestor)
         {
-            
             var result = _repo.ConsultarTarefasGestor(idGestor);
             return Ok(result);
-         
         }
 
         [HttpGet("usuario/{idSubordinado}/tarefa/todas")]
         public IActionResult ConsultarTarefasUsuario(int idSubordinado)
         {
-            
             var result = _repo.ConsultarTarefasUsuario(idSubordinado);
             return Ok(result);
-            
         }
 
         [HttpGet("usuario/{idSubordinado}/tarefa/status/{idStatusTarefa}")]
         public IActionResult ConsultarTarefasStatusUsuario(int idSubordinado, int idStatusTarefa)
         {
-            
             var result = _repo.ConsultarTarefasStatusUsuario(idSubordinado, idStatusTarefa);
             return Ok(result);
-            
         }
 
         // post - usuario/0/tarefa

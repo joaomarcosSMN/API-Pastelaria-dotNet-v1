@@ -16,6 +16,10 @@ namespace PastelariaSMN.Models
         public Usuario Subordinado { get; set; }
         public int IdStatusTarefa { get; set; }
         public StatusTarefa Status { get; set; }
-
+        
+        public Tarefa() { 
+            this.Subordinado = new Usuario();
+            this.Gestor = new Usuario();
+        }
     }
 }

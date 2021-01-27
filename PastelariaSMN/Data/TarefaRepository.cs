@@ -177,17 +177,48 @@ namespace PastelariaSMN.Data
       return retorno.ToArray();
     }
 
-    public TarefaDTO[] ConsultarTarefasUsuario(int idUsuario)
+    // public TarefaDTO[] ConsultarTarefasUsuario(int idUsuario)
+    // {
+    //   SetProcedure(Procedures.SP_ConsultarTarefasUsuario);
+    //   AddParameter("IdUsuario", idUsuario);
+
+    //   List<TarefaDTO> retorno = new List<TarefaDTO>();
+
+    //   var reader = ExecuteReader();
+    //   while(reader.Read())
+    //   {
+    //     TarefaDTO tarefa = new TarefaDTO();
+
+    //     tarefa.IdTarefa = (short)reader["IdTarefa"];
+    //     tarefa.Descricao = (string)reader["Descricao"];
+    //     tarefa.DataCadastro = (DateTime)reader["DataCadastro"];
+    //     tarefa.DataLimite = (DateTime)reader["DataLimite"];
+    //     tarefa.IdStatusTarefa = (byte)reader["IdStatusTarefa"];
+    //     tarefa.IdGestor = (short)reader["IdGestor"];
+    //     tarefa.IdSubordinado = (short)reader["IdSubordinado"];
+    //     tarefa.NomeGestor = (string)reader["NomeGestor"];
+    //     tarefa.NomeSubordinado = (string)reader["NomeSubordinado"];
+
+    //     if(reader["DataConclusao"].ToString() != "")
+    //       tarefa.DataConclusao = (DateTime)reader["DataConclusao"];
+    //     if(reader["DataCancelada"].ToString() != "")
+    //       tarefa.DataCancelada = (DateTime)reader["DataCancelada"];
+
+    //     retorno.Add(tarefa);
+    //   }
+    //   return retorno.ToArray();
+    // }
+    public Tarefa[] ConsultarTarefasUsuario(int idUsuario)
     {
       SetProcedure(Procedures.SP_ConsultarTarefasUsuario);
       AddParameter("IdUsuario", idUsuario);
 
-      List<TarefaDTO> retorno = new List<TarefaDTO>();
+      List<Tarefa> retorno = new List<Tarefa>();
 
       var reader = ExecuteReader();
       while(reader.Read())
       {
-        TarefaDTO tarefa = new TarefaDTO();
+        Tarefa tarefa = new Tarefa();
 
         tarefa.IdTarefa = (short)reader["IdTarefa"];
         tarefa.Descricao = (string)reader["Descricao"];
@@ -196,8 +227,8 @@ namespace PastelariaSMN.Data
         tarefa.IdStatusTarefa = (byte)reader["IdStatusTarefa"];
         tarefa.IdGestor = (short)reader["IdGestor"];
         tarefa.IdSubordinado = (short)reader["IdSubordinado"];
-        tarefa.NomeGestor = (string)reader["NomeGestor"];
-        tarefa.NomeSubordinado = (string)reader["NomeSubordinado"];
+        tarefa.Gestor.Nome = (string)reader["NomeGestor"];
+        tarefa.Subordinado.Nome = (string)reader["NomeSubordinado"];
 
         if(reader["DataConclusao"].ToString() != "")
           tarefa.DataConclusao = (DateTime)reader["DataConclusao"];
@@ -209,27 +240,27 @@ namespace PastelariaSMN.Data
       return retorno.ToArray();
     }
 
-    public TarefaDTO[] ConsultarTodasTarefasGestor(int idGestor)
+    public Tarefa[] ConsultarTodasTarefasGestor(int idGestor)
     {
       SetProcedure(Procedures.SP_ConsultarTodasTarefasGestor);
       AddParameter("IdGestor", idGestor);
 
-      List<TarefaDTO> retorno = new List<TarefaDTO>();
+      List<Tarefa> retorno = new List<Tarefa>();
 
       var reader = ExecuteReader();
       while(reader.Read())
       {
-        TarefaDTO tarefa = new TarefaDTO();
+        Tarefa tarefa = new Tarefa();
 
         tarefa.IdTarefa = (short)reader["IdTarefa"];
         tarefa.Descricao = (string)reader["Descricao"];
         tarefa.DataCadastro = (DateTime)reader["DataCadastro"];
         tarefa.DataLimite = (DateTime)reader["DataLimite"];
         tarefa.IdStatusTarefa = (byte)reader["IdStatusTarefa"];
-        tarefa.IdGestor = (short)reader["IdGestor"];
-        tarefa.IdSubordinado = (short)reader["IdSubordinado"];
-        tarefa.NomeGestor = (string)reader["NomeGestor"];
-        tarefa.NomeSubordinado = (string)reader["NomeSubordinado"];
+        // tarefa.IdGestor = (short)reader["IdGestor"];
+        // tarefa.IdSubordinado = (short)reader["IdSubordinado"];
+        // tarefa.NomeGestor = (string)reader["NomeGestor"];
+        // tarefa.NomeSubordinado = (string)reader["NomeSubordinado"];
 
         if(reader["DataConclusao"].ToString() != "")
           tarefa.DataConclusao = (DateTime)reader["DataConclusao"];
@@ -238,6 +269,7 @@ namespace PastelariaSMN.Data
 
         retorno.Add(tarefa);
       }
+
       return retorno.ToArray();
     }
 

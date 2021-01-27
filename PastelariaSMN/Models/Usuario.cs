@@ -14,8 +14,23 @@ namespace PastelariaSMN.Models
         public bool EGestor { get; set; }
         public int? IdGestor { get; set; } = null;
         public Usuario Gestor { get; set; }
+        public Endereco Endereco { get; set; }
+        public Email Email { get; set; }
+        public Telefone Telefone { get; set; }
 
         //TODO: Mapear os relacionamentos entre as entidades e eliminar as DTOs que forem possíveis
-        public List<Tarefa> Tarefas { get;set;}
+        // public List<Tarefa> Tarefas { get; set;}
+
+        public Usuario() {
+            this.Email = new Email();
+        }
+
+        // public Usuario(string email, string senha)
+        // {
+        //     this.Email = new Email();
+        //     this.Email.EnderecoEmail = email;
+        //     this.Senha = senha;
+        // }
+    
     }
 }
