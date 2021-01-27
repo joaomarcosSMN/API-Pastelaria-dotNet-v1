@@ -23,6 +23,19 @@ namespace PastelariaSMN.Models
         public Telefone Telefone { get; set; }
 
         //TODO: Mapear os relacionamentos entre as entidades e eliminar as DTOs que forem possíveis
+        // public List<Tarefa> Tarefas { get; set;}
+
+        public Usuario() {
+            this.Email = new Email();
+        }
+
+        // public Usuario(string email, string senha)
+        // {
+        //     this.Email = new Email();
+        //     this.Email.EnderecoEmail = email;
+        //     this.Senha = senha;
+        // }
+    
         public List<Tarefa> Tarefas { get; set; }
 
         public bool is_valid(NotificationList notification)

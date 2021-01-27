@@ -42,31 +42,32 @@ namespace PastelariaSMN.Data
         return ExecuteNonQuery();
     }
 
-    public UsuarioDTO ConsultarUsuario(int idUsuario)
+    public Usuario ConsultarUsuario(int idUsuario)
     {
         SetProcedure(Procedures.SP_ConsultarUsuario);
         AddParameter("IdUsuario", idUsuario);
 
-        var usuario = new UsuarioDTO();
+        var usuario = new Usuario();
 
         var reader = ExecuteReader();
         if(reader.Read())
         {
-            usuario.IdUsuario = (int)reader["IdUsuario"];
+            usuario.IdUsuario = (short)reader["IdUsuario"];
             usuario.Nome = (string)reader["Nome"];
             usuario.Sobrenome = (string)reader["Sobrenome"];
             usuario.DataNascimento = (DateTime)reader["DataNascimento"];
             usuario.EGestor = (bool)reader["EGestor"];
             usuario.EstaAtivo = (bool)reader["EstaAtivo"];
 
-            var idGestor = (string)reader["IdGestor"];
+            var idGestor = reader["IdGestor"].ToString();
             if(idGestor != "" )
             {
-                usuario.IdGestor = int.Parse(idGestor);
-                usuario.NomeGestor = (string)reader["EstaAtivo"];
+                usuario.Gestor.IdUsuario = int.Parse(idGestor);
+                usuario.Gestor.Nome = (string)reader["NomeGestor"];
+                usuario.Gestor.Sobrenome = (string)reader["SobrenomeGestor"];
             }
-                
         }
+
         return usuario;
     }
 
@@ -92,42 +93,38 @@ namespace PastelariaSMN.Data
         return resultado.ToArray();
     }
 
-    public int CriarUsuario(string nome, string sobrenome, DateTime dataNascimento, string senha, bool eGestor, bool estaAtivo, int? idGestor,
-                            string email,
-                            int DDD, int telefone, int idTipoTelefone,
-                            string rua, string bairro, string numero, string complemento, string CEP, string cidade, string UF)
+    public int CriarUsuario(Usuario novoUsuario)
     {
         SetProcedure(Procedures.SP_CriarUsuario);
 
-        string hash = Cryptography.GerarHash(senha);
+        string hash = Cryptography.GerarHash(novoUsuario.Senha);
 
-        AddParameter("Nome", nome);
-        AddParameter("Sobrenome", sobrenome);
-        AddParameter("DataNascimento", dataNascimento);
+        AddParameter("Nome", novoUsuario.Nome);
+        AddParameter("Sobrenome", novoUsuario.Sobrenome);
+        AddParameter("DataNascimento", novoUsuario.DataNascimento);
         AddParameter("Senha", hash);
-        AddParameter("EGestor", eGestor ? 1 : 0);
-        AddParameter("EstaAtivo", estaAtivo ? 1 : 0);
-        AddParameter("IdGestor", idGestor > 0 ? idGestor : null);
+        AddParameter("EGestor", novoUsuario.EGestor ? 1 : 0);
+        AddParameter("EstaAtivo", novoUsuario.EstaAtivo ? 1 : 0);
+        AddParameter("IdGestor", novoUsuario.IdGestor > 0 ? novoUsuario.IdGestor : null);
 
-        AddParameter("Email", email);
+        AddParameter("Email", novoUsuario.Email.EnderecoEmail);
 
-        AddParameter("DDD", DDD);
-        AddParameter("Telefone", telefone);
-        AddParameter("IdTipoTelefone", idTipoTelefone);
+        AddParameter("DDD", novoUsuario.Telefone.DDD);
+        AddParameter("Telefone", novoUsuario.Telefone.Numero);
+        AddParameter("IdTipoTelefone", novoUsuario.Telefone.IdTipo);
 
-        AddParameter("Rua", rua);
-        AddParameter("Bairro", bairro);
-        AddParameter("Numero", numero);
-        AddParameter("Complemento", complemento);
-        AddParameter("CEP", CEP);
-        AddParameter("Cidade", cidade);
-        AddParameter("UF", UF);
-
+        AddParameter("Rua", novoUsuario.Endereco.Rua);
+        AddParameter("Bairro", novoUsuario.Endereco.Bairro);
+        AddParameter("Numero", novoUsuario.Endereco.Numero);
+        AddParameter("Complemento", novoUsuario.Endereco.Complemento);
+        AddParameter("CEP", novoUsuario.Endereco.CEP);
+        AddParameter("Cidade", novoUsuario.Endereco.Cidade);
+        AddParameter("UF", novoUsuario.Endereco.UF);
 
         return ExecuteNonQuery();
     }
 
-    public LoginDTO VerificarLogin(string email, string senha)
+    public Usuario VerificarLogin(string email, string senha)
     {
         string hash = Cryptography.GerarHash(senha);
 
@@ -135,18 +132,17 @@ namespace PastelariaSMN.Data
         AddParameter("Email", email);
 
         var reader = ExecuteReader();
-        if(reader.Read() == false) 
+        if(reader.Read()) 
         {
-            return null;
+            var usuario = new Usuario();
+
+            usuario.Email.EnderecoEmail = reader["EnderecoEmail"].ToString();
+            usuario.Senha = reader["Senha"].ToString();
+
+            return usuario;
         }
 
-        var result = new LoginDTO 
-        {
-            Email = reader["EnderecoEmail"].ToString(),
-            Senha = reader["Senha"].ToString()
-        };
-
-        return result;
+        return null;
 
         // TODO: A responsábilidade de verificar, validar, orquestrar as camadas é do controller
     }

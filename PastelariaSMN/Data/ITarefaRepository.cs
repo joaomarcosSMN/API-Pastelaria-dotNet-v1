@@ -12,14 +12,14 @@ namespace PastelariaSMN.Data
         int CriarComentario(string comentario, int idTarefa);
         int ContarTarefasPorSubordinado(int idSubordinado);
         int ConsultarTotalTarefasGestor(int idGestor);
-        TarefaDTO[] ConsultarTarefasUsuario(int idUsuario);
+        Tarefa[] ConsultarTarefasUsuario(int idUsuario);
         Tarefa[] ConsultarTarefasStatusUsuario(int idUsuario, int idStatusTarefa);
         Tarefa[] ConsultarTarefasGestorStatus(int idGestor, int idStatusTarefa);
         Tarefa[] ConsultarTarefasGestor(int idGestor);
         int ConcluirTarefa(int idTarefa);
         int CancelarTarefa(int idTarefa);
         int AlterarStatusDaTarefa(int idTarefa, int novoStatus);
-        TarefaDTO[] ConsultarTodasTarefasGestor(int idGestor);
+        Tarefa[] ConsultarTodasTarefasGestor(int idGestor);
         Comentario[] ConsultarComentarioTarefa(int TarefaId);
         SendMailsDTO ConsultarEmailGestorNomeSubordinado(int idTarefa);
     }

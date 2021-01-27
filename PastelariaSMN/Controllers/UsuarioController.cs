@@ -24,10 +24,8 @@ namespace PastelariaSMN.Controllers
         [HttpPatch("{idUsuario}/status")]
         public IActionResult AtivarDesativarUsuario(int idUsuario)
         {
-            
             var result = _repo.AtivarDesativarUsuario(idUsuario);
             return Ok(result);
-            
         }
 
         [HttpPatch("{idUsuario}/atualizar")]
@@ -45,6 +43,7 @@ namespace PastelariaSMN.Controllers
         [HttpGet("{idUsuario}")]
         public IActionResult ConsultarUsuario(int idUsuario)
         {
+            //ToDo (jm) Está retornando campos Telefone, Email, Endereço
                 var result = _repo.ConsultarUsuario(idUsuario);
                 return Ok(result);
         }
@@ -57,38 +56,18 @@ namespace PastelariaSMN.Controllers
         }
                 
         [HttpPost("criar")]
-        public IActionResult CriarUsuario(NovoUsuarioDTO novoUsuario)
+        public IActionResult CriarUsuario(Usuario novoUsuario)
         {
-            var result = _repo.CriarUsuario(novoUsuario.Nome, 
-                                            novoUsuario.Sobrenome,
-                                            novoUsuario.DataNascimento, 
-                                            novoUsuario.Senha,
-                                            novoUsuario.EGestor,
-                                            novoUsuario.EstaAtivo,
-                                            novoUsuario.IdGestor,
+            var result = _repo.CriarUsuario(novoUsuario);
                                                 
-                                            novoUsuario.EnderecoEmail,
-                                                
-                                            novoUsuario.DDD,
-                                            novoUsuario.NumeroTelefone,
-                                            novoUsuario.IdTipo,
-                                                
-                                            novoUsuario.Rua,
-                                            novoUsuario.Bairro,
-                                            novoUsuario.NumeroEnderco,
-                                            novoUsuario.Complemento,
-                                            novoUsuario.CEP,
-                                            novoUsuario.Cidade,
-                                            novoUsuario.UF);
-                                                
-                return Ok(result);
+            return Ok(result);
         }
 
         [HttpPost("login")]
-        public IActionResult VerificarLogin(LoginDTO login)
+        public IActionResult VerificarLogin(Usuario login)
         {   
             // TODO (jm) Validar o email antes de ler a procedure  
-            var result = _repo.VerificarLogin(login.Email, login.Senha);
+            var result = _repo.VerificarLogin(login.Email.EnderecoEmail, login.Senha);
             
             if(result == null)
             {
