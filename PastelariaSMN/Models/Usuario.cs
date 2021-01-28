@@ -43,7 +43,6 @@ namespace PastelariaSMN.Models
             if (this.Nome.Length > 30 || this.Nome.Length == 0)
             {
                notification.AddNotification("error nome", "message do nome");
-                
             }
             if (this.Sobrenome.Length > 50 || this.Sobrenome.Length == 0)
             {

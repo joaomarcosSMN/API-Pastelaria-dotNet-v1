@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using PastelariaSMN.Controllers;
-using PastelariaSMN.DTOs;
 using PastelariaSMN.Infra;
 using PastelariaSMN.Models;
 
@@ -176,38 +175,6 @@ namespace PastelariaSMN.Data
       }
       return retorno.ToArray();
     }
-
-    // public TarefaDTO[] ConsultarTarefasUsuario(int idUsuario)
-    // {
-    //   SetProcedure(Procedures.SP_ConsultarTarefasUsuario);
-    //   AddParameter("IdUsuario", idUsuario);
-
-    //   List<TarefaDTO> retorno = new List<TarefaDTO>();
-
-    //   var reader = ExecuteReader();
-    //   while(reader.Read())
-    //   {
-    //     TarefaDTO tarefa = new TarefaDTO();
-
-    //     tarefa.IdTarefa = (short)reader["IdTarefa"];
-    //     tarefa.Descricao = (string)reader["Descricao"];
-    //     tarefa.DataCadastro = (DateTime)reader["DataCadastro"];
-    //     tarefa.DataLimite = (DateTime)reader["DataLimite"];
-    //     tarefa.IdStatusTarefa = (byte)reader["IdStatusTarefa"];
-    //     tarefa.IdGestor = (short)reader["IdGestor"];
-    //     tarefa.IdSubordinado = (short)reader["IdSubordinado"];
-    //     tarefa.NomeGestor = (string)reader["NomeGestor"];
-    //     tarefa.NomeSubordinado = (string)reader["NomeSubordinado"];
-
-    //     if(reader["DataConclusao"].ToString() != "")
-    //       tarefa.DataConclusao = (DateTime)reader["DataConclusao"];
-    //     if(reader["DataCancelada"].ToString() != "")
-    //       tarefa.DataCancelada = (DateTime)reader["DataCancelada"];
-
-    //     retorno.Add(tarefa);
-    //   }
-    //   return retorno.ToArray();
-    // }
     public Tarefa[] ConsultarTarefasUsuario(int idUsuario)
     {
       SetProcedure(Procedures.SP_ConsultarTarefasUsuario);
@@ -317,6 +284,8 @@ namespace PastelariaSMN.Data
       readerIdTarefa.Read();
       int idTarefa = int.Parse(readerIdTarefa["IdTarefa"].ToString());
 
+      readerIdTarefa.Close();
+
       return idTarefa;
     }
 
@@ -329,25 +298,26 @@ namespace PastelariaSMN.Data
 
       return ExecuteNonQuery();
     }
-    public SendMailsDTO ConsultarEmailGestorNomeSubordinado(int idTarefa)
+    public Tarefa ConsultarEmailGestorNomeSubordinado(int idTarefa)
     {
-        SetProcedure(Procedures.SP_ConsultarEmailGestorNomeSubordinado);
+      SetProcedure(Procedures.SP_ConsultarEmailGestorNomeSubordinado);
 
       AddParameter("IdTarefa", idTarefa);
 
-      var result = new SendMailsDTO();
+      var result = new Tarefa();
 
         var reader = ExecuteReader();
         if (reader.Read())
         {
-            result.NomeGestor = (string)reader["NomeGestor"];
-            result.NomeSubordinado = (string)reader["NomeSubordinado"];
-            result.EmailGestor = (string)reader["EmailGestor"];
-            result.EmailSubordinado = (string)reader["EmailSubordinado"];
+            result.Gestor.Nome = (string)reader["NomeGestor"];
+            result.Gestor.Sobrenome = (string)reader["SobrenomeGestor"];
+            result.Gestor.Email.EnderecoEmail = (string)reader["EmailGestor"];
+            result.Subordinado.Nome = (string)reader["NomeSubordinado"];
+            result.Subordinado.Sobrenome = (string)reader["SobrenomeSubordinado"];
+            result.Subordinado.Email.EnderecoEmail = (string)reader["EmailSubordinado"];
         }
 
         return result;
-
     }
   }
 }
