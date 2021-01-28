@@ -11,15 +11,15 @@ namespace PastelariaSMN.Models
         public DateTime? DataConclusao { get; set; } = null;
         public DateTime? DataCancelada { get; set; } = null;
         public int IdGestor { get; set; }
-        public Usuario Gestor { get; set; }
+        public Gestor Gestor { get; set; }
         public int IdSubordinado{ get; set; }
-        public Usuario Subordinado { get; set; }
+        public Subordinado Subordinado { get; set; }
         public int IdStatusTarefa { get; set; }
         public StatusTarefa Status { get; set; }
         
         public Tarefa() { 
-            this.Subordinado = new Usuario();
-            this.Gestor = new Usuario();
+            this.Subordinado = new Subordinado();
+            this.Gestor = new Gestor();
         }
     }
 }
