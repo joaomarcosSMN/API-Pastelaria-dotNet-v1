@@ -61,7 +61,7 @@ namespace PastelariaSMN.Data
             var idGestor = reader["IdGestor"].ToString();
             if(idGestor != "" )
             {
-                usuario.Gestor.IdUsuario = int.Parse(idGestor);
+                usuario.Gestor.IdUsuario = short.Parse(idGestor);
                 usuario.Gestor.Nome = (string)reader["NomeGestor"];
                 usuario.Gestor.Sobrenome = (string)reader["SobrenomeGestor"];
             }
@@ -83,7 +83,7 @@ namespace PastelariaSMN.Data
         {
             resultado.Add(new Usuario 
             {
-                IdUsuario = int.Parse(reader["IdUsuario"].ToString()),
+                IdUsuario = short.Parse(reader["IdUsuario"].ToString()),
                 Nome = reader["Nome"].ToString(),
                 Sobrenome = reader["Sobrenome"].ToString(),
                 EstaAtivo = bool.Parse(reader["EstaAtivo"].ToString())

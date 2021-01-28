@@ -6,20 +6,20 @@ namespace PastelariaSMN.Models
 {
     public class Usuario
     {
-        public int IdUsuario { get; set; }
+        public short IdUsuario { get; set; }
         public string Nome { get; set; }
         public string Sobrenome { get; set; }
         public DateTime DataNascimento { get; set; }
         public string Senha { get; set; }
         public bool EstaAtivo { get; set; } = true;
         public bool EGestor { get; set; } = false;
-        public int? IdGestor { get; set; } = null;
+        public short? IdGestor { get; set; } = null;
         public Usuario Gestor { get; set; }
-        public int IdEndereco { get; set; }
+        public short IdEndereco { get; set; }
         public Endereco Endereco { get; set; }
-        public int IdEmail { get; set; }
+        public short IdEmail { get; set; }
         public Email Email { get; set; }
-        public int IdTelefone { get; set; }
+        public short IdTelefone { get; set; }
         public Telefone Telefone { get; set; }
 
         //TODO: Mapear os relacionamentos entre as entidades e eliminar as DTOs que forem possíveis
@@ -38,35 +38,23 @@ namespace PastelariaSMN.Models
     
         public List<Tarefa> Tarefas { get; set; }
 
-        public bool is_valid(NotificationList notification)
+        public void is_valid(NotificationList notification)
         {
-            if (this.Nome.Length > 30 || this.Nome.Length == 0)
+            if (this.Nome.Length > 30)
             {
-               notification.AddNotification("error nome", "message do nome");
+               notification.AddNotification("Nome de Usuario", "Seu Nome de Usuário excedeu o limite de caracteres."); 
             }
-            if (this.Sobrenome.Length > 50 || this.Sobrenome.Length == 0)
+            if (this.Sobrenome.Length > 50)
             {
-                notification.AddNotification("error sobrenome", "message do sobrenome");
+                notification.AddNotification("Sobrenome de Usuario", "Seu Sobrenome de Usuário excedeu o limite de caracteres.");
             }
-            if (this.Senha.Length > 50 || this.Senha.Length == 0)
+            if (this.Senha.Length > 50)
             {
-                //Aqui adicionaremos à notification.
+                notification.AddNotification("Senha de Usuario", "Sua Senha de Usuário excedeu o limite de caracteres.");
             }
-           /* if (!Telefone.is_valid())
-            {
-                return false;
-                //Aqui adicionaremos à notification.
-            }
-            if (!Endereco.is_valid())
-            {
-                //Aqui adicionaremos à notification.
-            }
-            if (!Email.is_valid())
-            {
-                //Aqui adicionaremos à notification.
-            }*/
-
-            return true;
+            Telefone.is_valid(notification);
+            Endereco.is_valid(notification);
+            Email.is_valid(notification);
         }
     }
 }

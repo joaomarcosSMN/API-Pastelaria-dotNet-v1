@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using PastelariaSMN.Data;
 using PastelariaSMN.Infra;
@@ -44,6 +45,10 @@ namespace PastelariaSMN.Controllers
         {
             //ToDo (jm) Está retornando campos Telefone, Email, Endereço
                 var result = _repo.ConsultarUsuario(idUsuario);
+            if (result.IdUsuario == 0)
+            {
+                return BadRequest("Usuario não existe.");
+            }
                 return Ok(result);
         }
 
@@ -51,6 +56,10 @@ namespace PastelariaSMN.Controllers
         public IActionResult ConsultarUsuariosDoGestor(int idGestor)
         {
             var result = _repo.ConsultarUsuariosDoGestor(idGestor);
+            if (result.Any())
+            {
+                return BadRequest("Gestor não possui usuários.");
+            }
             return Ok(result);                
         }
                 
@@ -82,7 +91,7 @@ namespace PastelariaSMN.Controllers
         [HttpPost("Teste")]
         public IActionResult Teste(Usuario usuario)
         {
-            bool result = usuario.is_valid(_notifications);
+            usuario.is_valid(_notifications);
             if (_notifications.HasNotifications)
             {
                 return BadRequest(_notifications.Notifications);
