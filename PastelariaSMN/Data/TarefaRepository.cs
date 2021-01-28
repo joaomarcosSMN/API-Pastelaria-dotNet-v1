@@ -245,7 +245,7 @@ namespace PastelariaSMN.Data
 
       var reader = ExecuteReader();
       reader.Read();
-      return (int)reader["TotalTarefas"];
+      return (int)reader["Total"];
     }
 
     public int ContarTarefasPorSubordinado(int idSubordinado)
@@ -288,7 +288,7 @@ namespace PastelariaSMN.Data
 
     public int EditarDataLimite(int idTarefa, DateTime novaDataLimite)
     {
-      SetProcedure(Procedures.SP_CriarTarefa);
+      SetProcedure(Procedures.SP_EditarDataLimite);
 
       AddParameter("IdTarefa", idTarefa);
       AddParameter("DataLimite", novaDataLimite);

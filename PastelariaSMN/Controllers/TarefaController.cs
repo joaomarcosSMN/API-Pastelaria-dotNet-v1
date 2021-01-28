@@ -23,8 +23,10 @@ namespace PastelariaSMN.Controllers
         {
             
             var result = _repo.AlterarStatusDaTarefa(idTarefa, tarefaEditada.IdStatusTarefa);
-     
-            return Ok(result); 
+            if(result>0){
+                return Ok("Alteração feita com sucesso.");
+            }
+            return BadRequest("Não foi possível fazer a alteração"); 
         }
         
         [HttpPatch("tarefa/{idTarefa}/cancelar")]
