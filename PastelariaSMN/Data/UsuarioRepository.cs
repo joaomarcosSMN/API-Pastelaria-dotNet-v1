@@ -41,12 +41,12 @@ namespace PastelariaSMN.Data
         return ExecuteNonQuery();
     }
 
-    public Usuario ConsultarUsuario(int idUsuario)
+    public Subordinado ConsultarSubordinado(int idUsuario)
     {
         SetProcedure(Procedures.SP_ConsultarUsuario);
         AddParameter("IdUsuario", idUsuario);
 
-        var usuario = new Usuario();
+        var usuario = new Subordinado();
 
         var reader = ExecuteReader();
         if(reader.Read())
@@ -57,31 +57,47 @@ namespace PastelariaSMN.Data
             usuario.DataNascimento = (DateTime)reader["DataNascimento"];
             usuario.EGestor = (bool)reader["EGestor"];
             usuario.EstaAtivo = (bool)reader["EstaAtivo"];
+            usuario.IdGestor = (short)reader["IdGestor"];
 
-            var idGestor = reader["IdGestor"].ToString();
-            if(idGestor != "" )
-            {
-                usuario.Gestor.IdUsuario = int.Parse(idGestor);
-                usuario.Gestor.Nome = (string)reader["NomeGestor"];
-                usuario.Gestor.Sobrenome = (string)reader["SobrenomeGestor"];
-            }
+            usuario.Gestor.IdUsuario = (short)reader["IdGestor"];
+            usuario.Gestor.Nome = (string)reader["NomeGestor"];
+            usuario.Gestor.Sobrenome = (string)reader["SobrenomeGestor"];
+        }
+
+        return usuario;
+    }
+    public Gestor ConsultarGestor(int idUsuario)
+    {
+        SetProcedure(Procedures.SP_ConsultarUsuario);
+        AddParameter("IdUsuario", idUsuario);
+
+        var usuario = new Gestor();
+
+        var reader = ExecuteReader();
+        if(reader.Read())
+        {
+            usuario.IdUsuario = (short)reader["IdUsuario"];
+            usuario.Nome = (string)reader["Nome"];
+            usuario.Sobrenome = (string)reader["Sobrenome"];
+            usuario.DataNascimento = (DateTime)reader["DataNascimento"];
+            usuario.EGestor = (bool)reader["EGestor"];
+            usuario.EstaAtivo = (bool)reader["EstaAtivo"];
         }
 
         return usuario;
     }
 
-
-    public Usuario[] ConsultarUsuariosDoGestor(int idGestor)
+    public Subordinado[] ConsultarUsuariosDoGestor(int idGestor)
     {
         SetProcedure(Procedures.SP_ConsultarUsuariosDoGestor);
         AddParameter("IdGestor", idGestor);
 
-        List<Usuario> resultado = new List<Usuario>();
+        List<Subordinado> resultado = new List<Subordinado>();
 
         var reader = ExecuteReader();
         while(reader.Read())
         {
-            resultado.Add(new Usuario 
+            resultado.Add(new Subordinado 
             {
                 IdUsuario = int.Parse(reader["IdUsuario"].ToString()),
                 Nome = reader["Nome"].ToString(),
@@ -92,7 +108,7 @@ namespace PastelariaSMN.Data
         return resultado.ToArray();
     }
 
-    public int CriarUsuario(Usuario novoUsuario)
+    public int CriarGestor(Gestor novoUsuario)
     {
         SetProcedure(Procedures.SP_CriarUsuario);
 
@@ -102,9 +118,38 @@ namespace PastelariaSMN.Data
         AddParameter("Sobrenome", novoUsuario.Sobrenome);
         AddParameter("DataNascimento", novoUsuario.DataNascimento);
         AddParameter("Senha", hash);
-        AddParameter("EGestor", novoUsuario.EGestor ? 1 : 0);
         AddParameter("EstaAtivo", novoUsuario.EstaAtivo ? 1 : 0);
-        AddParameter("IdGestor", novoUsuario.IdGestor > 0 ? novoUsuario.IdGestor : null);
+        AddParameter("EGestor", 1);
+
+        AddParameter("Email", novoUsuario.Email.EnderecoEmail);
+
+        AddParameter("DDD", novoUsuario.Telefone.DDD);
+        AddParameter("Telefone", novoUsuario.Telefone.Numero);
+        AddParameter("IdTipoTelefone", novoUsuario.Telefone.IdTipo);
+
+        AddParameter("Rua", novoUsuario.Endereco.Rua);
+        AddParameter("Bairro", novoUsuario.Endereco.Bairro);
+        AddParameter("Numero", novoUsuario.Endereco.Numero);
+        AddParameter("Complemento", novoUsuario.Endereco.Complemento);
+        AddParameter("CEP", novoUsuario.Endereco.CEP);
+        AddParameter("Cidade", novoUsuario.Endereco.Cidade);
+        AddParameter("UF", novoUsuario.Endereco.UF);
+
+        return ExecuteNonQuery();
+    }
+    public int CriarSubordinado(Subordinado novoUsuario)
+    {
+        SetProcedure(Procedures.SP_CriarUsuario);
+
+        string hash = Cryptography.GerarHash(novoUsuario.Senha);
+
+        AddParameter("Nome", novoUsuario.Nome);
+        AddParameter("Sobrenome", novoUsuario.Sobrenome);
+        AddParameter("DataNascimento", novoUsuario.DataNascimento);
+        AddParameter("Senha", hash);
+        AddParameter("EGestor", 0);
+        AddParameter("EstaAtivo", novoUsuario.EstaAtivo ? 1 : 0);
+        AddParameter("IdGestor", novoUsuario.IdGestor);
 
         AddParameter("Email", novoUsuario.Email.EnderecoEmail);
 
@@ -123,9 +168,8 @@ namespace PastelariaSMN.Data
         return ExecuteNonQuery();
     }
 
-    public Usuario VerificarLogin(string email)
+    public Gestor VerificarLoginGestor(string email)
     {
-        // string hash = Cryptography.GerarHash(senha);
 
         SetProcedure(Procedures.SP_VerificarLogin);
         AddParameter("Email", email);
@@ -133,7 +177,7 @@ namespace PastelariaSMN.Data
         var reader = ExecuteReader();
         if(reader.Read()) 
         {
-            var usuario = new Usuario();
+            var usuario = new Gestor();
 
             usuario.Email.EnderecoEmail = reader["EnderecoEmail"].ToString();
             usuario.Senha = reader["Senha"].ToString();
@@ -142,8 +186,25 @@ namespace PastelariaSMN.Data
         }
 
         return null;
+    }
+    public Subordinado VerificarLoginSubordinado(string email)
+    {
 
-        // TODO: A responsábilidade de verificar, validar, orquestrar as camadas é do controller
+        SetProcedure(Procedures.SP_VerificarLogin);
+        AddParameter("Email", email);
+
+        var reader = ExecuteReader();
+        if(reader.Read()) 
+        {
+            var usuario = new Subordinado();
+
+            usuario.Email.EnderecoEmail = reader["EnderecoEmail"].ToString();
+            usuario.Senha = reader["Senha"].ToString();
+
+            return usuario;
+        }
+
+        return null;
     }
   }
 }

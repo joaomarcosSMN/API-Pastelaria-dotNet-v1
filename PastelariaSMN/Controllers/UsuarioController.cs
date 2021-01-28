@@ -39,33 +39,63 @@ namespace PastelariaSMN.Controllers
             
         }
 
-        [HttpGet("{idUsuario}")]
-        public IActionResult ConsultarUsuario(int idUsuario)
+        [HttpGet("gestor/{idUsuario}")]
+        public IActionResult ConsultarGestor(int idUsuario)
         {
-            //ToDo (jm) Está retornando campos Telefone, Email, Endereço
-                var result = _repo.ConsultarUsuario(idUsuario);
+                var result = _repo.ConsultarGestor(idUsuario);
+                return Ok(result);
+        }
+        [HttpGet("subordinado/{idUsuario}")]
+        public IActionResult ConsultarSubordinado(int idUsuario)
+        {
+                var result = _repo.ConsultarSubordinado(idUsuario);
                 return Ok(result);
         }
 
-        [HttpGet("{idGestor}/subordinados")]
+        [HttpGet("gestor/{idGestor}/subordinados")]
         public IActionResult ConsultarUsuariosDoGestor(int idGestor)
         {
             var result = _repo.ConsultarUsuariosDoGestor(idGestor);
             return Ok(result);                
         }
                 
-        [HttpPost("criar")]
-        public IActionResult CriarUsuario(Usuario novoUsuario)
+        [HttpPost("gestor/criar")]
+        public IActionResult CriarGestor(Gestor novoUsuario)
         {
-            var result = _repo.CriarUsuario(novoUsuario);
+            var result = _repo.CriarGestor(novoUsuario);
                                                 
             return Ok(result);
         }
 
-        [HttpPost("login")]
-        public IActionResult VerificarLogin(Usuario login)
+        [HttpPost("subordinado/criar")]
+        public IActionResult CriarSubordinado(Subordinado novoUsuario)
+        {
+            var result = _repo.CriarSubordinado(novoUsuario);
+                                                
+            return Ok(result);
+        }
+
+        [HttpPost("gestor/login")]
+        public IActionResult VerificarLoginGestor(Gestor login)
         {   
-            var result = _repo.VerificarLogin(login.Email.EnderecoEmail);
+            var result = _repo.VerificarLoginGestor(login.Email.EnderecoEmail);
+            
+            string hash = Cryptography.GerarHash(login.Senha);
+
+            if(result == null || hash != result.Senha)
+            {
+                return BadRequest("Email ou senha incorreta");
+            }
+            else 
+            {
+                return Ok("Login válido");
+            }
+        }
+
+        [HttpPost("subordinado/login")]
+        public IActionResult VerificarLoginSubordinado(Subordinado login)
+        {   
+            var result = _repo.VerificarLoginSubordinado(login.Email.EnderecoEmail);
             
             string hash = Cryptography.GerarHash(login.Senha);
 

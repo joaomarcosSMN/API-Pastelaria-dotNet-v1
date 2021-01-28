@@ -81,7 +81,8 @@ namespace PastelariaSMN.Data
           IdTarefa = (short)reader["IdTarefa"]
         });
       }
-    return retorno.ToArray();
+    
+      return retorno.ToArray();
 
     }
 
@@ -224,10 +225,6 @@ namespace PastelariaSMN.Data
         tarefa.DataCadastro = (DateTime)reader["DataCadastro"];
         tarefa.DataLimite = (DateTime)reader["DataLimite"];
         tarefa.IdStatusTarefa = (byte)reader["IdStatusTarefa"];
-        // tarefa.IdGestor = (short)reader["IdGestor"];
-        // tarefa.IdSubordinado = (short)reader["IdSubordinado"];
-        // tarefa.NomeGestor = (string)reader["NomeGestor"];
-        // tarefa.NomeSubordinado = (string)reader["NomeSubordinado"];
 
         if(reader["DataConclusao"].ToString() != "")
           tarefa.DataConclusao = (DateTime)reader["DataConclusao"];
