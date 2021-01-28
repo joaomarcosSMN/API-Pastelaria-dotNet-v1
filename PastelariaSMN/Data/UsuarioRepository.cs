@@ -99,7 +99,7 @@ namespace PastelariaSMN.Data
         {
             resultado.Add(new Subordinado 
             {
-                IdUsuario = int.Parse(reader["IdUsuario"].ToString()),
+                IdUsuario = short.Parse(reader["IdUsuario"].ToString()),
                 Nome = reader["Nome"].ToString(),
                 Sobrenome = reader["Sobrenome"].ToString(),
                 EstaAtivo = bool.Parse(reader["EstaAtivo"].ToString())
