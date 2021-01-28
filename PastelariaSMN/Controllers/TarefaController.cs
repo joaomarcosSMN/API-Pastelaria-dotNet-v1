@@ -1,9 +1,5 @@
-using System;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using PastelariaSMN.Data;
-using PastelariaSMN.DTOs;
 using PastelariaSMN.Infra;
 using PastelariaSMN.Models;
 
@@ -73,9 +69,9 @@ namespace PastelariaSMN.Controllers
             var emailData = _repo.ConsultarEmailGestorNomeSubordinado(result);
             
             // string body = "O seu gestor " + result.NomeGestor + " criou uma tarefa";
-            string body = $"O seu gestor { emailData.NomeGestor } criou uma tarefa com a descrição: '{ novaTarefa.Descricao }'.";
+            string body = $"O seu gestor { emailData.Gestor.Nome } { emailData.Gestor.Sobrenome } criou uma tarefa com a descrição: '{ novaTarefa.Descricao }'.";
 
-            EmailSent.SendEmail(_options, emailData.EmailSubordinado, $"Uma tarefa foi criada para você pelo seu gestor { emailData.NomeGestor }", body);
+            EmailSent.SendEmail(_options, emailData.Subordinado.Email.EnderecoEmail, $"Uma tarefa foi criada para você pelo seu gestor { emailData.Gestor.Nome } { emailData.Gestor.Sobrenome }", body);
 
             return Ok($"Tarefa com id {result} foi criada");
 
@@ -90,7 +86,6 @@ namespace PastelariaSMN.Controllers
             
         }
 
-
         [HttpPatch("tarefa/{idTarefa}/concluir")]
         public IActionResult ConcluirTarefa(int idTarefa)
         {
@@ -98,12 +93,11 @@ namespace PastelariaSMN.Controllers
 
             var emailData = _repo.ConsultarEmailGestorNomeSubordinado(idTarefa);
 
-            string body = $"O seu subordinado {emailData.NomeSubordinado} concluiu uma tarefa";
+            string body = $"O seu subordinado { emailData.Subordinado.Nome } { emailData.Subordinado.Sobrenome } concluiu uma tarefa";
 
-            EmailSent.SendEmail(_options, emailData.EmailGestor, "Uma tarefa foi concluida por um subordinado seu!", body);
+            EmailSent.SendEmail(_options, emailData.Gestor.Email.EnderecoEmail, "Uma tarefa foi concluida por um subordinado seu!", body);
 
             return Ok(result);
-
         }
 
         [HttpGet("usuario/{idSubordinado}/tarefa/quantidade")]
@@ -114,7 +108,6 @@ namespace PastelariaSMN.Controllers
             return Ok(result);
             
         }
-
 
         [HttpGet("usuario/gestor/{idGestor}/tarefa/total")]
         public IActionResult ConsultarTotalTarefasGestor(int idGestor)

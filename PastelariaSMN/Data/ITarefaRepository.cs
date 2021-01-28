@@ -1,6 +1,5 @@
 using System;
 using PastelariaSMN.Controllers;
-using PastelariaSMN.DTOs;
 using PastelariaSMN.Models;
 
 namespace PastelariaSMN.Data
@@ -21,6 +20,6 @@ namespace PastelariaSMN.Data
         int AlterarStatusDaTarefa(int idTarefa, int novoStatus);
         Tarefa[] ConsultarTodasTarefasGestor(int idGestor);
         Comentario[] ConsultarComentarioTarefa(int TarefaId);
-        SendMailsDTO ConsultarEmailGestorNomeSubordinado(int idTarefa);
+        Tarefa ConsultarEmailGestorNomeSubordinado(int idTarefa);
     }
 }

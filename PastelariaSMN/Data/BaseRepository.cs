@@ -5,7 +5,6 @@ using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Extensions.Configuration;
-using PastelariaSMN.DTOs;
 using PastelariaSMN.Infra;
 
 namespace PastelariaSMN.Data

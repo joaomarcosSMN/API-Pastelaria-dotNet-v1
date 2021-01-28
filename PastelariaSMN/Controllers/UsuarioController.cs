@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using PastelariaSMN.Data;
-using PastelariaSMN.DTOs;
 using PastelariaSMN.Infra;
 using PastelariaSMN.Models;
 
@@ -66,17 +65,13 @@ namespace PastelariaSMN.Controllers
         [HttpPost("login")]
         public IActionResult VerificarLogin(Usuario login)
         {   
-            // TODO (jm) Validar o email antes de ler a procedure  
-            var result = _repo.VerificarLogin(login.Email.EnderecoEmail, login.Senha);
+            var result = _repo.VerificarLogin(login.Email.EnderecoEmail);
             
-            if(result == null)
-            {
-                return BadRequest("Email ou senha incorreta 1");
-            }
+            string hash = Cryptography.GerarHash(login.Senha);
 
-            if(login.Senha != result.Senha)
+            if(result == null || hash != result.Senha)
             {
-                return Unauthorized("Email ou senha incorreta 2");
+                return BadRequest("Email ou senha incorreta");
             }
             else 
             {

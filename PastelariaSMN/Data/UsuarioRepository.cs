@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using PastelariaSMN.DTOs;
 using PastelariaSMN.Infra;
 using PastelariaSMN.Models;
 
@@ -124,9 +123,9 @@ namespace PastelariaSMN.Data
         return ExecuteNonQuery();
     }
 
-    public Usuario VerificarLogin(string email, string senha)
+    public Usuario VerificarLogin(string email)
     {
-        string hash = Cryptography.GerarHash(senha);
+        // string hash = Cryptography.GerarHash(senha);
 
         SetProcedure(Procedures.SP_VerificarLogin);
         AddParameter("Email", email);
