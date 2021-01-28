@@ -87,7 +87,7 @@ namespace PastelariaSMN.Controllers
         [HttpPost("Teste")]
         public IActionResult Teste(Usuario usuario)
         {
-            bool result = usuario.is_valid(_notifications);
+            usuario.is_valid(_notifications);
             if (_notifications.HasNotifications)
             {
                 return BadRequest(_notifications.Notifications);
