@@ -25,7 +25,11 @@ namespace PastelariaSMN.Controllers
         public IActionResult AtivarDesativarUsuario(int idUsuario)
         {
             var result = _repo.AtivarDesativarUsuario(idUsuario);
-            return Ok(result);
+            if (result == 0)
+            {
+                return NotFound("Usuário não encontrado");
+            }
+            return Ok("Status do usuário alterado");
         }
 
         [HttpPatch("{idUsuario}/atualizar")]
