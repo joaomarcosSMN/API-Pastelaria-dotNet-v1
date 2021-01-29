@@ -13,27 +13,37 @@ namespace PastelariaSMN.Controllers
     {
         public readonly ITarefaRepository _repo;
         public readonly EmailSettings _options;
-        public TarefaController(EmailSettings options, ITarefaRepository repo) 
+        public readonly NotificationList _notifications;
+        public TarefaController(EmailSettings options, ITarefaRepository repo, NotificationList notifications) 
         {
             _options = options;
             _repo = repo;
+            _notifications = notifications;
         }
         
         [HttpPatch("tarefa/{idTarefa}/status")]
         public IActionResult AlterarStatusDaTarefa(int idTarefa, Tarefa tarefaEditada)
         {
-            
-            var result = _repo.AlterarStatusDaTarefa(idTarefa, tarefaEditada.IdStatusTarefa);
-            if(result>0){
-                return Ok("Alteração feita com sucesso.");
+            tarefaEditada.is_validStatus(_notifications);
+
+            if(_notifications.HasNotifications)
+            {
+                return BadRequest(_notifications.Notifications);
             }
-            return BadRequest("Não foi possível fazer a alteração"); 
+
+            var result = _repo.AlterarStatusDaTarefa(idTarefa, tarefaEditada.IdStatusTarefa);
+            
+            if(result == 0) {
+                return BadRequest("Não foi possível fazer a alteração"); 
+            }
+            return Ok("Alteração feita com sucesso.");
+           
         }
         
         [HttpPatch("tarefa/{idTarefa}/cancelar")]
         public IActionResult CancelarTarefa(int idTarefa)
         {
-            
+                       
             var result = _repo.CancelarTarefa(idTarefa);
             if(result == 0)
             {
@@ -59,7 +69,13 @@ namespace PastelariaSMN.Controllers
         [HttpPost("tarefa/comentario/criar")]
         public IActionResult CriarComentario(Comentario novoComentario)
         {
-            
+            novoComentario.is_valid(_notifications);
+
+            if(_notifications.HasNotifications)
+            {
+                return BadRequest(_notifications.Notifications);
+            }
+
             var result = _repo.CriarComentario(novoComentario.Descricao, 
                                                novoComentario.IdTarefa
                                                );
@@ -73,6 +89,12 @@ namespace PastelariaSMN.Controllers
         [HttpPost("tarefa/criar")]
         public IActionResult CriarTarefa(Tarefa novaTarefa)
         {
+            novaTarefa.is_valid(_notifications);
+
+            if(_notifications.HasNotifications)
+            {
+                return BadRequest(_notifications.Notifications);
+            }
             
             var result = _repo.CriarTarefa(novaTarefa.Descricao, 
                                             novaTarefa.DataLimite,
@@ -192,6 +214,10 @@ namespace PastelariaSMN.Controllers
         public IActionResult ConsultarTarefasStatusUsuario(int idSubordinado, int idStatusTarefa)
         {
             var result = _repo.ConsultarTarefasStatusUsuario(idSubordinado, idStatusTarefa);
+            if(!result.Any())
+            {
+                return BadRequest("Usuario não tem tarefas com esse status");
+            }
             return Ok(result);
         }
 

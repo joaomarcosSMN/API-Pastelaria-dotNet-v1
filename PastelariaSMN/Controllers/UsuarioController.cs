@@ -56,6 +56,11 @@ namespace PastelariaSMN.Controllers
 
             novoUsuario.IsValidJustUser(_notifications);
 
+            if(_notifications.HasNotifications)
+            {
+                return BadRequest(_notifications.Notifications);
+            }
+
             string hash = Cryptography.GerarHash(novoUsuario.Senha);
             
             var result = _repo.AtualizarUsuario(idUsuario, 

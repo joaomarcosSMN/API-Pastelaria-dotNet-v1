@@ -1,4 +1,5 @@
 using System;
+using PastelariaSMN.Infra;
 
 namespace PastelariaSMN.Models
 {
@@ -21,5 +22,25 @@ namespace PastelariaSMN.Models
             this.Subordinado = new Subordinado();
             this.Gestor = new Gestor();
         }
+        public void is_valid(NotificationList notification)
+        {
+            if (this.Descricao.Length > 300)
+            {
+                notification.AddNotification("Descricao da Tarefa", "Sua Descrição da Tarefa excedeu o limite de caracteres.");
+            }
+
+            if (this.IdStatusTarefa < 1 || this.IdStatusTarefa > 5)
+            {
+                notification.AddNotification("Status da Tarefa", "O status da Tarefa nao pode ser menor que 0 ou maior que 5");
+            }
+        }
+        public void is_validStatus(NotificationList notification)
+        {
+            if (this.IdStatusTarefa < 1 || this.IdStatusTarefa > 5)
+            {
+                notification.AddNotification("Status da Tarefa", "O status da Tarefa nao pode ser menor que 0 ou maior que 5");
+            }
+        }
+
     }
 }

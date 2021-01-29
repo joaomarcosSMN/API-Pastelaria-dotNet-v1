@@ -1,3 +1,5 @@
+using PastelariaSMN.Infra;
+
 namespace PastelariaSMN.Models
 {
     public class Comentario
@@ -8,10 +10,16 @@ namespace PastelariaSMN.Models
         public Tarefa Tarefa { get; set; }
 
         // Acho que em nenhum caso precisa instanciar Tarefa no construtor
-        public Comentario() 
-        {
 
+        public void is_valid(NotificationList notification)
+        {
+            if (this.Descricao.Length > 200)
+            {
+                notification.AddNotification("Descricao da Tarefa", "Sua Descrição da Tarefa excedeu o limite de caracteres.");
+            }
         }
+
+
     }
 
     
