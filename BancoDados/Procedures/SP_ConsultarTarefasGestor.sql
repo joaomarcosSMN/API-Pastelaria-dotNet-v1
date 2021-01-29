@@ -6,8 +6,8 @@ CREATE PROCEDURE [dbo].[SP_ConsultarTarefasGestor]
 
 AS
 	/* 
-	Documentaï¿½ï¿½o
-	Mï¿½dulo............: Tarefa
+	Documentação
+	Módulo............: Tarefa
 	Objetivo..........: Consultar tarefas atrasadas, futuras e agendadas
 	EX................: EXEC [dbo].[SP_ConsultarTarefasGestor] 1
 	*/
@@ -18,4 +18,3 @@ AS
 				AND IdGestor = @IdGestor 
 
 	END
-

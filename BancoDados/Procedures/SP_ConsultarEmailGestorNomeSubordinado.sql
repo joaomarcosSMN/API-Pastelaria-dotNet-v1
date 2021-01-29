@@ -15,9 +15,11 @@ AS
 	BEGIN
 
 		SELECT t.IdTarefa, 
-			   ug.Nome +' '+ ug.Sobrenome AS NomeGestor, 
-			   us.Nome +' '+ us.Sobrenome AS NomeSubordinado,
+			   ug.Nome AS NomeGestor,
+			   ug.Sobrenome AS SobrenomeGestor, 
 			   ge.EnderecoEmail AS EmailGestor,
+			   us.Nome AS NomeSubordinado,
+			   us.Sobrenome AS SobrenomeSubordinado,
 			   se.EnderecoEmail AS EmailSubordinado
 
 			FROM Tarefa as t

@@ -6,9 +6,9 @@ CREATE PROCEDURE [dbo].[SP_ConsultarComentarioTarefa]
 
 AS
 	/* 
-	Documentaï¿½ï¿½o
-	Mï¿½dulo............: Comentï¿½rio
-	Objetivo..........: Consultar comentï¿½rios pelo IdTarefa
+	Documentação
+	Módulo............: Comentário
+	Objetivo..........: Consultar comentários pelo IdTarefa
 	EX................: EXEC [dbo].[SP_ConsultarComentarioTarefa] 1
 	*/
 	BEGIN
