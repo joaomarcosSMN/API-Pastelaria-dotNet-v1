@@ -28,9 +28,10 @@ namespace PastelariaSMN.Models
 
         public void is_valid(NotificationList notification)
         {
+
             if (this.Nome.Length > 30)
             {
-               notification.AddNotification("Nome de Usuario", "Seu Nome de Usuário excedeu o limite de caracteres."); 
+                notification.AddNotification("Nome de Usuario", "Seu Nome de Usuário excedeu o limite de caracteres.");
             }
             if (this.Sobrenome.Length > 50)
             {
@@ -40,9 +41,30 @@ namespace PastelariaSMN.Models
             {
                 notification.AddNotification("Senha de Usuario", "Sua Senha de Usuário excedeu o limite de caracteres.");
             }
-            Telefone.is_valid(notification);
-            Endereco.is_valid(notification);
+
+
             Email.is_valid(notification);
+            Endereco.is_valid(notification);
+            Telefone.is_valid(notification);
+
+
+        }
+
+        public void IsValidJustUser(NotificationList notification)
+        {
+
+            if (this.Nome.Length > 30)
+            {
+                notification.AddNotification("Nome de Usuario", "Seu Nome de Usuário excedeu o limite de caracteres.");
+            }
+            if (this.Sobrenome.Length > 50)
+            {
+                notification.AddNotification("Sobrenome de Usuario", "Seu Sobrenome de Usuário excedeu o limite de caracteres.");
+            }
+            if (this.Senha.Length > 50)
+            {
+                notification.AddNotification("Senha de Usuario", "Sua Senha de Usuário excedeu o limite de caracteres.");
+            }
         }
     }
 }

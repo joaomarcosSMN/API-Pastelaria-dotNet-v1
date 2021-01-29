@@ -35,46 +35,67 @@ namespace PastelariaSMN.Controllers
         [HttpPatch("{idUsuario}/atualizar")]
         public IActionResult AtualizarSubordinado(int idUsuario, Subordinado novoUsuario)
         {
+
+            novoUsuario.IsValidJustUser(_notifications);
+
             string hash = Cryptography.GerarHash(novoUsuario.Senha);
-            
             var result = _repo.AtualizarUsuario(idUsuario, 
                                                 novoUsuario.Nome, 
                                                 novoUsuario.Sobrenome, 
                                                 hash);
+            if (result == 0)
+            {
+                return NotFound("Usuário não encontrado");
+            }
             return Ok(result);
         }
 
         [HttpPatch("gestor/{idUsuario}/atualizar")]
         public IActionResult AtualizarGestor(int idUsuario, Gestor novoUsuario)
         {
+
+            novoUsuario.IsValidJustUser(_notifications);
+
             string hash = Cryptography.GerarHash(novoUsuario.Senha);
             
             var result = _repo.AtualizarUsuario(idUsuario, 
                                                 novoUsuario.Nome, 
                                                 novoUsuario.Sobrenome, 
                                                 hash);
+            if (result == 0)
+            {
+                return NotFound("Usuário não encontrado");
+            }
             return Ok(result);
         }
 
         [HttpGet("gestor/{idUsuario}")]
         public IActionResult ConsultarGestor(int idUsuario)
         {
-                var result = _repo.ConsultarGestor(idUsuario);
-                return Ok(result);
+            var result = _repo.ConsultarGestor(idUsuario);
+            if (result.IdUsuario == 0)
+            {
+                return NotFound("Usuário não encontrado");
+            }
+            return Ok(result);
         }
         
         [HttpGet("subordinado/{idUsuario}")]
         public IActionResult ConsultarSubordinado(int idUsuario)
         {
-                var result = _repo.ConsultarSubordinado(idUsuario);
-                return Ok(result);
+            var result = _repo.ConsultarSubordinado(idUsuario);
+            if (result.IdUsuario == 0)
+            {
+                return NotFound("Usuário não encontrado");
+            }
+            return Ok(result);
         }
 
         [HttpGet("gestor/{idGestor}/subordinados")]
         public IActionResult ConsultarUsuariosDoGestor(int idGestor)
         {
             var result = _repo.ConsultarUsuariosDoGestor(idGestor);
-            if (result.Any())
+            if (!result.Any())
             {
                 return BadRequest("Gestor não possui usuários.");
             }
@@ -84,14 +105,25 @@ namespace PastelariaSMN.Controllers
         [HttpPost("gestor/criar")]
         public IActionResult CriarGestor(Gestor novoUsuario)
         {
+            novoUsuario.is_valid(_notifications);
+            if (_notifications.HasNotifications)
+            {
+                return BadRequest(_notifications.Notifications);
+            }
+
             var result = _repo.CriarGestor(novoUsuario);
-                                                
+            
             return Ok(result);
         }
 
         [HttpPost("subordinado/criar")]
         public IActionResult CriarSubordinado(Subordinado novoUsuario)
         {
+            novoUsuario.is_valid(_notifications);
+            if (_notifications.HasNotifications)
+            {
+                return BadRequest(_notifications.Notifications);
+            }
             var result = _repo.CriarSubordinado(novoUsuario);
                                                 
             return Ok(result);

@@ -13,7 +13,8 @@ AS
 	*/
 	BEGIN
 		SELECT u.IdUsuario, u.Nome, u.Sobrenome, u.DataNascimento, u.EGestor, u.EstaAtivo, u.IdGestor,
-			   ug.Nome + ' ' + ug.Sobrenome AS NomeGestor
+			   ug.Nome AS NomeGestor,
+			   ug.Sobrenome AS SobrenomeGestor
 			FROM [dbo].[Usuario] AS u
 
 			INNER JOIN Usuario AS ug 
