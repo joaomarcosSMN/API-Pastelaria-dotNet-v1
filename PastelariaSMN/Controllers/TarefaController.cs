@@ -1,3 +1,4 @@
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using PastelariaSMN.Data;
 using PastelariaSMN.Infra;
@@ -34,6 +35,10 @@ namespace PastelariaSMN.Controllers
         {
             
             var result = _repo.CancelarTarefa(idTarefa);
+            if(result == 0)
+            {
+                return NotFound("Tarefa não encontrada");
+            }
             return Ok(result);
             
         }
@@ -43,6 +48,10 @@ namespace PastelariaSMN.Controllers
         {
             
             var result = _repo.ConsultarComentarioTarefa(idTarefa);
+            if (!result.Any())
+            {
+                return BadRequest("Tarefa não possui comentarios.");
+            }
             return Ok(result); 
             
         }
@@ -54,6 +63,10 @@ namespace PastelariaSMN.Controllers
             var result = _repo.CriarComentario(novoComentario.Descricao, 
                                                novoComentario.IdTarefa
                                                );
+            if(result == 0)
+            {
+                BadRequest("Tarefa não criada");
+            }
             return Ok(result);
         }
 
@@ -66,6 +79,10 @@ namespace PastelariaSMN.Controllers
                                             novaTarefa.IdGestor,
                                             novaTarefa.IdSubordinado,
                                             novaTarefa.IdStatusTarefa);
+            if(result == 0)
+            {
+                BadRequest("Tarefa não criada");
+            }
 
             // result retorna int idTarefa da tarefa recem criada
             var emailData = _repo.ConsultarEmailGestorNomeSubordinado(result);
@@ -83,8 +100,12 @@ namespace PastelariaSMN.Controllers
         public IActionResult EditarDataLimite(int idTarefa, Tarefa tarefaEditada)
         {           
             
-                var result = _repo.EditarDataLimite(idTarefa, tarefaEditada.DataLimite);
-                return Ok(result);
+            var result = _repo.EditarDataLimite(idTarefa, tarefaEditada.DataLimite);
+            if(result == 0)
+            {
+                BadRequest("Data limite não editada");
+            }
+            return Ok(result);
             
         }
 
@@ -92,6 +113,11 @@ namespace PastelariaSMN.Controllers
         public IActionResult ConcluirTarefa(int idTarefa)
         {
             var result = _repo.ConcluirTarefa(idTarefa);
+
+            if(result == 0)
+            {
+                BadRequest("Tarefa não concluida");
+            }
 
             var emailData = _repo.ConsultarEmailGestorNomeSubordinado(idTarefa);
 
@@ -122,6 +148,10 @@ namespace PastelariaSMN.Controllers
         public IActionResult ConsultarTodasTarefasGestor(int idGestor)
         {
             var result = _repo.ConsultarTodasTarefasGestor(idGestor);
+            if(!result.Any())
+            {
+                return BadRequest("Gestor não tem tarefas");
+            }
             return Ok(result);
         }
 
@@ -129,6 +159,10 @@ namespace PastelariaSMN.Controllers
         public IActionResult ConsultarTarefasGestorStatus(int idGestor, int idStatusTarefa)
         {
             var result = _repo.ConsultarTarefasGestorStatus(idGestor, idStatusTarefa);
+            if(!result.Any())
+            {
+                return BadRequest("Gestor não tem tarefas com esse status");
+            }
             return Ok(result);
         }
 
@@ -136,6 +170,10 @@ namespace PastelariaSMN.Controllers
         public IActionResult ConsultarTarefasGestor(int idGestor)
         {
             var result = _repo.ConsultarTarefasGestor(idGestor);
+            if(!result.Any())
+            {
+                return BadRequest("Gestor não tem tarefas pendentes");
+            }
             return Ok(result);
         }
 
@@ -143,6 +181,10 @@ namespace PastelariaSMN.Controllers
         public IActionResult ConsultarTarefasUsuario(int idSubordinado)
         {
             var result = _repo.ConsultarTarefasUsuario(idSubordinado);
+            if(!result.Any())
+            {
+                return BadRequest("Usuario não tem tarefas");
+            }
             return Ok(result);
         }
 
