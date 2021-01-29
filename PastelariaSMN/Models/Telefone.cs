@@ -15,7 +15,7 @@ namespace PastelariaSMN.Models
         {
             if (this.Numero > 999999999)
             {
-                notification.AddNotification("Numero de Telefone", "Seu número de telefone excedeu o limite de caracteres.");
+                notification.AddNotification("Numero de Telefone", "Seu numero de telefone excedeu o limite de caracteres.");
             }
             if (this.DDD >= 99 )
             {
