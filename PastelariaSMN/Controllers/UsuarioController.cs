@@ -29,15 +29,27 @@ namespace PastelariaSMN.Controllers
         }
 
         [HttpPatch("{idUsuario}/atualizar")]
-        public IActionResult AtualizarUsuario(int idUsuario, Usuario novoUsuario)
+        public IActionResult AtualizarSubordinado(int idUsuario, Subordinado novoUsuario)
         {
+            string hash = Cryptography.GerarHash(novoUsuario.Senha);
             
             var result = _repo.AtualizarUsuario(idUsuario, 
                                                 novoUsuario.Nome, 
                                                 novoUsuario.Sobrenome, 
-                                                novoUsuario.Senha);
+                                                hash);
             return Ok(result);
+        }
+
+        [HttpPatch("gestor/{idUsuario}/atualizar")]
+        public IActionResult AtualizarGestor(int idUsuario, Gestor novoUsuario)
+        {
+            string hash = Cryptography.GerarHash(novoUsuario.Senha);
             
+            var result = _repo.AtualizarUsuario(idUsuario, 
+                                                novoUsuario.Nome, 
+                                                novoUsuario.Sobrenome, 
+                                                hash);
+            return Ok(result);
         }
 
         [HttpGet("gestor/{idUsuario}")]
@@ -46,6 +58,7 @@ namespace PastelariaSMN.Controllers
                 var result = _repo.ConsultarGestor(idUsuario);
                 return Ok(result);
         }
+        
         [HttpGet("subordinado/{idUsuario}")]
         public IActionResult ConsultarSubordinado(int idUsuario)
         {
