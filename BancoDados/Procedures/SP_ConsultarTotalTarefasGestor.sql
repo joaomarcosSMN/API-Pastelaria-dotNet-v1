@@ -9,7 +9,7 @@ AS
 	Documentação
 	Módulo............: Tarefa
 	Objetivo..........: Consultar o total de tarefas atrasadas, futuras e agendadas
-	EX................: EXEC [dbo].[SP_ConsultarTotalTarefasGestor] 1
+	EX................: EXEC [dbo].[SP_ConsultarTotalTarefasGestor] 2
 	*/
 	BEGIN
 		SELECT COUNT(IdTarefa) AS Total FROM [dbo].[Tarefa]

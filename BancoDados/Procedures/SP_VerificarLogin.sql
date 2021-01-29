@@ -9,13 +9,15 @@ AS
 	Documentação
 	Módulo............: Usuario, Email
 	Objetivo..........: Consultar o login de acordo com a coluna Usuario.Senha e Email.EnderecoEmail
-	EX................: EXEC [dbo].[SP_VericarLogin] 'joaozin@email.com'
+	EX................: EXEC [dbo].[SP_VericarLogin] 'joaozin@email.co'
 	*/
 	BEGIN
 		SELECT e.EnderecoEmail, 
-			   u.Senha 
+				u.Senha,
+				u.EGestor
 			FROM Email AS e
 				INNER JOIN [dbo].[Usuario] AS u WITH(NOLOCK)
 					ON e.IdUsuario = u.IdUsuario
 			WHERE e.EnderecoEmail = @Email
+
 	END

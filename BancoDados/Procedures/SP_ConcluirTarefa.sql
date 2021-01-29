@@ -6,16 +6,15 @@ CREATE PROCEDURE [dbo].[SP_ConcluirTarefa]
 	
 AS
 	/* 
-	Documentaï¿½ï¿½o
-	Mï¿½dulo............: Tarefa
+	Documentação
+	Módulo............: Tarefa
 	Objetivo..........: Conclui a Tarefa
-	EX................: EXEC [dbo].[SP_ConcluirTarefa] 1
+	EX................: EXEC [dbo].[SP_ConcluirTarefa] 2
 	*/
 	BEGIN
 
 		UPDATE [dbo].[Tarefa]
-			SET DataConclusao = GETDATE(), IdStatusTarefa = 1
+			SET DataConclusao = GETDATE()
 			WHERE IdTarefa = @IdTarefa
 		
 	END
-	
