@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using PastelariaSMN.Data;
@@ -81,7 +82,7 @@ namespace PastelariaSMN.Controllers
                                                );
             if(result == 0)
             {
-                BadRequest("Tarefa não criada");
+                return BadRequest("Tarefa não criada");
             }
             return Ok(result);
         }
@@ -103,7 +104,7 @@ namespace PastelariaSMN.Controllers
                                             novaTarefa.IdStatusTarefa);
             if(result == 0)
             {
-                BadRequest("Tarefa não criada");
+                return BadRequest("Tarefa não criada");
             }
 
             // result retorna int idTarefa da tarefa recem criada
@@ -118,15 +119,19 @@ namespace PastelariaSMN.Controllers
 
         }
 
-        [HttpPatch("tarefa/{idTarefa}/datalimite")]
+        [HttpPut("tarefa/{idTarefa}/datalimite")]
         public IActionResult EditarDataLimite(int idTarefa, Tarefa tarefaEditada)
         {           
-            
+            Console.WriteLine(tarefaEditada.DataLimite.GetType() +" "+ tarefaEditada.DataLimite);
             var result = _repo.EditarDataLimite(idTarefa, tarefaEditada.DataLimite);
             if(result == 0)
             {
-                BadRequest("Data limite não editada");
+                Console.WriteLine(tarefaEditada.DataLimite);
+                Console.WriteLine(tarefaEditada.DataLimite.GetType());
+                
+                return BadRequest("Data limite não editada");
             }
+            Console.WriteLine("ok");
             return Ok(result);
             
         }
@@ -138,7 +143,7 @@ namespace PastelariaSMN.Controllers
 
             if(result == 0)
             {
-                BadRequest("Tarefa não concluida");
+                return BadRequest("Tarefa não concluida");
             }
 
             var emailData = _repo.ConsultarEmailGestorNomeSubordinado(idTarefa);
