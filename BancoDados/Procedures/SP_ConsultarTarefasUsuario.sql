@@ -9,7 +9,7 @@ AS
 	Documentação
 	Módulo............: Tarefa
 	Objetivo..........: Consulta as tarefas de um usuário específico
-	EX................: EXEC [dbo].[SP_ConsultarTarefasUsuario] 2
+	EX................: EXEC [dbo].[SP_ConsultarTarefasUsuario] 3
 	*/
 	BEGIN
 		SELECT t.IdTarefa, 
@@ -19,13 +19,14 @@ AS
 			   t.DataConclusao, 
 			   t.DataCancelada, 
 			   t.IdGestor, 
-			   u.Nome AS NomeGestor, 
+			   ug.Nome AS NomeGestor, 
 			   t.IdSubordinado, 
-			   u.Nome AS NomeSubordinado, 
+			   us.Nome AS NomeSubordinado, 
 			   t.IdStatusTarefa  
 			FROM [dbo].[Tarefa] AS t
-				INNER JOIN [dbo].[Usuario] AS u 
-					ON t.IdGestor = u.IdUsuario 
-						OR t.IdSubordinado = u.IdUsuario
+				INNER JOIN [dbo].[Usuario] AS ug 
+					ON t.IdGestor = ug.IdUsuario 
+				INNER JOIN [dbo].[Usuario] AS us
+					ON t.IdSubordinado = us.IdUsuario
 			WHERE IdSubordinado = @IdUsuario
 	END
