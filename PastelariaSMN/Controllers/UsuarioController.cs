@@ -21,7 +21,7 @@ namespace PastelariaSMN.Controllers
             _notifications = notifications;
         }
 
-        [HttpPatch("{idUsuario}/status")]
+        [HttpPut("{idUsuario}/status")]
         public IActionResult AtivarDesativarUsuario(int idUsuario)
         {
             var result = _repo.AtivarDesativarUsuario(idUsuario);
@@ -32,7 +32,7 @@ namespace PastelariaSMN.Controllers
             return Ok("Status do usuário alterado");
         }
 
-        [HttpPatch("{idUsuario}/atualizar")]
+        [HttpPut("{idUsuario}/atualizar")]
         public IActionResult AtualizarSubordinado(int idUsuario, Subordinado novoUsuario)
         {
 
@@ -50,7 +50,7 @@ namespace PastelariaSMN.Controllers
             return Ok(result);
         }
 
-        [HttpPatch("gestor/{idUsuario}/atualizar")]
+        [HttpPut("gestor/{idUsuario}/atualizar")]
         public IActionResult AtualizarGestor(int idUsuario, Gestor novoUsuario)
         {
 

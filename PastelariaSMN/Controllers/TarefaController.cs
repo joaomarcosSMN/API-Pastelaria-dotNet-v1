@@ -21,7 +21,7 @@ namespace PastelariaSMN.Controllers
             _notifications = notifications;
         }
         
-        [HttpPatch("tarefa/{idTarefa}/status")]
+        [HttpPut("tarefa/{idTarefa}/status")]
         public IActionResult AlterarStatusDaTarefa(int idTarefa, Tarefa tarefaEditada)
         {
             tarefaEditada.is_validStatus(_notifications);
@@ -40,7 +40,7 @@ namespace PastelariaSMN.Controllers
            
         }
         
-        [HttpPatch("tarefa/{idTarefa}/cancelar")]
+        [HttpPut("tarefa/{idTarefa}/cancelar")]
         public IActionResult CancelarTarefa(int idTarefa)
         {
                        
@@ -118,7 +118,7 @@ namespace PastelariaSMN.Controllers
 
         }
 
-        [HttpPatch("tarefa/{idTarefa}/datalimite")]
+        [HttpPut("tarefa/{idTarefa}/datalimite")]
         public IActionResult EditarDataLimite(int idTarefa, Tarefa tarefaEditada)
         {           
             
@@ -131,7 +131,7 @@ namespace PastelariaSMN.Controllers
             
         }
 
-        [HttpPatch("tarefa/{idTarefa}/concluir")]
+        [HttpPut("tarefa/{idTarefa}/concluir")]
         public IActionResult ConcluirTarefa(int idTarefa)
         {
             var result = _repo.ConcluirTarefa(idTarefa);
