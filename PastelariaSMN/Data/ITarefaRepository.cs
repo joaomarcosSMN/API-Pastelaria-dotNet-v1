@@ -21,5 +21,6 @@ namespace PastelariaSMN.Data
         Tarefa[] ConsultarTodasTarefasGestor(int idGestor);
         Comentario[] ConsultarComentarioTarefa(int TarefaId);
         Tarefa ConsultarEmailGestorNomeSubordinado(int idTarefa);
+        Tarefa ConsultarTarefa(int idTarefa);
     }
 }

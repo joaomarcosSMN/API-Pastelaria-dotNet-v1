@@ -226,6 +226,17 @@ namespace PastelariaSMN.Controllers
             return Ok(result);
         }
 
+        [HttpGet("tarefa/{idTarefa}")]
+        public IActionResult ConsultarTarefa(int idTarefa)
+        {
+            var result = _repo.ConsultarTarefa(idTarefa);
+            if(result.IdTarefa == 0)
+            {
+                return BadRequest("Tarefa não existe");
+            }
+            return Ok(result);
+        }
+
         // post - usuario/0/tarefa
         // get - usuario/0/tarefa/pendentes
         // get - usuario/0/tarefa/0/

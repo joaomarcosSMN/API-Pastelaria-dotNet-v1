@@ -30,6 +30,7 @@ namespace PastelariaSMN.Data
       SP_CriarTarefa,
       SP_EditarDataLimite,
       SP_ConsultarEmailGestorNomeSubordinado,
+      SP_ConsultarTarefa
 
     }
 
@@ -315,6 +316,32 @@ namespace PastelariaSMN.Data
         }
 
         return result;
+    }
+    public Tarefa ConsultarTarefa(int idTarefa)
+    {
+      SetProcedure(Procedures.SP_ConsultarTarefa);
+      AddParameter("IdTarefa", idTarefa);
+
+      var tarefa = new Tarefa();
+
+      var reader = ExecuteReader();
+      if(reader.Read())
+      {
+          tarefa.IdTarefa = (short)reader["IdTarefa"];
+          tarefa.Descricao = (string)reader["Descricao"];
+          tarefa.DataCadastro = (DateTime)reader["DataCadastro"];
+          tarefa.DataLimite = (DateTime)reader["DataLimite"];
+
+          if(reader["DataConclusao"].ToString() != "")
+          tarefa.DataConclusao = (DateTime)reader["DataConclusao"];
+          if(reader["DataCancelada"].ToString() != "")
+          tarefa.DataCancelada = (DateTime)reader["DataCancelada"];
+
+          tarefa.IdGestor = (short)reader["IdGestor"];
+          tarefa.IdStatusTarefa = (byte)reader["IdStatusTarefa"];
+      }
+
+      return tarefa;
     }
   }
 }
