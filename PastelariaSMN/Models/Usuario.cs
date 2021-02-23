@@ -12,6 +12,7 @@ namespace PastelariaSMN.Models
         public DateTime DataNascimento { get; set; }
         public string Senha { get; set; }
         public bool EstaAtivo { get; set; } = true;
+        public bool EGestor { get; set; }
         public int IdEndereco { get; set; }
         public Endereco Endereco { get; set; }
         public short IdEmail { get; set; }
