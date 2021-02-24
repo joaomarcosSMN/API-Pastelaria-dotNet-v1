@@ -450,6 +450,7 @@ namespace PastelariaSMN.Data
 
           tarefa.IdGestor = (short)reader["IdGestor"];
           tarefa.IdStatusTarefa = (byte)reader["IdStatusTarefa"];
+          tarefa.Status.Nome = (string)reader["Nome"];
       }
 
       return tarefa;

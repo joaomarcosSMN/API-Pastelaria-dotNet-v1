@@ -21,6 +21,7 @@ namespace PastelariaSMN.Models
         public Tarefa() { 
             this.Subordinado = new Subordinado();
             this.Gestor = new Gestor();
+            this.Status = new StatusTarefa();
         }
         public void is_valid(NotificationList notification)
         {
