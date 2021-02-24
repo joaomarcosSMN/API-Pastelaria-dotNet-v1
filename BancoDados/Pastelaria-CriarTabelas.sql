@@ -86,8 +86,6 @@ CREATE TABLE Comentario (
 
 
 
-
-
 -- Adicionando colunas em Comentario (Já adicionei no Create Table também)
 --ALTER TABLE Comentario ADD
 --	DataCadastro DATETIME DEFAULT GETDATE() NOT NULL
