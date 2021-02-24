@@ -74,6 +74,17 @@ namespace PastelariaSMN.Controllers
             return Ok(result);
         }
 
+        [HttpGet("{idUsuario}")]
+        public IActionResult ConsultarUsuario(int idUsuario)
+        {
+            var result = _repo.ConsultarUsuario(idUsuario);
+            if (result.IdUsuario == 0)
+            {
+                return NotFound("Usuário não encontrado");
+            }
+            return Ok(result);
+        }
+
         [HttpGet("gestor/{idUsuario}")]
         public IActionResult ConsultarGestor(int idUsuario)
         {

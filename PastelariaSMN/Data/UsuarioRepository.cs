@@ -41,6 +41,63 @@ namespace PastelariaSMN.Data
         return ExecuteNonQuery();
     }
 
+    public Usuario ConsultarUsuario(int idUsuario)
+    {
+        SetProcedure(Procedures.SP_ConsultarUsuario);
+        AddParameter("IdUsuario", idUsuario);
+
+        var reader = ExecuteReader();
+        if(reader.Read())
+        {
+            Usuario usuario;
+
+            if((bool)reader["EGestor"])
+            {
+                usuario = new Gestor();
+            }
+            else
+            {
+                usuario = new Subordinado();
+
+                usuario.Gestor.IdUsuario = (short)reader["IdGestor"];
+                usuario.Gestor.Nome = (string)reader["NomeGestor"];
+                usuario.Gestor.Sobrenome = (string)reader["SobrenomeGestor"];
+            }
+
+            usuario.IdUsuario = (short)reader["IdUsuario"];
+            usuario.Nome = (string)reader["Nome"];
+            usuario.Sobrenome = (string)reader["Sobrenome"];
+            usuario.DataNascimento = (DateTime)reader["DataNascimento"];
+            usuario.EGestor = (bool)reader["EGestor"];
+            usuario.EstaAtivo = (bool)reader["EstaAtivo"];
+            // usuario.IdGestor = (short)reader["IdGestor"];
+
+            // usuario.Gestor.IdUsuario = (short)reader["IdGestor"];
+            // usuario.Gestor.Nome = (string)reader["NomeGestor"];
+            // usuario.Gestor.Sobrenome = (string)reader["SobrenomeGestor"];
+
+            usuario.Email.IdEmail = (short)reader["IdEmail"];
+            usuario.Email.EnderecoEmail = (string)reader["EnderecoEmail"];
+
+            usuario.Telefone.IdTelefone = (short)reader["IdTelefone"];
+            usuario.Telefone.DDD = (byte)reader["DDD"];
+            usuario.Telefone.Numero = (int)reader["NumeroTelefone"];
+
+            usuario.Endereco.IdEndereco = (short)reader["IdTelefone"];
+            usuario.Endereco.UF = (string)reader["UF"];
+            usuario.Endereco.Cidade = (string)reader["Cidade"];
+            usuario.Endereco.Bairro = (string)reader["Bairro"];
+            usuario.Endereco.Rua = (string)reader["Rua"];
+            usuario.Endereco.Numero = (string)reader["NumeroEndereco"];
+            usuario.Endereco.Complemento = (string)reader["Complemento"];
+            usuario.Endereco.CEP = (string)reader["CEP"];
+            
+            return usuario;
+        }
+
+        return null;
+    }
+
     public Subordinado ConsultarSubordinado(int idUsuario)
     {
         SetProcedure(Procedures.SP_ConsultarUsuario);
@@ -82,6 +139,7 @@ namespace PastelariaSMN.Data
 
         return usuario;
     }
+    
     public Gestor ConsultarGestor(int idUsuario)
     {
         SetProcedure(Procedures.SP_ConsultarUsuario);

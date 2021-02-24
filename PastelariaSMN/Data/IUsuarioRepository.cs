@@ -8,6 +8,7 @@ namespace PastelariaSMN.Data
         int CriarGestor(Gestor novoUsuario);
         int CriarSubordinado(Subordinado novoUsuario);
         Subordinado[] ConsultarUsuariosDoGestor(int idGestor);
+        Usuario ConsultarUsuario(int idUsuario); 
         Gestor ConsultarGestor(int idUsuario); 
         Subordinado ConsultarSubordinado(int idUsuario); 
         Gestor VerificarLoginGestor(string email);
