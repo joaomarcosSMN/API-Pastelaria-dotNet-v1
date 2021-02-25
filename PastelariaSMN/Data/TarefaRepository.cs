@@ -104,15 +104,18 @@ namespace PastelariaSMN.Data
         var reader = ExecuteReader();
         while(reader.Read())
         {
-            retorno.Add( new Tarefa {
-            IdTarefa = (short)reader["IdTarefa"],
-            Descricao = (string)reader["Descricao"],
-            DataCadastro = (DateTime)reader["DataCadastro"],
-            DataLimite = (DateTime)reader["DataLimite"],
-            IdGestor = (short)reader["IdGestor"],
-            IdSubordinado = (short)reader["IdSubordinado"],
-            IdStatusTarefa = (byte)reader["IdStatusTarefa"]
-            });
+          Tarefa tarefa = new Tarefa();
+
+          tarefa.IdTarefa = (short)reader["IdTarefa"];
+          tarefa.Descricao = (string)reader["Descricao"];
+          tarefa.DataCadastro = (DateTime)reader["DataCadastro"];
+          tarefa.DataLimite = (DateTime)reader["DataLimite"];
+          tarefa.IdGestor = (short)reader["IdGestor"];
+          tarefa.IdSubordinado = (short)reader["IdSubordinado"];
+          tarefa.IdStatusTarefa = (byte)reader["IdStatusTarefa"];
+          tarefa.Status.Nome = (string)reader["Nome"];
+
+          retorno.Add( tarefa);
         }
         
         return retorno.ToArray();
@@ -262,6 +265,7 @@ namespace PastelariaSMN.Data
         tarefa.IdSubordinado = (short)reader["IdSubordinado"];
         tarefa.Gestor.Nome = (string)reader["NomeGestor"];
         tarefa.Subordinado.Nome = (string)reader["NomeSubordinado"];
+        tarefa.Status.Nome = (string)reader["Nome"];
 
         if(reader["DataConclusao"].ToString() != "")
           tarefa.DataConclusao = (DateTime)reader["DataConclusao"];

@@ -32,6 +32,24 @@ namespace PastelariaSMN.Controllers
             return Ok("Status do usuário alterado");
         }
 
+        // [HttpPut("{idUsuario}/atualizar/teste")]
+        // public IActionResult AtualizarUsuario(int idUsuario, Usuario novoUsuario)
+        // {
+
+        //     novoUsuario.IsValidJustUser(_notifications);
+
+        //     string hash = Cryptography.GerarHash(novoUsuario.Senha);
+        //     var result = _repo.AtualizarUsuario(idUsuario, 
+        //                                         novoUsuario.Nome, 
+        //                                         novoUsuario.Sobrenome, 
+        //                                         hash);
+        //     if (result == 0)
+        //     {
+        //         return NotFound("Usuário não encontrado");
+        //     }
+        //     return Ok(result);
+        // }
+
         [HttpPut("{idUsuario}/atualizar")]
         public IActionResult AtualizarSubordinado(int idUsuario, Subordinado novoUsuario)
         {
