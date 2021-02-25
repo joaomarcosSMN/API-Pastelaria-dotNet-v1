@@ -12,9 +12,21 @@ AS
 	EX................: EXEC [dbo].[SP_ConsultarTarefasAndamento] 15
 	*/
 	BEGIN
-		SELECT IdTarefa, Descricao, DataCadastro, DataLimite, DataConclusao, DataCancelada, IdGestor, IdSubordinado, IdStatusTarefa   
-			FROM Tarefa 
-			WHERE IdStatusTarefa IN (2,3,4) 
+		SELECT t.IdTarefa, 
+			   t.Descricao, 
+			   t.DataCadastro, 
+			   t.DataLimite, 
+			   t.DataConclusao, 
+			   t.DataCancelada, 
+			   t.IdGestor, 
+			   t.IdSubordinado, 
+			   t.IdStatusTarefa,
+			   st.Nome
+
+			FROM [dbo].[Tarefa] AS t
+				INNER JOIN [dbo].[StatusTarefa] AS st
+					ON t.IdStatusTarefa = st.IdStatusTarefa
+			WHERE t.IdStatusTarefa IN (2,3,4) 
 				AND (IdGestor = @IdUsuario OR IdSubordinado = @IdUsuario)
 
 	END
