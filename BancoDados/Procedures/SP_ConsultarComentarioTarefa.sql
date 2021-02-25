@@ -9,11 +9,11 @@ AS
 	Documentação
 	Módulo............: Comentário
 	Objetivo..........: Consultar comentários pelo IdTarefa
-	EX................: EXEC [dbo].[SP_ConsultarComentarioTarefa] 1
+	EX................: EXEC [dbo].[SP_ConsultarComentarioTarefa] 4
 	*/
 	BEGIN
-        SELECT IdComentario, Descricao, IdTarefa 
-			FROM Comentario
+        SELECT IdComentario, Descricao, DataCadastro, IdTarefa, IdUsuario 
+			FROM [dbo].[Comentario]
 			WHERE IdTarefa = @IdTarefa
 
 	END

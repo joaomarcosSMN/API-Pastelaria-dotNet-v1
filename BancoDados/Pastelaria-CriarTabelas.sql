@@ -72,7 +72,25 @@ CREATE TABLE Tarefa (
 CREATE TABLE Comentario (
 	IdComentario SMALLINT PRIMARY KEY IDENTITY,
 	Descricao VARCHAR(200) NOT NULL,
-	IdTarefa SMALLINT NOT NULL FOREIGN KEY (IdTarefa) REFERENCES Tarefa
-
+	DataCadastro DATETIME DEFAULT GETDATE() NOT NULL,
+	IdTarefa SMALLINT NOT NULL FOREIGN KEY (IdTarefa) REFERENCES Tarefa,
+	IdUsuario SMALLINT NOT NULL FOREIGN KEY (IdUsuario) REFERENCES Usuario
 )
+
+
+
+
+
+
+
+
+
+
+-- Adicionando colunas em Comentario (Já adicionei no Create Table também)
+--ALTER TABLE Comentario ADD
+--	DataCadastro DATETIME DEFAULT GETDATE() NOT NULL
+
+--ALTER TABLE Comentario ADD
+--	IdUsuario SMALLINT NOT NULL FOREIGN KEY (IdUsuario) REFERENCES Usuario
+--	DEFAULT 15
 

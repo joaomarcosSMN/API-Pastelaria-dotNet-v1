@@ -1,3 +1,4 @@
+using System;
 using PastelariaSMN.Infra;
 
 namespace PastelariaSMN.Models
@@ -6,8 +7,11 @@ namespace PastelariaSMN.Models
     {
         public int IdComentario { get; set; }
         public string Descricao { get; set; }
+        public DateTime DataCadastro { get; set; }
         public int IdTarefa { get; set; }
         public Tarefa Tarefa { get; set; }
+        public int IdUsuario { get; set; }
+        public Usuario Usuario { get; set; }
 
         // Acho que em nenhum caso precisa instanciar Tarefa no construtor
 

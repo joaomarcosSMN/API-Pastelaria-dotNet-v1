@@ -19,6 +19,7 @@ namespace PastelariaSMN.Models
         public Email Email { get; set; }
         public short IdTelefone { get; set; }
         public Telefone Telefone { get; set; }
+        public Gestor Gestor { get; set; }
 
         public Usuario() {
             this.Email = new Email();

@@ -30,8 +30,13 @@ namespace PastelariaSMN.Data
       SP_CriarTarefa,
       SP_EditarDataLimite,
       SP_ConsultarEmailGestorNomeSubordinado,
-      SP_ConsultarTarefa
+      SP_ConsultarTarefa,
 
+      ////////////////////////////
+       SP_ConsultarTotalTarefas, 
+       SP_ConsultarTodasTarefasUsuario,
+       SP_ConsultarTarefasPorStatus,
+       SP_ConsultarTarefasAndamento
     }
 
     // public TarefaRepository(Tarefa tarefa) : base(tarefa)
@@ -66,10 +71,11 @@ namespace PastelariaSMN.Data
       return ExecuteNonQuery();
     }
 
-    public Comentario[] ConsultarComentarioTarefa(int TarefaId)
+    // AQUI
+    public Comentario[] ConsultarComentarioTarefa(int idTarefa)
     {
       SetProcedure(Procedures.SP_ConsultarComentarioTarefa);
-      AddParameter("IdTarefa", TarefaId);
+      AddParameter("IdTarefa", idTarefa);
 
       List<Comentario> retorno = new List<Comentario>();
 
@@ -79,18 +85,19 @@ namespace PastelariaSMN.Data
         retorno.Add( new Comentario {
           IdComentario = (short)reader["IdComentario"],
           Descricao = (string)reader["Descricao"],
-          IdTarefa = (short)reader["IdTarefa"]
+          DataCadastro = (DateTime)reader["DataCadastro"],
+          IdTarefa = (short)reader["IdTarefa"],
+          IdUsuario = (short)reader["IdUsuario"]
         });
       }
     
       return retorno.ToArray();
-
     }
 
-    public Tarefa[] ConsultarTarefasGestor(int idGestor)
+    public Tarefa[] ConsultarTarefasAndamento(int idUsuario)
     {
-        SetProcedure(Procedures.SP_ConsultarTarefasGestor);
-        AddParameter("IdGestor", idGestor);
+        SetProcedure(Procedures.SP_ConsultarTarefasAndamento);
+        AddParameter("idUsuario", idUsuario);
 
         List<Tarefa> retorno = new List<Tarefa>();
 
@@ -110,46 +117,101 @@ namespace PastelariaSMN.Data
         
         return retorno.ToArray();
     }
+    // public Tarefa[] ConsultarTarefasGestor(int idGestor)
+    // {
+    //     SetProcedure(Procedures.SP_ConsultarTarefasGestor);
+    //     AddParameter("IdGestor", idGestor);
+
+    //     List<Tarefa> retorno = new List<Tarefa>();
+
+    //     var reader = ExecuteReader();
+    //     while(reader.Read())
+    //     {
+    //         retorno.Add( new Tarefa {
+    //         IdTarefa = (short)reader["IdTarefa"],
+    //         Descricao = (string)reader["Descricao"],
+    //         DataCadastro = (DateTime)reader["DataCadastro"],
+    //         DataLimite = (DateTime)reader["DataLimite"],
+    //         IdGestor = (short)reader["IdGestor"],
+    //         IdSubordinado = (short)reader["IdSubordinado"],
+    //         IdStatusTarefa = (byte)reader["IdStatusTarefa"]
+    //         });
+    //     }
+        
+    //     return retorno.ToArray();
+    // }
 
 //  ToDo JM
 //  Tratamendo para o retorno de data cancelada e de conclusao
-    public Tarefa[] ConsultarTarefasGestorStatus(int idGestor, int idStatusTarefa)
-    {
-      SetProcedure(Procedures.SP_ConsultarTarefasGestorStatus);
-      AddParameter("IdGestor", idGestor);
-      AddParameter("IdStatusTarefa", idStatusTarefa);
+    // public Tarefa[] ConsultarTarefasGestorStatus(int idGestor, int idStatusTarefa)
+    // {
+    //   SetProcedure(Procedures.SP_ConsultarTarefasGestorStatus);
+    //   AddParameter("IdGestor", idGestor);
+    //   AddParameter("IdStatusTarefa", idStatusTarefa);
 
-      List<Tarefa> retorno = new List<Tarefa>();
+    //   List<Tarefa> retorno = new List<Tarefa>();
 
-      var reader = ExecuteReader();
-      while(reader.Read())
-      {
-        Tarefa tarefa = new Tarefa();
+    //   var reader = ExecuteReader();
+    //   while(reader.Read())
+    //   {
+    //     Tarefa tarefa = new Tarefa();
 
-        tarefa.IdTarefa = (short)reader["IdTarefa"];
-        tarefa.Descricao = (string)reader["Descricao"];
-        tarefa.DataCadastro = (DateTime)reader["DataCadastro"];
-        tarefa.DataLimite = (DateTime)reader["DataLimite"];
-        tarefa.IdGestor = (short)reader["IdGestor"];
-        tarefa.IdSubordinado = (short)reader["IdSubordinado"];
-        tarefa.IdStatusTarefa = (byte)reader["IdStatusTarefa"];
+    //     tarefa.IdTarefa = (short)reader["IdTarefa"];
+    //     tarefa.Descricao = (string)reader["Descricao"];
+    //     tarefa.DataCadastro = (DateTime)reader["DataCadastro"];
+    //     tarefa.DataLimite = (DateTime)reader["DataLimite"];
+    //     tarefa.IdGestor = (short)reader["IdGestor"];
+    //     tarefa.IdSubordinado = (short)reader["IdSubordinado"];
+    //     tarefa.IdStatusTarefa = (byte)reader["IdStatusTarefa"];
 
-        if(reader["DataConclusao"].ToString() != "")
-          tarefa.DataConclusao = (DateTime)reader["DataConclusao"];
-        if(reader["DataCancelada"].ToString() != "")
-          tarefa.DataCancelada = (DateTime)reader["DataCancelada"];
+    //     if(reader["DataConclusao"].ToString() != "")
+    //       tarefa.DataConclusao = (DateTime)reader["DataConclusao"];
+    //     if(reader["DataCancelada"].ToString() != "")
+    //       tarefa.DataCancelada = (DateTime)reader["DataCancelada"];
 
-        retorno.Add(tarefa);
-      };
-      return retorno.ToArray();
-    }
+    //     retorno.Add(tarefa);
+    //   };
+    //   return retorno.ToArray();
+    // }
     
 
 //  ToDo
 //  Tratamendo para o retorno de data cancelada e de conclusao
-    public Tarefa[] ConsultarTarefasStatusUsuario(int idUsuario, int idStatusTarefa)
+    // public Tarefa[] ConsultarTarefasStatusUsuario(int idUsuario, int idStatusTarefa)
+    // {
+    //   SetProcedure(Procedures.SP_ConsultarTarefasStatusUsuario);
+    //   AddParameter("IdUsuario", idUsuario);
+    //   AddParameter("IdStatusTarefa", idStatusTarefa);
+
+    //   List<Tarefa> retorno = new List<Tarefa>();
+
+    //   var reader = ExecuteReader();
+    //   while(reader.Read())
+    //   {
+    //     Tarefa tarefa = new Tarefa();
+
+    //     tarefa.IdTarefa = (short)reader["IdTarefa"];
+    //     tarefa.Descricao = (string)reader["Descricao"];
+    //     tarefa.DataCadastro = (DateTime)reader["DataCadastro"];
+    //     tarefa.DataLimite = (DateTime)reader["DataLimite"];
+    //     tarefa.IdGestor = (short)reader["IdGestor"];
+    //     tarefa.IdSubordinado = (short)reader["IdSubordinado"];
+    //     tarefa.IdStatusTarefa = (byte)reader["IdStatusTarefa"];
+
+    //     if(reader["DataConclusao"].ToString() != "")
+    //       tarefa.DataConclusao = (DateTime)reader["DataConclusao"];
+    //     if(reader["DataCancelada"].ToString() != "")
+    //       tarefa.DataCancelada = (DateTime)reader["DataCancelada"];
+
+    //     retorno.Add(tarefa);
+    //   }
+    //   return retorno.ToArray();
+    // }
+
+    // Mudança
+     public Tarefa[] ConsultarTarefasPorStatus(int idUsuario, int idStatusTarefa)
     {
-      SetProcedure(Procedures.SP_ConsultarTarefasStatusUsuario);
+      SetProcedure(Procedures.SP_ConsultarTarefasPorStatus);
       AddParameter("IdUsuario", idUsuario);
       AddParameter("IdStatusTarefa", idStatusTarefa);
 
@@ -177,9 +239,11 @@ namespace PastelariaSMN.Data
       }
       return retorno.ToArray();
     }
-    public Tarefa[] ConsultarTarefasUsuario(int idUsuario)
+
+    //Mudança
+    public Tarefa[] ConsultarTodasTarefasUsuario(int idUsuario)
     {
-      SetProcedure(Procedures.SP_ConsultarTarefasUsuario);
+      SetProcedure(Procedures.SP_ConsultarTodasTarefasUsuario);
       AddParameter("IdUsuario", idUsuario);
 
       List<Tarefa> retorno = new List<Tarefa>();
@@ -209,62 +273,109 @@ namespace PastelariaSMN.Data
       return retorno.ToArray();
     }
 
-    public Tarefa[] ConsultarTodasTarefasGestor(int idGestor)
+    // public Tarefa[] ConsultarTarefasUsuario(int idUsuario)
+    // {
+    //   SetProcedure(Procedures.SP_ConsultarTarefasUsuario);
+    //   AddParameter("IdUsuario", idUsuario);
+
+    //   List<Tarefa> retorno = new List<Tarefa>();
+
+    //   var reader = ExecuteReader();
+    //   while(reader.Read())
+    //   {
+    //     Tarefa tarefa = new Tarefa();
+
+    //     tarefa.IdTarefa = (short)reader["IdTarefa"];
+    //     tarefa.Descricao = (string)reader["Descricao"];
+    //     tarefa.DataCadastro = (DateTime)reader["DataCadastro"];
+    //     tarefa.DataLimite = (DateTime)reader["DataLimite"];
+    //     tarefa.IdStatusTarefa = (byte)reader["IdStatusTarefa"];
+    //     tarefa.IdGestor = (short)reader["IdGestor"];
+    //     tarefa.IdSubordinado = (short)reader["IdSubordinado"];
+    //     tarefa.Gestor.Nome = (string)reader["NomeGestor"];
+    //     tarefa.Subordinado.Nome = (string)reader["NomeSubordinado"];
+
+    //     if(reader["DataConclusao"].ToString() != "")
+    //       tarefa.DataConclusao = (DateTime)reader["DataConclusao"];
+    //     if(reader["DataCancelada"].ToString() != "")
+    //       tarefa.DataCancelada = (DateTime)reader["DataCancelada"];
+
+    //     retorno.Add(tarefa);
+    //   }
+    //   return retorno.ToArray();
+    // }
+
+
+    // public Tarefa[] ConsultarTodasTarefasGestor(int idGestor)
+    // {
+    //   SetProcedure(Procedures.SP_ConsultarTodasTarefasGestor);
+    //   AddParameter("IdGestor", idGestor);
+
+    //   List<Tarefa> retorno = new List<Tarefa>();
+
+    //   var reader = ExecuteReader();
+    //   while(reader.Read())
+    //   {
+    //     Tarefa tarefa = new Tarefa();
+
+    //     tarefa.IdTarefa = (short)reader["IdTarefa"];
+    //     tarefa.Descricao = (string)reader["Descricao"];
+    //     tarefa.DataCadastro = (DateTime)reader["DataCadastro"];
+    //     tarefa.DataLimite = (DateTime)reader["DataLimite"];
+    //     tarefa.IdStatusTarefa = (byte)reader["IdStatusTarefa"];
+
+    //     if(reader["DataConclusao"].ToString() != "")
+    //       tarefa.DataConclusao = (DateTime)reader["DataConclusao"];
+    //     if(reader["DataCancelada"].ToString() != "")
+    //       tarefa.DataCancelada = (DateTime)reader["DataCancelada"];
+
+    //     retorno.Add(tarefa);
+    //   }
+
+    //   return retorno.ToArray();
+    // }
+
+    // Mudança
+    public int ConsultarTotalTarefas(int idUsuario)
     {
-      SetProcedure(Procedures.SP_ConsultarTodasTarefasGestor);
-      AddParameter("IdGestor", idGestor);
+      SetProcedure(Procedures.SP_ConsultarTotalTarefas);
 
-      List<Tarefa> retorno = new List<Tarefa>();
-
-      var reader = ExecuteReader();
-      while(reader.Read())
-      {
-        Tarefa tarefa = new Tarefa();
-
-        tarefa.IdTarefa = (short)reader["IdTarefa"];
-        tarefa.Descricao = (string)reader["Descricao"];
-        tarefa.DataCadastro = (DateTime)reader["DataCadastro"];
-        tarefa.DataLimite = (DateTime)reader["DataLimite"];
-        tarefa.IdStatusTarefa = (byte)reader["IdStatusTarefa"];
-
-        if(reader["DataConclusao"].ToString() != "")
-          tarefa.DataConclusao = (DateTime)reader["DataConclusao"];
-        if(reader["DataCancelada"].ToString() != "")
-          tarefa.DataCancelada = (DateTime)reader["DataCancelada"];
-
-        retorno.Add(tarefa);
-      }
-
-      return retorno.ToArray();
-    }
-
-    public int ConsultarTotalTarefasGestor(int idGestor)
-    {
-      SetProcedure(Procedures.SP_ConsultarTotalTarefasGestor);
-
-      AddParameter("IdGestor", idGestor);
+      AddParameter("IdUsuario", idUsuario);
 
       var reader = ExecuteReader();
       reader.Read();
       return (int)reader["Total"];
     }
 
-    public int ContarTarefasPorSubordinado(int idSubordinado)
-    {
-      SetProcedure(Procedures.SP_ContarTarefasPorSubordinado);
+    // public int ConsultarTotalTarefasGestor(int idGestor)
+    // {
+    //   SetProcedure(Procedures.SP_ConsultarTotalTarefasGestor);
 
-      AddParameter("IdSubordinado", idSubordinado);
+    //   AddParameter("IdGestor", idGestor);
 
-      var reader = ExecuteReader();
-      reader.Read();
-      return (int)reader["Total"];
-    }
+    //   var reader = ExecuteReader();
+    //   reader.Read();
+    //   return (int)reader["Total"];
+    // }
 
-    public int CriarComentario(string comentario, int idTarefa)
+    // public int ContarTarefasPorSubordinado(int idSubordinado)
+    // {
+    //   SetProcedure(Procedures.SP_ContarTarefasPorSubordinado);
+
+    //   AddParameter("IdSubordinado", idSubordinado);
+
+    //   var reader = ExecuteReader();
+    //   reader.Read();
+    //   return (int)reader["Total"];
+    // }
+
+    // Aqui
+    public int CriarComentario(string comentario, int idTarefa, int idUsuario)
     {
       SetProcedure(Procedures.SP_CriarComentario);
       AddParameter("Comentario", comentario);
       AddParameter("IdTarefa", idTarefa);
+      AddParameter("IdUsuario", idUsuario);
       return ExecuteNonQuery();
     }
 
@@ -339,6 +450,7 @@ namespace PastelariaSMN.Data
 
           tarefa.IdGestor = (short)reader["IdGestor"];
           tarefa.IdStatusTarefa = (byte)reader["IdStatusTarefa"];
+          tarefa.Status.Nome = (string)reader["Nome"];
       }
 
       return tarefa;

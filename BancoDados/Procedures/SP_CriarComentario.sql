@@ -3,20 +3,20 @@ IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_CriarCo
 GO
 CREATE PROCEDURE [dbo].[SP_CriarComentario]
     @Comentario VARCHAR(300),
-    @IdTarefa SMALLINT
+    @IdTarefa SMALLINT,
+	@IdUsuario SMALLINT
 
 AS
 	/* 
 	Documentação
 	Módulo............: Comentário
 	Objetivo..........: Criar um comentário
-	EX................: EXEC [dbo].[SP_CriarComentario] 'Faltou energia dia 17/12', 1
+	EX................: EXEC [dbo].[SP_CriarComentario] 'Teste comentario com novo formato', 4, 17
 	*/
 	BEGIN
         INSERT INTO [dbo].[Comentario]
-			(Descricao, IdTarefa)
+			(Descricao, IdTarefa, IdUsuario)
 			VALUES
-			(@Comentario, @IdTarefa)
+			(@Comentario, @IdTarefa, @IdUsuario)
 
 	END
-
