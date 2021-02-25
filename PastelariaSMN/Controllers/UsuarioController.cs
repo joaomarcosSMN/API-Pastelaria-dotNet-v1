@@ -160,14 +160,10 @@ namespace PastelariaSMN.Controllers
                 return BadRequest("Email ou senha incorreta");
             }
             var token = TokenService.GenerateToken(result);
-
+            Console.WriteLine(token);
+            result.Token = token;
             result.Senha = "";
-
-            return new
-            {
-                result = result,
-                token = token
-            };
+            return (result);
         }
 
         // ROTAS PARA TESTAR A USABILIDADE DO AUTHORIZE E DO CLAIMS DO TOKEN
