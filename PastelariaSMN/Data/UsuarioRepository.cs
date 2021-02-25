@@ -5,222 +5,248 @@ using PastelariaSMN.Models;
 
 namespace PastelariaSMN.Data
 {
-  public class UsuarioRepository : BaseRepository, IUsuarioRepository
-  {
-    public UsuarioRepository(Connection conn) : base(conn)
-    {
-
-    }
-    private enum Procedures 
-    {
-        SP_AtivarDesativarUsuario,
-        SP_AtualizarUsuario,
-        SP_CriarUsuario,
-        SP_ConsultarUsuario,
-        SP_ConsultarUsuariosDoGestor,
-        SP_VerificarLogin
-    }
-    public int AtivarDesativarUsuario(int idUsuario)
-    {
-        SetProcedure(Procedures.SP_AtivarDesativarUsuario);
-
-        AddParameter("IdUsuario", idUsuario);
-
-        return ExecuteNonQuery();
-    }
-
-    public int AtualizarUsuario(int idUsuario, string nome, string sobrenome, string senha)
-    {
-        SetProcedure(Procedures.SP_AtualizarUsuario);
-
-        AddParameter("IdUsuario", idUsuario);
-        AddParameter("Nome", nome);
-        AddParameter("Sobrenome", sobrenome);
-        AddParameter("Senha", senha);
-
-        return ExecuteNonQuery();
-    }
-
-    public Subordinado ConsultarSubordinado(int idUsuario)
-    {
-        SetProcedure(Procedures.SP_ConsultarUsuario);
-        AddParameter("IdUsuario", idUsuario);
-
-        var usuario = new Subordinado();
-
-        var reader = ExecuteReader();
-        if(reader.Read())
-        {
-            usuario.IdUsuario = (short)reader["IdUsuario"];
-            usuario.Nome = (string)reader["Nome"];
-            usuario.Sobrenome = (string)reader["Sobrenome"];
-            usuario.DataNascimento = (DateTime)reader["DataNascimento"];
-            usuario.EGestor = (bool)reader["EGestor"];
-            usuario.EstaAtivo = (bool)reader["EstaAtivo"];
-            usuario.IdGestor = (short)reader["IdGestor"];
-
-            usuario.Gestor.IdUsuario = (short)reader["IdGestor"];
-            usuario.Gestor.Nome = (string)reader["NomeGestor"];
-            usuario.Gestor.Sobrenome = (string)reader["SobrenomeGestor"];
-
-            usuario.Email.IdEmail = (short)reader["IdEmail"];
-            usuario.Email.EnderecoEmail = (string)reader["EnderecoEmail"];
-
-            usuario.Telefone.IdTelefone = (short)reader["IdTelefone"];
-            usuario.Telefone.DDD = (byte)reader["DDD"];
-            usuario.Telefone.Numero = (int)reader["NumeroTelefone"];
-
-            usuario.Endereco.IdEndereco = (short)reader["IdTelefone"];
-            usuario.Endereco.UF = (string)reader["UF"];
-            usuario.Endereco.Cidade = (string)reader["Cidade"];
-            usuario.Endereco.Bairro = (string)reader["Bairro"];
-            usuario.Endereco.Rua = (string)reader["Rua"];
-            usuario.Endereco.Numero = (string)reader["NumeroEndereco"];
-            usuario.Endereco.Complemento = (string)reader["Complemento"];
-            usuario.Endereco.CEP = (string)reader["CEP"];
-        }
-
-        return usuario;
-    }
-    public Gestor ConsultarGestor(int idUsuario)
-    {
-        SetProcedure(Procedures.SP_ConsultarUsuario);
-        AddParameter("IdUsuario", idUsuario);
-
-        var usuario = new Gestor();
-
-        var reader = ExecuteReader();
-        if(reader.Read())
-        {
-            usuario.IdUsuario = (short)reader["IdUsuario"];
-            usuario.Nome = (string)reader["Nome"];
-            usuario.Sobrenome = (string)reader["Sobrenome"];
-            usuario.DataNascimento = (DateTime)reader["DataNascimento"];
-            usuario.EGestor = (bool)reader["EGestor"];
-            usuario.EstaAtivo = (bool)reader["EstaAtivo"];
-        }
-
-        return usuario;
-    }
-
-    public Subordinado[] ConsultarUsuariosDoGestor(int idGestor)
-    {
-        SetProcedure(Procedures.SP_ConsultarUsuariosDoGestor);
-        AddParameter("IdGestor", idGestor);
-
-        List<Subordinado> resultado = new List<Subordinado>();
-
-        var reader = ExecuteReader();
-        while(reader.Read())
-        {
-            resultado.Add(new Subordinado 
+      public class UsuarioRepository : BaseRepository, IUsuarioRepository
+      {
+            public UsuarioRepository(Connection conn) : base(conn)
             {
-                IdUsuario = short.Parse(reader["IdUsuario"].ToString()),
-                Nome = reader["Nome"].ToString(),
-                Sobrenome = reader["Sobrenome"].ToString(),
-                EstaAtivo = bool.Parse(reader["EstaAtivo"].ToString())
-            });
+
+            }
+            private enum Procedures 
+            {
+                SP_AtivarDesativarUsuario,
+                SP_AtualizarUsuario,
+                SP_CriarUsuario,
+                SP_ConsultarUsuario,
+                SP_ConsultarUsuariosDoGestor,
+                SP_VerificarLogin
         }
-        return resultado.ToArray();
-    }
+            public int AtivarDesativarUsuario(int idUsuario)
+            {
+                SetProcedure(Procedures.SP_AtivarDesativarUsuario);
 
-    public int CriarGestor(Gestor novoUsuario)
-    {
-        SetProcedure(Procedures.SP_CriarUsuario);
+                AddParameter("IdUsuario", idUsuario);
 
-        string hash = Cryptography.GerarHash(novoUsuario.Senha);
+                return ExecuteNonQuery();
+            }
 
-        AddParameter("Nome", novoUsuario.Nome);
-        AddParameter("Sobrenome", novoUsuario.Sobrenome);
-        AddParameter("DataNascimento", novoUsuario.DataNascimento);
-        AddParameter("Senha", hash);
-        AddParameter("EstaAtivo", novoUsuario.EstaAtivo ? 1 : 0);
-        AddParameter("EGestor", 1);
+            public int AtualizarUsuario(int idUsuario, string nome, string sobrenome, string senha)
+            {
+                SetProcedure(Procedures.SP_AtualizarUsuario);
 
-        AddParameter("Email", novoUsuario.Email.EnderecoEmail);
+                AddParameter("IdUsuario", idUsuario);
+                AddParameter("Nome", nome);
+                AddParameter("Sobrenome", sobrenome);
+                AddParameter("Senha", senha);
 
-        AddParameter("DDD", novoUsuario.Telefone.DDD);
-        AddParameter("Telefone", novoUsuario.Telefone.Numero);
-        AddParameter("IdTipoTelefone", novoUsuario.Telefone.IdTipo);
+                return ExecuteNonQuery();
+            }
 
-        AddParameter("Rua", novoUsuario.Endereco.Rua);
-        AddParameter("Bairro", novoUsuario.Endereco.Bairro);
-        AddParameter("Numero", novoUsuario.Endereco.Numero);
-        AddParameter("Complemento", novoUsuario.Endereco.Complemento);
-        AddParameter("CEP", novoUsuario.Endereco.CEP);
-        AddParameter("Cidade", novoUsuario.Endereco.Cidade);
-        AddParameter("UF", novoUsuario.Endereco.UF);
+            public Subordinado ConsultarSubordinado(int idUsuario)
+            {
+                SetProcedure(Procedures.SP_ConsultarUsuario);
+                AddParameter("IdUsuario", idUsuario);
 
-        return ExecuteNonQuery();
-    }
-    public int CriarSubordinado(Subordinado novoUsuario)
-    {
-        SetProcedure(Procedures.SP_CriarUsuario);
+                var usuario = new Subordinado();
 
-        string hash = Cryptography.GerarHash(novoUsuario.Senha);
+                var reader = ExecuteReader();
+                if(reader.Read())
+                {
+                    usuario.IdUsuario = (short)reader["IdUsuario"];
+                    usuario.Nome = (string)reader["Nome"];
+                    usuario.Sobrenome = (string)reader["Sobrenome"];
+                    usuario.DataNascimento = (DateTime)reader["DataNascimento"];
+                    usuario.EGestor = (bool)reader["EGestor"];
+                    usuario.EstaAtivo = (bool)reader["EstaAtivo"];
+                    usuario.IdGestor = (short)reader["IdGestor"];
 
-        AddParameter("Nome", novoUsuario.Nome);
-        AddParameter("Sobrenome", novoUsuario.Sobrenome);
-        AddParameter("DataNascimento", novoUsuario.DataNascimento);
-        AddParameter("Senha", hash);
-        AddParameter("EGestor", 0);
-        AddParameter("EstaAtivo", novoUsuario.EstaAtivo ? 1 : 0);
-        AddParameter("IdGestor", novoUsuario.IdGestor);
+                    usuario.Gestor.IdUsuario = (short)reader["IdGestor"];
+                    usuario.Gestor.Nome = (string)reader["NomeGestor"];
+                    usuario.Gestor.Sobrenome = (string)reader["SobrenomeGestor"];
 
-        AddParameter("Email", novoUsuario.Email.EnderecoEmail);
+                    usuario.Email.IdEmail = (short)reader["IdEmail"];
+                    usuario.Email.EnderecoEmail = (string)reader["EnderecoEmail"];
 
-        AddParameter("DDD", novoUsuario.Telefone.DDD);
-        AddParameter("Telefone", novoUsuario.Telefone.Numero);
-        AddParameter("IdTipoTelefone", novoUsuario.Telefone.IdTipo);
+                    usuario.Telefone.IdTelefone = (short)reader["IdTelefone"];
+                    usuario.Telefone.DDD = (byte)reader["DDD"];
+                    usuario.Telefone.Numero = (int)reader["NumeroTelefone"];
 
-        AddParameter("Rua", novoUsuario.Endereco.Rua);
-        AddParameter("Bairro", novoUsuario.Endereco.Bairro);
-        AddParameter("Numero", novoUsuario.Endereco.Numero);
-        AddParameter("Complemento", novoUsuario.Endereco.Complemento);
-        AddParameter("CEP", novoUsuario.Endereco.CEP);
-        AddParameter("Cidade", novoUsuario.Endereco.Cidade);
-        AddParameter("UF", novoUsuario.Endereco.UF);
+                    usuario.Endereco.IdEndereco = (short)reader["IdTelefone"];
+                    usuario.Endereco.UF = (string)reader["UF"];
+                    usuario.Endereco.Cidade = (string)reader["Cidade"];
+                    usuario.Endereco.Bairro = (string)reader["Bairro"];
+                    usuario.Endereco.Rua = (string)reader["Rua"];
+                    usuario.Endereco.Numero = (string)reader["NumeroEndereco"];
+                    usuario.Endereco.Complemento = (string)reader["Complemento"];
+                    usuario.Endereco.CEP = (string)reader["CEP"];
+                }
 
-        return ExecuteNonQuery();
-    }
+                return usuario;
+            }
+            public Gestor ConsultarGestor(int idUsuario)
+            {
+                SetProcedure(Procedures.SP_ConsultarUsuario);
+                AddParameter("IdUsuario", idUsuario);
 
-    public Gestor VerificarLoginGestor(string email)
-    {
+                var usuario = new Gestor();
 
-        SetProcedure(Procedures.SP_VerificarLogin);
-        AddParameter("Email", email);
+                var reader = ExecuteReader();
+                if(reader.Read())
+                {
+                    usuario.IdUsuario = (short)reader["IdUsuario"];
+                    usuario.Nome = (string)reader["Nome"];
+                    usuario.Sobrenome = (string)reader["Sobrenome"];
+                    usuario.DataNascimento = (DateTime)reader["DataNascimento"];
+                    usuario.EGestor = (bool)reader["EGestor"];
+                    usuario.EstaAtivo = (bool)reader["EstaAtivo"];
+                }
+                reader.Close();
+                return usuario;
+            }
 
-        var reader = ExecuteReader();
-        if(reader.Read()) 
-        {
-            var usuario = new Gestor();
+            public Subordinado[] ConsultarUsuariosDoGestor(int idGestor)
+            {
+                SetProcedure(Procedures.SP_ConsultarUsuariosDoGestor);
+                AddParameter("IdGestor", idGestor);
 
-            usuario.Email.EnderecoEmail = reader["EnderecoEmail"].ToString();
-            usuario.Senha = reader["Senha"].ToString();
+                List<Subordinado> resultado = new List<Subordinado>();
 
-            return usuario;
-        }
+                var reader = ExecuteReader();
+                while(reader.Read())
+                {
+                    resultado.Add(new Subordinado 
+                    {
+                        IdUsuario = short.Parse(reader["IdUsuario"].ToString()),
+                        Nome = reader["Nome"].ToString(),
+                        Sobrenome = reader["Sobrenome"].ToString(),
+                        EstaAtivo = bool.Parse(reader["EstaAtivo"].ToString())
+                    });
+                }
+                return resultado.ToArray();
+            }
 
-        return null;
-    }
-    public Subordinado VerificarLoginSubordinado(string email)
-    {
+            public int CriarGestor(Gestor novoUsuario)
+            {
+                SetProcedure(Procedures.SP_CriarUsuario);
 
-        SetProcedure(Procedures.SP_VerificarLogin);
-        AddParameter("Email", email);
+                string hash = Cryptography.GerarHash(novoUsuario.Senha);
 
-        var reader = ExecuteReader();
-        if(reader.Read()) 
-        {
-            var usuario = new Subordinado();
+                AddParameter("Nome", novoUsuario.Nome);
+                AddParameter("Sobrenome", novoUsuario.Sobrenome);
+                AddParameter("DataNascimento", novoUsuario.DataNascimento);
+                AddParameter("Senha", hash);
+                AddParameter("EstaAtivo", novoUsuario.EstaAtivo ? 1 : 0);
+                AddParameter("EGestor", 1);
 
-            usuario.Email.EnderecoEmail = reader["EnderecoEmail"].ToString();
-            usuario.Senha = reader["Senha"].ToString();
+                AddParameter("Email", novoUsuario.Email.EnderecoEmail);
 
-            return usuario;
-        }
+                AddParameter("DDD", novoUsuario.Telefone.DDD);
+                AddParameter("Telefone", novoUsuario.Telefone.Numero);
+                AddParameter("IdTipoTelefone", novoUsuario.Telefone.IdTipo);
 
-        return null;
-    }
-  }
+                AddParameter("Rua", novoUsuario.Endereco.Rua);
+                AddParameter("Bairro", novoUsuario.Endereco.Bairro);
+                AddParameter("Numero", novoUsuario.Endereco.Numero);
+                AddParameter("Complemento", novoUsuario.Endereco.Complemento);
+                AddParameter("CEP", novoUsuario.Endereco.CEP);
+                AddParameter("Cidade", novoUsuario.Endereco.Cidade);
+                AddParameter("UF", novoUsuario.Endereco.UF);
+
+                return ExecuteNonQuery();
+            }
+            public int CriarSubordinado(Subordinado novoUsuario)
+            {
+                SetProcedure(Procedures.SP_CriarUsuario);
+
+                string hash = Cryptography.GerarHash(novoUsuario.Senha);
+
+                AddParameter("Nome", novoUsuario.Nome);
+                AddParameter("Sobrenome", novoUsuario.Sobrenome);
+                AddParameter("DataNascimento", novoUsuario.DataNascimento);
+                AddParameter("Senha", hash);
+                AddParameter("EGestor", 0);
+                AddParameter("EstaAtivo", novoUsuario.EstaAtivo ? 1 : 0);
+                AddParameter("IdGestor", novoUsuario.IdGestor);
+
+                AddParameter("Email", novoUsuario.Email.EnderecoEmail);
+
+                AddParameter("DDD", novoUsuario.Telefone.DDD);
+                AddParameter("Telefone", novoUsuario.Telefone.Numero);
+                AddParameter("IdTipoTelefone", novoUsuario.Telefone.IdTipo);
+
+                AddParameter("Rua", novoUsuario.Endereco.Rua);
+                AddParameter("Bairro", novoUsuario.Endereco.Bairro);
+                AddParameter("Numero", novoUsuario.Endereco.Numero);
+                AddParameter("Complemento", novoUsuario.Endereco.Complemento);
+                AddParameter("CEP", novoUsuario.Endereco.CEP);
+                AddParameter("Cidade", novoUsuario.Endereco.Cidade);
+                AddParameter("UF", novoUsuario.Endereco.UF);
+
+                return ExecuteNonQuery();
+            }
+
+            public UsuarioLogin VerificarLogin(string email)
+            {
+
+                SetProcedure(Procedures.SP_VerificarLogin);
+                AddParameter("Email", email);
+
+                var reader = ExecuteReader();
+                if (reader.Read())
+                {
+                    var usuario = new UsuarioLogin();
+
+                    usuario.IdUsuario = (short)reader["IdUsuario"];
+                    usuario.Email.EnderecoEmail = reader["EnderecoEmail"].ToString();
+                    usuario.Senha = reader["Senha"].ToString();
+                    usuario.EGestor = (bool)reader["EGestor"];
+                    usuario.EstaAtivo = (bool)reader["EstaAtivo"];
+
+                    return usuario;
+                }
+                reader.Close();
+                return null;
+            }
+
+            /*public Gestor VerificarLoginGestor(string email)
+            {
+
+                SetProcedure(Procedures.SP_VerificarLogin);
+                AddParameter("Email", email);
+
+                var reader = ExecuteReader();
+                if(reader.Read()) 
+                {
+                    var usuario = new Gestor();
+
+                    usuario.IdUsuario = (short)reader["IdUsuario"];
+                    usuario.Email.EnderecoEmail = reader["EnderecoEmail"].ToString();
+                    usuario.Senha = reader["Senha"].ToString();
+                    usuario.EGestor = (bool)reader["EGestor"];
+                    usuario.EstaAtivo = (bool)reader["EstaAtivo"];
+
+                    return usuario;
+                }
+
+                return null;
+            }*/
+            /*public Subordinado VerificarLoginSubordinado(string email)
+            {
+
+                SetProcedure(Procedures.SP_VerificarLogin);
+                AddParameter("Email", email);
+
+                var reader = ExecuteReader();
+                if(reader.Read()) 
+                {
+                    var usuario = new Subordinado();
+
+                    usuario.Email.EnderecoEmail = reader["EnderecoEmail"].ToString();
+                    usuario.Senha = reader["Senha"].ToString();
+
+                    return usuario;
+                }
+
+                return null;
+            }*/
+          }
 }

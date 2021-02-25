@@ -10,8 +10,9 @@ namespace PastelariaSMN.Data
         Subordinado[] ConsultarUsuariosDoGestor(int idGestor);
         Gestor ConsultarGestor(int idUsuario); 
         Subordinado ConsultarSubordinado(int idUsuario); 
-        Gestor VerificarLoginGestor(string email);
-        Subordinado VerificarLoginSubordinado(string email);
+        /*Gestor VerificarLoginGestor(string email);*/
+        UsuarioLogin VerificarLogin(string email);
+        /*Subordinado VerificarLoginSubordinado(string email);*/
         int AtualizarUsuario(int idUsuario, string nome, string sobrenome, string senha);
         int AtivarDesativarUsuario(int idUsuario);
     }
