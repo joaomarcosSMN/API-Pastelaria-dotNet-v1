@@ -13,8 +13,8 @@ namespace PastelariaSMN.Infra
         {
             /*connection = new SqlConnection(configuration.GetValue<string>("ConnectionStrings:DefaultConnection"));*/
             // connection = new SqlConnection(configuration.GetValue<string>("ConnectionStrings:AlternativeConnection"));
-            connection = new SqlConnection(configuration.GetValue<string>("ConnectionStrings:AlternativeConnection2"));
-            // connection = new SqlConnection(configuration.GetValue<string>("ConnectionStrings:AlternativeConnection3"));
+            // connection = new SqlConnection(configuration.GetValue<string>("ConnectionStrings:AlternativeConnection2"));
+            connection = new SqlConnection(configuration.GetValue<string>("ConnectionStrings:AlternativeConnection3"));
         }
 
         public void OpenConnection() {
