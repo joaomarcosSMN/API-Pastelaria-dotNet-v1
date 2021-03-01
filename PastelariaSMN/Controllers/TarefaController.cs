@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PastelariaSMN.Data;
 using PastelariaSMN.Infra;
@@ -184,6 +185,7 @@ namespace PastelariaSMN.Controllers
         //     return Ok(result);
         // }
 
+        [Authorize]
         [HttpGet("usuario/{idUsuario}/tarefa/todas")]
         public IActionResult ConsultarTodasTarefasUsuario(int idUsuario)
         {

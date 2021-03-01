@@ -11,9 +11,9 @@ namespace PastelariaSMN.Infra
 
         public Connection(IConfiguration configuration)
         {
-            /*connection = new SqlConnection(configuration.GetValue<string>("ConnectionStrings:DefaultConnection"));*/
+            connection = new SqlConnection(configuration.GetValue<string>("ConnectionStrings:DefaultConnection"));
             // connection = new SqlConnection(configuration.GetValue<string>("ConnectionStrings:AlternativeConnection"));
-            connection = new SqlConnection(configuration.GetValue<string>("ConnectionStrings:AlternativeConnection2"));
+            // connection = new SqlConnection(configuration.GetValue<string>("ConnectionStrings:AlternativeConnection2"));
             // connection = new SqlConnection(configuration.GetValue<string>("ConnectionStrings:AlternativeConnection3"));
         }
 
