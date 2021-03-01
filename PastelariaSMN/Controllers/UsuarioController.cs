@@ -128,6 +128,7 @@ namespace PastelariaSMN.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "gestor")]
         [HttpGet("gestor/{idGestor}/subordinados")]
         public IActionResult ConsultarUsuariosDoGestor(int idGestor)
         {
@@ -138,7 +139,8 @@ namespace PastelariaSMN.Controllers
             }
             return Ok(result);                
         }
-                
+
+        [Authorize(Roles = "gestor")]
         [HttpPost("gestor/criar")]
         public IActionResult CriarGestor(Gestor novoUsuario)
         {
@@ -153,6 +155,7 @@ namespace PastelariaSMN.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "gestor")]
         [HttpPost("subordinado/criar")]
         public IActionResult CriarSubordinado(Subordinado novoUsuario)
         {
@@ -206,7 +209,7 @@ namespace PastelariaSMN.Controllers
         public String Manager() 
         {
             var result = User.Claims.ToList();
-            var result2 = User.Claims.ToList()[0];
+            var result2 = User.Claims.ToList()[1];
             Console.WriteLine(result2.Value);
             return User.Claims.ToList()[2].Value;
         }
