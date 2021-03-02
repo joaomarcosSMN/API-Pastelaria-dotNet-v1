@@ -101,6 +101,7 @@ namespace PastelariaSMN.Controllers
             var result = _repo.ConsultarUsuario(idUsuario);
             if (result.IdUsuario == 0)
             {
+
                 return NotFound("Usuário não encontrado");
             }
             return Ok(result);

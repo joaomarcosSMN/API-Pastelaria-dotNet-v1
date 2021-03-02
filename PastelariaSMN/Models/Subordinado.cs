@@ -4,7 +4,7 @@ namespace PastelariaSMN.Models
     {
         // public new bool EGestor { get; set; } = false;
         // public Gestor Gestor { get; set; }
-        public int IdGestor { get; set; }
+        public short IdGestor { get; set; }
 
         public Subordinado() {
             this.EGestor = false;

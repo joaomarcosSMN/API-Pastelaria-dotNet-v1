@@ -53,13 +53,16 @@ namespace PastelariaSMN.Data
 
             if((bool)reader["EGestor"])
             {
-                usuario = new Gestor();
+                Gestor gestor = new Gestor();
+                usuario = gestor;
             }
             else
             {
-                usuario = new Subordinado();
+                Subordinado subordinado = new Subordinado();
+                usuario = subordinado;
 
-                usuario.Gestor.IdUsuario = (short)reader["IdGestor"];
+                subordinado.IdGestor = (short)reader["IdGestor"];
+                usuario.Gestor.IdUsuario = (short)reader["IdUsuarioGestor"];
                 usuario.Gestor.Nome = (string)reader["NomeGestor"];
                 usuario.Gestor.Sobrenome = (string)reader["SobrenomeGestor"];
             }
@@ -71,8 +74,9 @@ namespace PastelariaSMN.Data
             usuario.EGestor = (bool)reader["EGestor"];
             usuario.EstaAtivo = (bool)reader["EstaAtivo"];
             // usuario.IdGestor = (short)reader["IdGestor"];
+            
+            // Console.WriteLine("id gestor" + usuario.IdGestor);
 
-            // usuario.Gestor.IdUsuario = (short)reader["IdGestor"];
             // usuario.Gestor.Nome = (string)reader["NomeGestor"];
             // usuario.Gestor.Sobrenome = (string)reader["SobrenomeGestor"];
 
