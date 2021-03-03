@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PastelariaSMN.Data;
@@ -22,6 +23,8 @@ namespace PastelariaSMN.Controllers
             _repo = repo;
             _notifications = notifications;
         }
+
+
         
         [HttpPut("tarefa/{idTarefa}/status")]
         public IActionResult AlterarStatusDaTarefa(int idTarefa, Tarefa tarefaEditada)

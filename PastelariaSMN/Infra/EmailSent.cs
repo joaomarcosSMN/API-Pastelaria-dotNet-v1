@@ -1,11 +1,24 @@
 using System;
 using System.Net.Mail;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 
 namespace PastelariaSMN.Infra
 {
     public static class EmailSent
     {
+
+        // public static async Task<bool> EmailConfirmation(repo, options, idTarefa)
+        // {
+        //     var emailData = repo.ConsultarEmailGestorNomeSubordinado(idTarefa);
+
+        //     string body = $"O seu subordinado { emailData.Subordinado.Nome } { emailData.Subordinado.Sobrenome } concluiu uma tarefa";
+
+        //     EmailSent.SendEmail(_options, emailData.Gestor.Email.EnderecoEmail, "Uma tarefa foi concluida por um subordinado seu!", body);
+
+        //     return true;
+        // }  
+
         // public static void SendEmail(EmailSettings emailSettings, string recepient, string subject, string body)
         public static void SendEmail(EmailSettings emailSettings, string recepient, string subject, string body)
         {
@@ -42,7 +55,10 @@ namespace PastelariaSMN.Infra
                 //   "anexo.txt", System.Net.Mime.MediaTypeNames.Text.Plain));
 
                 smtp.Send(email);
+
             }
+
+            
         }
     }
 }
