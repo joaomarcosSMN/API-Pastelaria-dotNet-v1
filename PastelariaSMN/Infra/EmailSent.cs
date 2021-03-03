@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 
 namespace PastelariaSMN.Infra
 {
-    public static class EmailSent
+    public class EmailSent
     {
 
         // public static async Task<bool> EmailConfirmation(repo, options, idTarefa)
@@ -20,7 +20,7 @@ namespace PastelariaSMN.Infra
         // }  
 
         // public static void SendEmail(EmailSettings emailSettings, string recepient, string subject, string body)
-        public static void SendEmail(EmailSettings emailSettings, string recepient, string subject, string body)
+        public async Task SendEmail(EmailSettings emailSettings, string recepient, string subject, string body)
         {
             //instancio a classe MailMessage, responsável por atribuir
             //os valores para as variáveis declaradas no método
@@ -54,7 +54,7 @@ namespace PastelariaSMN.Infra
                 //   new MemoryStream(Encoding.UTF8.GetBytes("conteudo do arquivo")),
                 //   "anexo.txt", System.Net.Mime.MediaTypeNames.Text.Plain));
 
-                smtp.Send(email);
+                await smtp.SendMailAsync(email);
 
             }
 
