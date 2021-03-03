@@ -453,6 +453,7 @@ namespace PastelariaSMN.Data
           tarefa.DataCancelada = (DateTime)reader["DataCancelada"];
 
           tarefa.IdGestor = (short)reader["IdGestor"];
+          tarefa.IdSubordinado = (short)reader["IdSubordinado"];
           tarefa.IdStatusTarefa = (byte)reader["IdStatusTarefa"];
           tarefa.Status.Nome = (string)reader["Nome"];
       }
