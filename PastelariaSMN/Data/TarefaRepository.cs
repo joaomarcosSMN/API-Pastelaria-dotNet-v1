@@ -82,13 +82,16 @@ namespace PastelariaSMN.Data
       var reader = ExecuteReader();
       while(reader.Read())
       {
-        retorno.Add( new Comentario {
-          IdComentario = (short)reader["IdComentario"],
-          Descricao = (string)reader["Descricao"],
-          DataCadastro = (DateTime)reader["DataCadastro"],
-          IdTarefa = (short)reader["IdTarefa"],
-          IdUsuario = (short)reader["IdUsuario"]
-        });
+        Comentario comentario = new Comentario();
+         
+        comentario.IdComentario = (short)reader["IdComentario"];
+        comentario.Descricao = (string)reader["Descricao"];
+        comentario.DataCadastro = (DateTime)reader["DataCadastro"];
+        comentario.IdTarefa = (short)reader["IdTarefa"];
+        comentario.IdUsuario = (short)reader["IdUsuario"];
+        comentario.Usuario.Nome = (string)reader["Nome"];
+
+        retorno.Add(comentario);
       }
     
       return retorno.ToArray();
