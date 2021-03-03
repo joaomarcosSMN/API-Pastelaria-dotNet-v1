@@ -1,4 +1,4 @@
- IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_VerificarLogin]') AND objectproperty(id, N'IsPROCEDURE')=1)
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_VerificarLogin]') AND objectproperty(id, N'IsPROCEDURE')=1)
     DROP PROCEDURE [dbo].[SP_VerificarLogin]
 GO
 CREATE PROCEDURE [dbo].[SP_VerificarLogin]
@@ -6,13 +6,13 @@ CREATE PROCEDURE [dbo].[SP_VerificarLogin]
 
 AS
     /* 
-    DocumentaÃ§Ã£o
-    MÃ³dulo............: Usuario, Email
+    Documentação
+    Módulo............: Usuario, Email
     Objetivo..........: Consultar o login de acordo com a coluna Usuario.Senha e Email.EnderecoEmail
     EX................: EXEC [dbo].[SP_VerificarLogin] 'dsg@gsd.cda'
     */
     BEGIN
-        SELECT    u.IdUsuario,
+        SELECT  u.IdUsuario,
                 e.EnderecoEmail, 
                 u.Senha,
                 u.EGestor,

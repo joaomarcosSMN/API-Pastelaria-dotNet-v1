@@ -12,8 +12,15 @@ AS
 	EX................: EXEC [dbo].[SP_ConsultarComentarioTarefa] 4
 	*/
 	BEGIN
-        SELECT IdComentario, Descricao, DataCadastro, IdTarefa, IdUsuario 
-			FROM [dbo].[Comentario]
+        SELECT c.IdComentario, 
+			   c.Descricao, 
+			   c.DataCadastro, 
+			   c.IdTarefa, 
+			   c.IdUsuario,
+			   u.Nome
+			FROM [dbo].[Comentario] AS c
+				INNER JOIN [dbo].[Usuario] AS u
+					ON c.IdUsuario = u.IdUsuario
 			WHERE IdTarefa = @IdTarefa
 
 	END

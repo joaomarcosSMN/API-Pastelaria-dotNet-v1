@@ -19,3 +19,59 @@ VALUES
 ('Agendada'),
 ('Atrasada'),
 ('Cancelada')
+
+-- Primeiro usuário Admin
+INSERT INTO Usuario
+	(Nome, 
+	Sobrenome, 
+	DataNascimento,
+	Senha,
+	EGestor,
+	EstaAtivo,
+	IdGestor)
+VALUES
+	('Admin', 
+	'Sistema',
+	'01/01/1900',
+	'07dfef27f5c34f2740933c6ef56f57d4', 
+	1, 
+	1, 
+	NULL)
+
+INSERT INTO Email
+	(EnderecoEmail, 
+	IdUsuario)
+VALUES
+	('admin_pastelaria@gmail.com', 
+	1)
+
+INSERT INTO Telefone
+	(Numero, 
+	DDD, 
+	IdTipoTelefone, 
+	IdUsuario)
+VALUES
+	('-', 
+	'-', 
+	1, 
+	1)
+
+INSERT INTO Endereco
+	(Rua, 
+	Bairro, 
+	Numero, 
+	Complemento, 
+	CEP, 
+	Cidade, 
+	UF, 
+	IdUsuario)
+VALUES
+	('-', 
+	'-', 
+	'-', 
+	'-', 
+	'-', 
+	'-', 
+	'-', 
+	1)
+

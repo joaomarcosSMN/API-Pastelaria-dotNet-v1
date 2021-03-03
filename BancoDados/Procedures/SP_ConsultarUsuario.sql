@@ -21,6 +21,7 @@ AS
 			   u.IdGestor,
 			   g.Nome AS NomeGestor,
 			   g.Sobrenome AS SobrenomeGestor,
+			   g.IdUsuario AS IdUsuarioGestor,
 
 			   em.IdEmail,
 			   em.EnderecoEmail,
