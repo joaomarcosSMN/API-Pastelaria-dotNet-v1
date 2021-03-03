@@ -95,7 +95,7 @@ namespace PastelariaSMN.Controllers
         }
 
         [HttpPost("tarefa/criar")]
-        public IActionResult CriarTarefa(Tarefa novaTarefa)
+        public async Task<IActionResult> CriarTarefa(Tarefa novaTarefa)
         {
             novaTarefa.is_valid(_notifications);
 
@@ -113,15 +113,19 @@ namespace PastelariaSMN.Controllers
             {
                 return BadRequest("Tarefa não criada");
             }
-
-            // result retorna int idTarefa da tarefa recem criada
+            try{
+                // result retorna int idTarefa da tarefa recem criada
             var emailData = _repo.ConsultarEmailGestorNomeSubordinado(result);
             
             // string body = "O seu gestor " + result.NomeGestor + " criou uma tarefa";
             string body = $"O seu gestor { emailData.Gestor.Nome } { emailData.Gestor.Sobrenome } criou uma tarefa com a descrição: '{ novaTarefa.Descricao }'.";
+            EmailSent emailSender = new EmailSent();
+            await emailSender.SendEmail(_options, emailData.Subordinado.Email.EnderecoEmail, $"Uma tarefa foi criada para você pelo seu gestor { emailData.Gestor.Nome } { emailData.Gestor.Sobrenome }", body);
 
-            EmailSent.SendEmail(_options, emailData.Subordinado.Email.EnderecoEmail, $"Uma tarefa foi criada para você pelo seu gestor { emailData.Gestor.Nome } { emailData.Gestor.Sobrenome }", body);
-
+            }catch{
+                //Do nothing
+            }
+            
             return Ok($"Tarefa com id {result} foi criada");
 
         }
@@ -144,7 +148,7 @@ namespace PastelariaSMN.Controllers
         }
 
         [HttpPut("tarefa/{idTarefa}/concluir")]
-        public IActionResult ConcluirTarefa(int idTarefa)
+        public async Task<IActionResult> ConcluirTarefa(int idTarefa)
         {
             var result = _repo.ConcluirTarefa(idTarefa);
 
@@ -152,13 +156,16 @@ namespace PastelariaSMN.Controllers
             {
                 return BadRequest("Tarefa não concluida");
             }
+            try{
+                var emailData = _repo.ConsultarEmailGestorNomeSubordinado(idTarefa);
+                string body = $"O seu subordinado { emailData.Subordinado.Nome } { emailData.Subordinado.Sobrenome } concluiu uma tarefa";
 
-            var emailData = _repo.ConsultarEmailGestorNomeSubordinado(idTarefa);
-
-            string body = $"O seu subordinado { emailData.Subordinado.Nome } { emailData.Subordinado.Sobrenome } concluiu uma tarefa";
-
-            EmailSent.SendEmail(_options, emailData.Gestor.Email.EnderecoEmail, "Uma tarefa foi concluida por um subordinado seu!", body);
-
+                 EmailSent emailSender = new EmailSent();
+                await emailSender.SendEmail(_options, emailData.Subordinado.Email.EnderecoEmail, $"Uma tarefa foi criada para você pelo seu gestor { emailData.Gestor.Nome } { emailData.Gestor.Sobrenome }", body);
+            }
+            catch{
+                //Do Nothing;
+            }            
             return Ok(result);
         }
 
