@@ -13,6 +13,7 @@ AS
     */
     BEGIN
         SELECT  u.IdUsuario,
+				u.Nome,
                 e.EnderecoEmail, 
                 u.Senha,
                 u.EGestor,

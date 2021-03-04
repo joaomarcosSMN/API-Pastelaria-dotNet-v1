@@ -31,6 +31,7 @@ namespace PastelariaSMN.Infra
                 {
                     new Claim("IdUsuario", usuario.IdUsuario.ToString()),
                     new Claim("EGestor", usuario.EGestor.ToString()),
+                    new Claim("Nome", usuario.Nome.ToString()),
                     new Claim(ClaimTypes.Role, role)
                 }),
                 Expires = DateTime.UtcNow.AddHours(2),

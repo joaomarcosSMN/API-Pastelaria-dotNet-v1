@@ -258,6 +258,7 @@ namespace PastelariaSMN.Data
                     var usuario = new UsuarioLogin();
 
                     usuario.IdUsuario = (short)reader["IdUsuario"];
+                    usuario.Nome = (string)reader["Nome"];
                     usuario.Email.EnderecoEmail = reader["EnderecoEmail"].ToString();
                     usuario.Senha = reader["Senha"].ToString();
                     usuario.EGestor = (bool)reader["EGestor"];
