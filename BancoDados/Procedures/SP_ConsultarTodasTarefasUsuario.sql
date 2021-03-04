@@ -9,9 +9,12 @@ AS
 	Documentação
 	Módulo............: Tarefa
 	Objetivo..........: Consulta as tarefas de um usuário específico
-	EX................: EXEC [dbo].[SP_ConsultarTodasTarefasUsuario] 15
+	EX................: EXEC [dbo].[SP_ConsultarTodasTarefasUsuario] 6
 	*/
 	BEGIN
+
+		EXEC [dbo].[SP_VerificarAtraso] @IdUsuario
+
 		SELECT t.IdTarefa, 
 			   t.Descricao, 
 			   t.DataCadastro, 

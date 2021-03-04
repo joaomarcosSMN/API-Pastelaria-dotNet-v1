@@ -9,9 +9,12 @@ AS
 	Documentação
 	Módulo............: Tarefa
 	Objetivo..........: Consultar tarefas atrasadas, futuras e agendadas
-	EX................: EXEC [dbo].[SP_ConsultarTarefasAndamento] 15
+	EX................: EXEC [dbo].[SP_ConsultarTarefasAndamento] 4
 	*/
 	BEGIN
+
+		EXEC [dbo].[SP_VerificarAtraso] @IdUsuario
+
 		SELECT t.IdTarefa, 
 			   t.Descricao, 
 			   t.DataCadastro, 
