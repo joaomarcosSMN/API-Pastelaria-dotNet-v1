@@ -1,7 +1,4 @@
-IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_CriarComentario]') AND objectproperty(id, N'IsPROCEDURE')=1)
-	DROP PROCEDURE [dbo].[SP_CriarComentario]
-GO
-CREATE PROCEDURE [dbo].[SP_CriarComentario]
+CREATE OR ALTER PROCEDURE [dbo].[SP_CriarComentario]
     @Comentario VARCHAR(300),
     @IdTarefa SMALLINT,
 	@IdUsuario SMALLINT

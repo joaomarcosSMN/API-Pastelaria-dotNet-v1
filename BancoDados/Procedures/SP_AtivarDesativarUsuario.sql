@@ -1,8 +1,4 @@
-/*Verifica se a procedure existe se existe da um drop apagando*/
-IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_AtivarDesativarUsuario]') AND objectproperty(id, N'IsPROCEDURE')=1)
-    DROP PROCEDURE [dbo].[SP_AtivarDesativarUsuario]
-GO
-CREATE PROCEDURE [dbo].[SP_AtivarDesativarUsuario]
+CREATE OR ALTER PROCEDURE [dbo].[SP_AtivarDesativarUsuario]
     @IdUsuario SMALLINT
 AS
     /* 

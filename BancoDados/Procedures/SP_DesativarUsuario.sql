@@ -1,7 +1,4 @@
-IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_DesativarUsuario]') AND objectproperty(id, N'IsPROCEDURE')=1)
-	DROP PROCEDURE [dbo].[SP_DesativarUsuario]
-GO
-CREATE PROCEDURE [dbo].[SP_DesativarUsuario]
+CREATE OR ALTER PROCEDURE [dbo].[SP_DesativarUsuario]
 	@IdUsuario SMALLINT
 	
 AS

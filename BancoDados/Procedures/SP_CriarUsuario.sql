@@ -1,7 +1,4 @@
-IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_CriarUsuario]') AND objectproperty(id, N'IsPROCEDURE')=1)
-	DROP PROCEDURE [dbo].[SP_CriarUsuario]
-GO
-CREATE PROCEDURE [dbo].[SP_CriarUsuario]
+CREATE OR ALTER PROCEDURE [dbo].[SP_CriarUsuario]
 	@Nome VARCHAR(30),
 	@Sobrenome VARCHAR(50),
 	@DataNascimento DATE,

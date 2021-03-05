@@ -1,7 +1,4 @@
-IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_ConsultarTarefasAndamento]') AND objectproperty(id, N'IsPROCEDURE')=1)
-	DROP PROCEDURE [dbo].[SP_ConsultarTarefasAndamento]
-GO
-CREATE PROCEDURE [dbo].[SP_ConsultarTarefasAndamento]
+CREATE OR ALTER PROCEDURE [dbo].[SP_ConsultarTarefasAndamento]
 	@IdUsuario SMALLINT
 
 AS

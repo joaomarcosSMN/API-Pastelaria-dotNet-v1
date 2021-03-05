@@ -1,7 +1,4 @@
-IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_ContarTarefasPorSubordinado]') AND objectproperty(id, N'IsPROCEDURE')=1)
-	DROP PROCEDURE [dbo].[SP_ContarTarefasPorSubordinado]
-GO
-CREATE PROCEDURE [dbo].[SP_ContarTarefasPorSubordinado]
+CREATE OR ALTER PROCEDURE [dbo].[SP_ContarTarefasPorSubordinado]
 	@IdSubordinado SMALLINT
 	
 AS

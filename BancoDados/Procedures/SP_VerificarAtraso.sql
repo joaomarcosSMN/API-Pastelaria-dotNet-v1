@@ -1,9 +1,4 @@
-
-/*Verifica se a procedure existe se existe da um drop apagando*/
-IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_VerificarAtraso]') AND objectproperty(id, N'IsPROCEDURE')=1)
-	DROP PROCEDURE [dbo].[SP_VerificarAtraso]
-GO
-CREATE PROCEDURE [dbo].[SP_VerificarAtraso]
+CREATE OR ALTER PROCEDURE [dbo].[SP_VerificarAtraso]
 (@IdUsuario SMALLINT)	
 AS
 	/* 

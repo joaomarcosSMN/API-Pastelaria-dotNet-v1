@@ -1,8 +1,4 @@
-/*Verifica se a procedure existe se existe da um drop apagando*/
-IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_ConsultarEmailGestorNomeSubordinado]') AND objectproperty(id, N'IsPROCEDURE')=1)
-	DROP PROCEDURE [dbo].[SP_ConsultarEmailGestorNomeSubordinado]
-GO
-CREATE PROCEDURE [dbo].[SP_ConsultarEmailGestorNomeSubordinado]
+CREATE OR ALTER PROCEDURE [dbo].[SP_ConsultarEmailGestorNomeSubordinado]
 	@IdTarefa SMALLINT
 	
 AS
