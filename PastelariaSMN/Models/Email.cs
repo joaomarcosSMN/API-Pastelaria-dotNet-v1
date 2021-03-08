@@ -1,5 +1,4 @@
 using PastelariaSMN.Infra;
-using System;
 
 namespace PastelariaSMN.Models
 {
@@ -13,7 +12,7 @@ namespace PastelariaSMN.Models
         {
             if (this.EnderecoEmail.Length > 254)
             {
-                notification.AddNotification("EnderecoEmail de Email", "Seu EndereçoEmail de Email excedeu o limite de caracteres.");
+                notification.AddNotification("EnderecoEmail de Email", "Seu Endereï¿½oEmail de Email excedeu o limite de caracteres.");
             }
         }
     }

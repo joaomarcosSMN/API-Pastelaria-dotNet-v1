@@ -1,10 +1,5 @@
-using System;
 using System.Data;
 using System.Data.SqlClient;
-using System.Net.Mail;
-using System.Security.Cryptography;
-using System.Text;
-using Microsoft.Extensions.Configuration;
 using PastelariaSMN.Infra;
 
 namespace PastelariaSMN.Data
@@ -41,7 +36,6 @@ namespace PastelariaSMN.Data
         {
             conn.OpenConnection();
             var reader = command.ExecuteReader();
-            // CloseConnection();
             return reader;
         
         }

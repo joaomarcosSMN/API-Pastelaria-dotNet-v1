@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Net;
@@ -15,7 +13,7 @@ namespace PastelariaSMN.Middleware
         {
             this.next = next;
         }
-        public async Task Invoke(HttpContext context /* other dependencies */)
+        public async Task Invoke(HttpContext context)
         {
             
             try
@@ -28,7 +26,7 @@ namespace PastelariaSMN.Middleware
             }
         }
         private static Task HandleExceptionAsync(HttpContext context, Exception exception) {
-            var code = HttpStatusCode.InternalServerError; // 500 if unexpected
+            var code = HttpStatusCode.InternalServerError;
 
             var result = JsonConvert.SerializeObject(new { error = exception.Message });
             context.Response.ContentType = "application/json";

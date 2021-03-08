@@ -133,16 +133,11 @@ namespace PastelariaSMN.Controllers
         [HttpPut("tarefa/{idTarefa}/datalimite")]
         public IActionResult EditarDataLimite(int idTarefa, Tarefa tarefaEditada)
         {           
-            Console.WriteLine(tarefaEditada.DataLimite.GetType() +" "+ tarefaEditada.DataLimite);
             var result = _repo.EditarDataLimite(idTarefa, tarefaEditada.DataLimite);
             if(result == 0)
             {
-                Console.WriteLine(tarefaEditada.DataLimite);
-                Console.WriteLine(tarefaEditada.DataLimite.GetType());
-                
                 return BadRequest("Data limite não editada");
             }
-            Console.WriteLine("ok");
             return Ok(result);
             
         }
@@ -179,22 +174,6 @@ namespace PastelariaSMN.Controllers
             
         }
 
-        // [HttpGet("usuario/{idSubordinado}/tarefa/quantidade")]
-        // public IActionResult ContarTarefasPorSubordinado(int idSubordinado)
-        // {
-            
-        //     var result = _repo.ContarTarefasPorSubordinado(idSubordinado);
-        //     return Ok(result);
-            
-        // }
-
-        // [HttpGet("usuario/gestor/{idGestor}/tarefa/total")]
-        // public IActionResult ConsultarTotalTarefasGestor(int idGestor)
-        // {
-        //     var result = _repo.ConsultarTotalTarefasGestor(idGestor);
-        //     return Ok(result);
-        // }
-
         [Authorize]
         [HttpGet("usuario/{idUsuario}/tarefa/todas")]
         public IActionResult ConsultarTodasTarefasUsuario(int idUsuario)
@@ -207,17 +186,6 @@ namespace PastelariaSMN.Controllers
             return Ok(result);
         }
 
-        // [HttpGet("usuario/gestor/{idGestor}/tarefa/todas")]
-        // public IActionResult ConsultarTodasTarefasGestor(int idGestor)
-        // {
-        //     var result = _repo.ConsultarTodasTarefasGestor(idGestor);
-        //     if(!result.Any())
-        //     {
-        //         return BadRequest("Gestor não tem tarefas");
-        //     }
-        //     return Ok(result);
-        // }
-
         [HttpGet("usuario/{idUsuario}/tarefa/status/{idStatusTarefa}")]
         public IActionResult ConsultarTarefasPorStatus(int idUsuario, int idStatusTarefa)
         {
@@ -228,17 +196,6 @@ namespace PastelariaSMN.Controllers
             }
             return Ok(result);
         }
-
-        // [HttpGet("usuario/gestor/{idGestor}/tarefa/status/{idStatusTarefa}")]
-        // public IActionResult ConsultarTarefasGestorStatus(int idGestor, int idStatusTarefa)
-        // {
-        //     var result = _repo.ConsultarTarefasGestorStatus(idGestor, idStatusTarefa);
-        //     if(!result.Any())
-        //     {
-        //         return BadRequest("Gestor não tem tarefas com esse status");
-        //     }
-        //     return Ok(result);
-        // }
 
         [HttpGet("usuario/{idUsuario}/tarefa/andamento")]
         public IActionResult ConsultarTarefasAndamento(int idUsuario)
@@ -251,39 +208,6 @@ namespace PastelariaSMN.Controllers
             return Ok(result);
         }
 
-        // [HttpGet("usuario/gestor/{idGestor}/tarefa/pendentes")]
-        // public IActionResult ConsultarTarefasGestor(int idGestor)
-        // {
-        //     var result = _repo.ConsultarTarefasGestor(idGestor);
-        //     if(!result.Any())
-        //     {
-        //         return BadRequest("Gestor não tem tarefas pendentes");
-        //     }
-        //     return Ok(result);
-        // }
-
-        // [HttpGet("usuario/{idSubordinado}/tarefa/todas")]
-        // public IActionResult ConsultarTarefasUsuario(int idSubordinado)
-        // {
-        //     var result = _repo.ConsultarTarefasUsuario(idSubordinado);
-        //     if(!result.Any())
-        //     {
-        //         return BadRequest("Usuario não tem tarefas");
-        //     }
-        //     return Ok(result);
-        // }
-
-        // [HttpGet("usuario/{idSubordinado}/tarefa/status/{idStatusTarefa}")]
-        // public IActionResult ConsultarTarefasStatusUsuario(int idSubordinado, int idStatusTarefa)
-        // {
-        //     var result = _repo.ConsultarTarefasStatusUsuario(idSubordinado, idStatusTarefa);
-        //     if(!result.Any())
-        //     {
-        //         return BadRequest("Usuario não tem tarefas com esse status");
-        //     }
-        //     return Ok(result);
-        // }
-
         [HttpGet("tarefa/{idTarefa}")]
         public IActionResult ConsultarTarefa(int idTarefa)
         {
@@ -294,10 +218,6 @@ namespace PastelariaSMN.Controllers
             }
             return Ok(result);
         }
-
-        // post - usuario/0/tarefa
-        // get - usuario/0/tarefa/pendentes
-        // get - usuario/0/tarefa/0/
 
     }
 }

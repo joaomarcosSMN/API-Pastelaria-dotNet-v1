@@ -8,7 +8,6 @@ namespace PastelariaSMN.Controllers
     {
         protected ObjectResult Error(Exception ex)
         {
-            Console.WriteLine(ex.Message);
             return StatusCode(500, "Internal Server Error");
         }
     }

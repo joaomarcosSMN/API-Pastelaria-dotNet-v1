@@ -73,12 +73,6 @@ namespace PastelariaSMN.Data
             usuario.DataNascimento = (DateTime)reader["DataNascimento"];
             usuario.EGestor = (bool)reader["EGestor"];
             usuario.EstaAtivo = (bool)reader["EstaAtivo"];
-            // usuario.IdGestor = (short)reader["IdGestor"];
-            
-            // Console.WriteLine("id gestor" + usuario.IdGestor);
-
-            // usuario.Gestor.Nome = (string)reader["NomeGestor"];
-            // usuario.Gestor.Sobrenome = (string)reader["SobrenomeGestor"];
 
             usuario.Email.IdEmail = (short)reader["IdEmail"];
             usuario.Email.EnderecoEmail = (string)reader["EnderecoEmail"];
@@ -269,47 +263,5 @@ namespace PastelariaSMN.Data
                 reader.Close();
                 return null;
             }
-
-            /*public Gestor VerificarLoginGestor(string email)
-            {
-
-                SetProcedure(Procedures.SP_VerificarLogin);
-                AddParameter("Email", email);
-
-                var reader = ExecuteReader();
-                if(reader.Read()) 
-                {
-                    var usuario = new Gestor();
-
-                    usuario.IdUsuario = (short)reader["IdUsuario"];
-                    usuario.Email.EnderecoEmail = reader["EnderecoEmail"].ToString();
-                    usuario.Senha = reader["Senha"].ToString();
-                    usuario.EGestor = (bool)reader["EGestor"];
-                    usuario.EstaAtivo = (bool)reader["EstaAtivo"];
-
-                    return usuario;
-                }
-
-                return null;
-            }*/
-            /*public Subordinado VerificarLoginSubordinado(string email)
-            {
-
-                SetProcedure(Procedures.SP_VerificarLogin);
-                AddParameter("Email", email);
-
-                var reader = ExecuteReader();
-                if(reader.Read()) 
-                {
-                    var usuario = new Subordinado();
-
-                    usuario.Email.EnderecoEmail = reader["EnderecoEmail"].ToString();
-                    usuario.Senha = reader["Senha"].ToString();
-
-                    return usuario;
-                }
-
-                return null;
-            }*/
           }
 }

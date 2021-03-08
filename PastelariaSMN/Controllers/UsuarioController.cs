@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -34,24 +32,6 @@ namespace PastelariaSMN.Controllers
             }
             return Ok("Status do usuário alterado");
         }
-
-        // [HttpPut("{idUsuario}/atualizar/teste")]
-        // public IActionResult AtualizarUsuario(int idUsuario, Usuario novoUsuario)
-        // {
-
-        //     novoUsuario.IsValidJustUser(_notifications);
-
-        //     string hash = Cryptography.GerarHash(novoUsuario.Senha);
-        //     var result = _repo.AtualizarUsuario(idUsuario, 
-        //                                         novoUsuario.Nome, 
-        //                                         novoUsuario.Sobrenome, 
-        //                                         hash);
-        //     if (result == 0)
-        //     {
-        //         return NotFound("Usuário não encontrado");
-        //     }
-        //     return Ok(result);
-        // }
 
         [HttpPut("{idUsuario}/atualizar")]
         public IActionResult AtualizarSubordinado(int idUsuario, Subordinado novoUsuario)
@@ -182,92 +162,10 @@ namespace PastelariaSMN.Controllers
                 return BadRequest("Email ou senha incorreta");
             }
             var token = TokenService.GenerateToken(result);
-            Console.WriteLine(token);
             result.Token = token;
             result.Senha = "";
             return (result);
         }
 
-        // ROTAS PARA TESTAR A USABILIDADE DO AUTHORIZE E DO CLAIMS DO TOKEN
-        [HttpGet]
-        [Route("anonymous")]
-        [AllowAnonymous]
-        public string Anonymous() => "Anônimo";
-
-        [HttpGet]
-        [Route("authenticated")]
-        [Authorize]
-        public string Authenticated() => String.Format("Autenticado - {0}", User.Identity.Name);
-
-        [HttpGet]
-        [Route("employee")]
-        [Authorize(Roles = "gestor")]
-        public string Employee() => "Gestor";
-
-        [HttpGet]
-        [Route("manager")]
-        [Authorize(Roles = "subordinado,gestor")]
-        public String Manager() 
-        {
-            var result = User.Claims.ToList();
-            var result2 = User.Claims.ToList()[1];
-            Console.WriteLine(result2.Value);
-            return User.Claims.ToList()[2].Value;
-        }
-
-
-        /*[HttpPost("subordinado/login")]
-            public IActionResult VerificarLoginSubordinado(Subordinado login)
-            {   
-                var result = _repo.VerificarLoginSubordinado(login.Email.EnderecoEmail);
-            
-                string hash = Cryptography.GerarHash(login.Senha);
-
-                if(result == null || hash != result.Senha)
-                {
-                    return BadRequest("Email ou senha incorreta");
-                }
-                else 
-                {
-                    return Ok("Login válido");
-                }
-            }
-        */
-
-        /*[HttpPost("gestor/login")]
-            public async Task<ActionResult<dynamic>> VerificarLoginGestor(Gestor login)
-            {   
-                var result = _repo.VerificarLoginGestor(login.Email.EnderecoEmail);
-            
-                string hash = Cryptography.GerarHash(login.Senha);
-
-                if(result == null || hash != result.Senha)
-                {
-                    return BadRequest("Email ou senha incorreta");
-                }
-
-                var token = TokenService.GenerateToken(result, result);
-
-                result.Senha = "";
-
-                return new
-                {
-                    result = result,
-                    token = token
-                };
-            }
-         */
-
-
-        [HttpPost("Teste")]
-        public IActionResult Teste(Usuario usuario)
-        {
-            usuario.is_valid(_notifications);
-            if (_notifications.HasNotifications)
-            {
-                return BadRequest(_notifications.Notifications);
-            }
-            return Ok();
-        }
     }
 }

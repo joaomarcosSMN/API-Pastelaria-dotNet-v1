@@ -13,7 +13,6 @@ namespace PastelariaSMN.Models
         public int IdUsuario { get; set; }
         public Usuario Usuario { get; set; }
 
-        // Acho que em nenhum caso precisa instanciar Tarefa no construtor
         public Comentario()
         {
             this.Usuario = new Subordinado();
