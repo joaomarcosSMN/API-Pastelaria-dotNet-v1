@@ -18,7 +18,8 @@ namespace PastelariaSMN.Data
                 SP_CriarUsuario,
                 SP_ConsultarUsuario,
                 SP_ConsultarUsuariosDoGestor,
-                SP_VerificarLogin
+                SP_VerificarLogin,
+                SP_VerificarEmailUnique
         }
             public int AtivarDesativarUsuario(int idUsuario)
             {
@@ -262,6 +263,25 @@ namespace PastelariaSMN.Data
                 }
                 reader.Close();
                 return null;
+            }
+
+            public bool VerificarEmailUnique(string email)
+            {
+                bool emailExists = false;
+
+                SetProcedure(Procedures.SP_VerificarEmailUnique);
+                AddParameter("Email", email);
+
+                var reader = ExecuteReader();
+                if(reader.Read())
+                {
+                    if((int)reader["Resultado"] == 1)
+                        emailExists = true;
+                    else
+                        emailExists = false;
+                }
+                reader.Close();
+                return emailExists;
             }
           }
 }

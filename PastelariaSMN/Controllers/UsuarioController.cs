@@ -131,9 +131,16 @@ namespace PastelariaSMN.Controllers
                 return BadRequest(_notifications.Notifications);
             }
 
-            var result = _repo.CriarGestor(novoUsuario);
+            if(_repo.VerificarEmailUnique(novoUsuario.Email.EnderecoEmail))
+            {
+                return BadRequest("O email usado no cadastro já existe no banco, tente novamente");
+            }
+            else
+            {
+                var result = _repo.CriarGestor(novoUsuario);
+                return Ok(result);
+            }
             
-            return Ok(result);
         }
 
         [Authorize(Roles = "gestor")]
@@ -145,9 +152,16 @@ namespace PastelariaSMN.Controllers
             {
                 return BadRequest(_notifications.Notifications);
             }
-            var result = _repo.CriarSubordinado(novoUsuario);
-                                                
-            return Ok(result);
+
+            if(_repo.VerificarEmailUnique(novoUsuario.Email.EnderecoEmail))
+            {
+                return BadRequest("O email usado no cadastro já existe no banco, tente novamente");
+            }
+            else
+            {
+                var result = _repo.CriarSubordinado(novoUsuario);
+                return Ok(result);
+            }
         }
 
         [HttpPost("login")]

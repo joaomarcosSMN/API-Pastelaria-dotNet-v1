@@ -1,4 +1,7 @@
-CREATE OR ALTER PROCEDURE [dbo].[SP_CriarUsuario]
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_CriarUsuario]') AND objectproperty(id, N'IsPROCEDURE')=1)
+    DROP PROCEDURE [dbo].[SP_CriarUsuario]
+GO
+CREATE PROCEDURE [dbo].[SP_CriarUsuario]
 	@Nome VARCHAR(30),
 	@Sobrenome VARCHAR(50),
 	@DataNascimento DATE,
@@ -50,17 +53,17 @@ AS
 
 		SET @idUsuario = SCOPE_IDENTITY()
 
-		INSERT INTO Email
+		INSERT INTO [dbo].[Email]
 			(EnderecoEmail, IdUsuario)
 			VALUES
 				(@Email, @idUsuario)
 
-		INSERT INTO Telefone
+		INSERT INTO [dbo].[Telefone]
 			(Numero, DDD, IdTipoTelefone, IdUsuario)
 			VALUES
 				(@Telefone, @DDD, @IdTipoTelefone, @idUsuario)
 
-		INSERT INTO Endereco
+		INSERT INTO [dbo].[Endereco]
 			(Rua, Bairro, Numero, Complemento, CEP, Cidade, UF, IdUsuario)
 			VALUES
 				(@Rua, @Bairro, @Numero, @Complemento, @CEP, @Cidade, @UF, @idUsuario)

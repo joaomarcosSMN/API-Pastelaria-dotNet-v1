@@ -13,5 +13,6 @@ namespace PastelariaSMN.Data
         UsuarioLogin VerificarLogin(string email);
         int AtualizarUsuario(int idUsuario, string nome, string sobrenome, string senha);
         int AtivarDesativarUsuario(int idUsuario);
+        bool VerificarEmailUnique(string email);
     }
 }
