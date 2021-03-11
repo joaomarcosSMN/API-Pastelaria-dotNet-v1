@@ -181,7 +181,7 @@ namespace PastelariaSMN.Controllers
             var result = _repo.ConsultarTodasTarefasUsuario(idUsuario);
             if(!result.Any())
             {
-                return BadRequest("Usuario não tem tarefas");
+                return NoContent();
             }
             return Ok(result);
         }
@@ -203,7 +203,7 @@ namespace PastelariaSMN.Controllers
             var result = _repo.ConsultarTarefasAndamento(idUsuario);
             if(!result.Any())
             {
-                return BadRequest("O usuário não tem tarefas em andamento");
+                return NoContent();
             }
             return Ok(result);
         }
